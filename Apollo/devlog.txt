@@ -1,0 +1,6 @@
+Day 1:
+- Setup Gradle and installed LibGDX
+- Got a sample isometric tiled map rendering
+Day 2:
+- Base character template sketches
+- Rendered character on map
