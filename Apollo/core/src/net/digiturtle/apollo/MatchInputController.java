@@ -36,6 +36,10 @@ public class MatchInputController implements InputProcessor {
             match.getPlayer().changeOrientation(player.getOrientation() & ~Player.ORIENTATION_UP);
         if(keycode == Input.Keys.S)
             match.getPlayer().changeOrientation(player.getOrientation() & ~Player.ORIENTATION_DOWN);
+        
+        if (keycode == Input.Keys.GRAVE) {
+        	System.out.println(match.getPlayer().getPosition());
+        }
         return false;
 	}
 

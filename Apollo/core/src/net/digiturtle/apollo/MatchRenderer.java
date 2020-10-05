@@ -35,23 +35,24 @@ public class MatchRenderer {
 		float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         Vector2 position = MathUtils.mapToScreen(match.getPlayer().getPosition(), 256);
-		camera.translate(-w/2, -h/2, 0);
-		camera.translate(-position.x, -position.y, 0);
+        camera.position.set(position.x, position.y, 0);
+		//camera.translate(w/2, h/2, 0);
+		//camera.translate(-position.x, -position.y, 0);
 		camera.zoom /= 3;
 		camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
 		camera.zoom *= 3;
 
-		camera.translate(position.x, position.y, 0);
+		//camera.translate(position.x, position.y, 0);
 		camera.update();
 		playerRenderer.begin(camera);
 		playerRenderer.render(match.getPlayer().getRenderablePlayer());
 		playerRenderer.end();
-		camera.translate(-position.x, -position.y, 0);
+		//camera.translate(-position.x, -position.y, 0);
         
-		camera.translate(position.x, position.y, 0);
-		camera.translate(w/2, h/2, 0);
+		//camera.translate(position.x, position.y, 0);
+		//camera.translate(-w/2, -h/2, 0);
 	}
 
 }

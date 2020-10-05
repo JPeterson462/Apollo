@@ -121,6 +121,7 @@ public class Player {
 				movement.add(1, 1);
 			}
 			movement.nor();
+			movement.scl(-1);//FIXME
 			body.setAngularVelocity(getRotation(orientation) - body.getAngle());
 			body.setLinearVelocity(movement.scl(256));
 			this.orientation = orientation;

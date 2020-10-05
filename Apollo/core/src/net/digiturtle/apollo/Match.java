@@ -64,6 +64,10 @@ public class Match {
 	    return center.scl(1/tileSize);
 	}*/
 	
+	public Player getPlayer (UUID uuid) {
+		return players.get(uuid);
+	}
+	
 	public Player getPlayer () {
 		return players.values().iterator().next();//FIXME
 	}
