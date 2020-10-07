@@ -12,8 +12,6 @@ public class MatchRenderer {
 	private TiledMapRenderer tiledMapRenderer;
 	private PlayerRenderer playerRenderer;
 
-	private RenderablePlayer player1;
-	
 	private Match match;
 	
 	public MatchRenderer(Match match) {
@@ -34,25 +32,39 @@ public class MatchRenderer {
 	public void render () {
 		float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+        
+        camera.translate(-w/2, -h/2);
+        
         Vector2 position = MathUtils.mapToScreen(match.getPlayer().getPosition(), 256);
-        camera.position.set(position.x, position.y, 0);
-		//camera.translate(w/2, h/2, 0);
-		//camera.translate(-position.x, -position.y, 0);
-		camera.zoom /= 3;
-		camera.update();
+        
+        camera.translate(position.x, position.y);
+        
+        float testval = 128;
+        camera.translate(0, testval);//FIXME this is tile size * .5 ?? maybe not
+        
+        camera.zoom = 1/3f;
+        
+        camera.update();
+        
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-		camera.zoom *= 3;
 
-		//camera.translate(position.x, position.y, 0);
-		camera.update();
-		playerRenderer.begin(camera);
-		playerRenderer.render(match.getPlayer().getRenderablePlayer());
-		playerRenderer.end();
-		//camera.translate(-position.x, -position.y, 0);
+        camera.translate(0, -testval);//FIXME this is tile size * .5 ?? maybe not
         
-		//camera.translate(position.x, position.y, 0);
-		//camera.translate(-w/2, -h/2, 0);
+        camera.translate(16, 16);
+        
+        camera.update();
+        
+		playerRenderer.begin(camera);
+		playerRenderer.render(match.getPlayer().getRenderablePlayer(), match.getPlayer().getPosition(), 256);
+		playerRenderer.end();
+
+        camera.translate(-16, -16);
+
+        camera.translate(-position.x, -position.y);
+        
+        camera.translate(w/2, h/2);
+        
 	}
 
 }
