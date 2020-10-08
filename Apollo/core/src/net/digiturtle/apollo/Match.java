@@ -1,5 +1,6 @@
 package net.digiturtle.apollo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
@@ -18,12 +19,14 @@ public class Match {
 	private TiledMap tiledMap;
 	private World world;
 	private HashMap<UUID, Player> players;
+	private ArrayList<Bullet> bullets;
 	
 	public Match() {
         tiledMap = new TmxMapLoader().load("sample.tmx");
         world = new World(new Vector2(0, 0), true);
         //float tileSize = tiledMap.getProperties().get("tilewidth", Integer.class); 
         players = new HashMap<>();
+        bullets = new ArrayList<Bullet>();
 	}
 	
 	public void update(float dt) {
@@ -32,10 +35,29 @@ public class Match {
 				player.getValue().update(dt);
 			}
 		}
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).update(dt);
+		}
 		world.step(dt, 8, 3);
 	}
 	
-	public void addPlayer(Player player, boolean simulated) {
+	public ArrayList<Bullet> getBullets () {
+		return bullets;
+	}
+
+	public Bullet addBullet (Vector2 position, Vector2 velocity, UUID shooter) {
+		Bullet bullet = new Bullet(position, velocity, shooter);
+		bullets.add(bullet);
+		return bullet;
+	}
+	
+	public Bullet addBullet (Vector2 position, Vector2 velocity) {
+		Bullet bullet = new Bullet(position, velocity, Apollo.userId);
+		bullets.add(bullet);
+		return bullet;
+	}
+	
+	public void addPlayer (Player player, boolean simulated) {
 		if (simulated) {
 			BodyDef bodyDef = new BodyDef();
 			bodyDef.type = BodyDef.BodyType.DynamicBody;

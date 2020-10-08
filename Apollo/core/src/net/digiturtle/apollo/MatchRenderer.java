@@ -11,6 +11,7 @@ public class MatchRenderer {
 	private OrthographicCamera camera;
 	private TiledMapRenderer tiledMapRenderer;
 	private PlayerRenderer playerRenderer;
+	private BulletsRenderer bulletsRenderer;
 
 	private Match match;
 	
@@ -27,6 +28,8 @@ public class MatchRenderer {
         tiledMapRenderer = new IsometricTiledMapRenderer(match.getTiledMap());
         playerRenderer = new PlayerRenderer();
         playerRenderer.create();
+        bulletsRenderer = new BulletsRenderer();
+        bulletsRenderer.create();
 	}
 	
 	public void render () {
@@ -52,6 +55,10 @@ public class MatchRenderer {
         tiledMapRenderer.render();
 
         camera.translate(0, -testval);//FIXME this is tile size * .5 ?? maybe not
+        
+        camera.update();
+        
+        bulletsRenderer.render(camera, match.getBullets(), 256);
         
         camera.translate(16, 16);
         

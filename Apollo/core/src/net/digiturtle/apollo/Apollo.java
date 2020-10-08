@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.networking.UdpClient;
+import net.digiturtle.apollo.packets.BulletPacket;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
 import net.digiturtle.apollo.packets.MatchStartPacket;
 import net.digiturtle.apollo.packets.MatchStatePacket;
@@ -19,8 +20,12 @@ public class Apollo extends ApplicationAdapter {
 	private Match match;
 	public static final UUID userId = UUID.randomUUID();
 	
-	private UdpClient client;
+	private static UdpClient client;
 	private FiberPool fiberPool;
+	
+	public static void send(Object object) {
+		client.send(object);
+	}
 	
 	@Override
 	public void create () {
@@ -28,9 +33,7 @@ public class Apollo extends ApplicationAdapter {
 		client.listen(this::onPacket);
 		fiberPool = new FiberPool(2);
 		
-		//userId = UUID.randomUUID();
 		match = new Match();
-		//match.addPlayer(new Player(userId));
 		matchRenderer = new MatchRenderer(match);
 		matchRenderer.create();
         Gdx.input.setInputProcessor(new MatchInputController(match));
@@ -89,6 +92,12 @@ public class Apollo extends ApplicationAdapter {
 					player.relocate(new Vector2(playerState.x, playerState.y), new Vector2(playerState.vx, playerState.vy));
 					player.setDirection(Player.Direction.valueOf(playerState.orientation));
 				}
+			}
+		}
+		if (object instanceof BulletPacket) {
+			BulletPacket bullet = (BulletPacket)object;//FIXME need to correct for latency by including time stamp
+			if (!Apollo.userId.equals(bullet.shooter)) {
+				match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy), bullet.shooter);
 			}
 		}
 	}

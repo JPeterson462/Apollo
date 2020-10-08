@@ -2,6 +2,9 @@ package net.digiturtle.apollo;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
+
+import net.digiturtle.apollo.packets.BulletPacket;
 
 public class MatchInputController implements InputProcessor {
 	
@@ -14,6 +17,7 @@ public class MatchInputController implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		Player player = match.getPlayer(Apollo.userId);
+		if (player == null) return false;
         if(keycode == Input.Keys.A)
             player.changeOrientation(player.getOrientation() | Player.ORIENTATION_LEFT);
         if(keycode == Input.Keys.D)
@@ -28,6 +32,7 @@ public class MatchInputController implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		Player player = match.getPlayer(Apollo.userId);
+		if (player == null) return false;
         if(keycode == Input.Keys.A)
             player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_LEFT);
         if(keycode == Input.Keys.D)
@@ -39,6 +44,16 @@ public class MatchInputController implements InputProcessor {
         
         if (keycode == Input.Keys.GRAVE) {
         	System.out.println(player.getPosition());
+        }
+        if (keycode == Input.Keys.SPACE) {
+        	Bullet b = match.addBullet(player.getPosition(), new Vector2(1024, -1024));
+        	BulletPacket bullet = new BulletPacket();
+        	bullet.shooter = Apollo.userId;
+        	bullet.x = b.getPosition().x;
+        	bullet.y = b.getPosition().y;
+        	bullet.vx = 1024;
+        	bullet.vy = -1024;
+        	Apollo.send(bullet);
         }
         return false;
 	}

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import net.digiturtle.apollo.FiberPool;
 import net.digiturtle.apollo.networking.UdpServer;
+import net.digiturtle.apollo.packets.BulletPacket;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
 import net.digiturtle.apollo.packets.MatchStartPacket;
 import net.digiturtle.apollo.packets.MatchStatePacket;
@@ -46,18 +47,20 @@ public class MatchServer {
 					fiberPool.scheduleTask(25, () -> {
 						MatchStatePacket matchState = new MatchStatePacket();
 						matchState.playerStates = playerStates.values().stream().collect(Collectors.toList()).toArray(len -> new PlayerStatePacket[len]);
-						for (PlayerStatePacket playerState_ : matchState.playerStates)
-							System.out.println("Sending " + playerState_.uuid + " <" + playerState_.x + "," + playerState_.y);
+						//for (PlayerStatePacket playerState_ : matchState.playerStates)
+						//	System.out.println("Sending " + playerState_.uuid + " <" + playerState_.x + "," + playerState_.y);
 						server.broadcast(matchState);
 					});
 				}
+			}
+			if (object instanceof BulletPacket) {
+				server.broadcast(object);;
 			}
 			if (object instanceof PlayerStatePacket) {
 				// TODO FIXME this needs security so you can't update other players
 				PlayerStatePacket playerState = (PlayerStatePacket)object;
 				playerStates.put(playerState.uuid, playerState);
 			}
-			System.out.println(object + " from " + sender);
 		});
 		fiberPool.scheduleTask(() -> {
 			try {
