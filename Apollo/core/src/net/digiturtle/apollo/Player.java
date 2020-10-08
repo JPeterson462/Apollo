@@ -8,18 +8,20 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class Player {
 	
 	public enum Direction {
-		UP(0),
-		UP_RIGHT((float)(Math.PI/4)),
-		UP_LEFT((float)(-Math.PI/4)),
-		DOWN((float)Math.PI),
-		DOWN_RIGHT((float)(3*Math.PI/4)),
-		DOWN_LEFT((float)(-3*Math.PI/4)),
-		RIGHT((float)(Math.PI/2)),
-		LEFT((float)(-Math.PI/2));
+		UP(0, ORIENTATION_UP),
+		UP_RIGHT((float)(Math.PI/4), ORIENTATION_UP | ORIENTATION_RIGHT),
+		UP_LEFT((float)(-Math.PI/4), ORIENTATION_UP | ORIENTATION_LEFT),
+		DOWN((float)Math.PI, ORIENTATION_DOWN),
+		DOWN_RIGHT((float)(3*Math.PI/4), ORIENTATION_DOWN | ORIENTATION_RIGHT),
+		DOWN_LEFT((float)(-3*Math.PI/4), ORIENTATION_DOWN | ORIENTATION_LEFT),
+		RIGHT((float)(Math.PI/2), ORIENTATION_RIGHT),
+		LEFT((float)(-Math.PI/2), ORIENTATION_LEFT);
 		
 		public final float angle;
-		Direction(float angle) {
+		public final int orientation;
+		Direction(float angle, int orientation) {
 			this.angle = angle;
+			this.orientation = orientation;
 		}
 	}
 	
@@ -29,10 +31,13 @@ public class Player {
 	private Body body;
 	private int orientation = 0;
 	private RenderablePlayer renderablePlayer;
+	private Vector2 position, velocity;
 	
 	public Player (UUID uuid) {
 		this.uuid = uuid;
 		renderablePlayer = new RenderablePlayer();
+		position = new Vector2();
+		velocity = new Vector2();
 	}
 	
 	public UUID getId () {
@@ -47,6 +52,13 @@ public class Player {
 		return renderablePlayer;
 	}
 	
+	public void update (float dt) {
+		if (body == null) {
+			// Not simulated with Box2D
+			position.add(new Vector2(velocity).scl(dt));
+		}
+	}
+	
 	public void setBody (Body body) {
 		this.body = body;
 	}
@@ -56,7 +68,16 @@ public class Player {
 	}
 	
 	public Vector2 getPosition () {
-		return body.getPosition();
+		return body != null ? body.getPosition() : position;
+	}
+	
+	public Vector2 getVelocity () {
+		return body != null ? body.getLinearVelocity() : velocity;
+	}
+	
+	public void relocate (Vector2 position, Vector2 velocity) {
+		this.position.set(position);
+		this.velocity.set(velocity);
 	}
 	
 	private float getRotation (int orientation) {
@@ -67,6 +88,45 @@ public class Player {
 			orientation -= (ORIENTATION_UP | ORIENTATION_DOWN);
 		}
 		return getDirection(orientation).angle;
+	}
+	
+	public void setDirection (Direction direction) {
+		orientRenderablePlayer(direction);
+	}
+	
+	private void orientRenderablePlayer (Direction direction) {
+		switch (direction) {
+		case DOWN:
+			renderablePlayer.setFrame(5);
+			break;
+		case DOWN_LEFT:
+			renderablePlayer.setFrame(6);
+			break;
+		case DOWN_RIGHT:
+			renderablePlayer.setFrame(4);
+			break;
+		case LEFT:
+			renderablePlayer.setFrame(7);
+			break;
+		case RIGHT:
+			renderablePlayer.setFrame(3);
+			break;
+		case UP:
+			renderablePlayer.setFrame(1);
+			break;
+		case UP_LEFT:
+			renderablePlayer.setFrame(0);
+			break;
+		case UP_RIGHT:
+			renderablePlayer.setFrame(2);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public Direction getDirection () {
+		return getDirection(this.orientation);
 	}
 	
 	public Direction getDirection (int orientation) {
@@ -122,37 +182,14 @@ public class Player {
 			}
 			movement.nor();
 			movement.scl(-1);//FIXME
-			body.setAngularVelocity(getRotation(orientation) - body.getAngle());
-			body.setLinearVelocity(movement.scl(256));
-			this.orientation = orientation;
-			switch (getDirection(orientation)) {
-			case DOWN:
-				renderablePlayer.setFrame(5);
-				break;
-			case DOWN_LEFT:
-				renderablePlayer.setFrame(6);
-				break;
-			case DOWN_RIGHT:
-				renderablePlayer.setFrame(4);
-				break;
-			case LEFT:
-				renderablePlayer.setFrame(7);
-				break;
-			case RIGHT:
-				renderablePlayer.setFrame(3);
-				break;
-			case UP:
-				renderablePlayer.setFrame(1);
-				break;
-			case UP_LEFT:
-				renderablePlayer.setFrame(0);
-				break;
-			case UP_RIGHT:
-				renderablePlayer.setFrame(2);
-				break;
-			default:
-				break;
+			if (body != null) {
+				body.setAngularVelocity(getRotation(orientation) - body.getAngle());
+				body.setLinearVelocity(movement.scl(256));
+			} else {
+				velocity = movement.scl(256);
 			}
+			this.orientation = orientation;
+			orientRenderablePlayer(getDirection(orientation));
 		}
 	}
 

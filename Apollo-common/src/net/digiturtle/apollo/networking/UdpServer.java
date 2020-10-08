@@ -2,10 +2,7 @@ package net.digiturtle.apollo.networking;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.function.BiConsumer;
-
-import com.esotericsoftware.kryo.Kryo;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -16,24 +13,16 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
-import net.digiturtle.apollo.UUIDSerializer;
-import net.digiturtle.apollo.packets.Packets;
 
 public class UdpServer {
 
 	private int port;
-	private Kryo kryo;
 	private Channel channel;
 	private BiConsumer<Object, InetSocketAddress> packetConsumer;
 	private ArrayList<InetSocketAddress> clients;
 
 	public UdpServer (int port) {
 		this.port = port;
-		kryo = new Kryo();
-		for (Class<?> clazz : Packets.ALL) {
-			kryo.register(clazz);
-		}
-		kryo.register(UUID.class, new UUIDSerializer());
 		clients = new ArrayList<>();
 	}
 
@@ -43,13 +32,13 @@ public class UdpServer {
 	}
 
 	public void send (Object object, InetSocketAddress address) {
-		DatagramPacket packet = NetworkUtils.serialize(object, kryo, address.getHostName(), address.getPort());
+		DatagramPacket packet = NetworkUtils.serialize(object, address.getHostName(), address.getPort());
 		channel.writeAndFlush(packet);
 	}
 
 	public void broadcast (Object object) {
-		for (InetSocketAddress client : clients) {
-			send(object, client);
+		for (int i = 0, len = clients.size(); i < len; i++) {
+			send(object, clients.get(i));
 		}
 	}
 
@@ -63,7 +52,7 @@ public class UdpServer {
 			.handler(new SimpleChannelInboundHandler<DatagramPacket>() {
 				@Override
 				protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
-					Object object = NetworkUtils.deserialize(packet, kryo);
+					Object object = NetworkUtils.deserialize(packet);
 					clients.add(packet.sender());
 					packetConsumer.accept(object, packet.sender());
 				}

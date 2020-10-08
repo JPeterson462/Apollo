@@ -1,7 +1,7 @@
 module ApolloCommon {
-	requires com.esotericsoftware.kryo;
 	requires io.netty.all;
 	requires jetlang;
+	requires com.google.gson;
 	
 	exports net.digiturtle.apollo;
 	exports net.digiturtle.apollo.networking;

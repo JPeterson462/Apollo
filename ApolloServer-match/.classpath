@@ -21,6 +21,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/jpeterson/game-workspace/Apollo-common/lib/kryo-5.0.0-RC9.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

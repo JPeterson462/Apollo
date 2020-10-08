@@ -1,10 +1,7 @@
 package net.digiturtle.apollo.networking;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.function.Consumer;
-
-import com.esotericsoftware.kryo.Kryo;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -15,26 +12,18 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
-import net.digiturtle.apollo.UUIDSerializer;
-import net.digiturtle.apollo.packets.Packets;
 
 public class UdpClient {
 	
 	private Consumer<Object> packetConsumer;
 	private String ip;
 	private int port;
-	private Kryo kryo;
 	private Channel channel;
 	private ArrayList<DatagramPacket> preConnectBuffer;
 	
 	public UdpClient (String ip, int port) {
 		this.ip = ip;
 		this.port = port;
-		kryo = new Kryo();
-		for (Class<?> clazz : Packets.ALL) {
-			kryo.register(clazz);
-		}
-		kryo.register(UUID.class, new UUIDSerializer());
 		preConnectBuffer = new ArrayList<>();
 	}
 	
@@ -44,7 +33,10 @@ public class UdpClient {
 	}
 	
 	public void send (Object object) {
-		DatagramPacket packet = NetworkUtils.serialize(object, kryo, ip, port);
+		if (object instanceof Short) {
+			return;
+		}
+		DatagramPacket packet = NetworkUtils.serialize(object, ip, port);
 		if (channel != null) {
 			channel.writeAndFlush(packet);
 		} else {
@@ -62,7 +54,7 @@ public class UdpClient {
 			.handler(new SimpleChannelInboundHandler<DatagramPacket>() {
 				@Override
 				protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
-					Object object = NetworkUtils.deserialize(packet, kryo);
+					Object object = NetworkUtils.deserialize(packet);
 					packetConsumer.accept(object);
 				}
 			});

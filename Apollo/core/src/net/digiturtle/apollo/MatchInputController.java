@@ -13,32 +13,32 @@ public class MatchInputController implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		Player player = match.getPlayer();
+		Player player = match.getPlayer(Apollo.userId);
         if(keycode == Input.Keys.A)
-            match.getPlayer().changeOrientation(player.getOrientation() | Player.ORIENTATION_LEFT);
+            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_LEFT);
         if(keycode == Input.Keys.D)
-            match.getPlayer().changeOrientation(player.getOrientation() | Player.ORIENTATION_RIGHT);
+            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_RIGHT);
         if(keycode == Input.Keys.W)
-            match.getPlayer().changeOrientation(player.getOrientation() | Player.ORIENTATION_UP);
+            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_UP);
         if(keycode == Input.Keys.S)
-            match.getPlayer().changeOrientation(player.getOrientation() | Player.ORIENTATION_DOWN);
+            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_DOWN);
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		Player player = match.getPlayer();
+		Player player = match.getPlayer(Apollo.userId);
         if(keycode == Input.Keys.A)
-            match.getPlayer().changeOrientation(player.getOrientation() & ~Player.ORIENTATION_LEFT);
+            player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_LEFT);
         if(keycode == Input.Keys.D)
-            match.getPlayer().changeOrientation(player.getOrientation() & ~Player.ORIENTATION_RIGHT);
+        	player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_RIGHT);
         if(keycode == Input.Keys.W)
-            match.getPlayer().changeOrientation(player.getOrientation() & ~Player.ORIENTATION_UP);
+        	player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_UP);
         if(keycode == Input.Keys.S)
-            match.getPlayer().changeOrientation(player.getOrientation() & ~Player.ORIENTATION_DOWN);
+            player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_DOWN);
         
         if (keycode == Input.Keys.GRAVE) {
-        	System.out.println(match.getPlayer().getPosition());
+        	System.out.println(player.getPosition());
         }
         return false;
 	}

@@ -7,5 +7,7 @@ public class PlayerStatePacket {
 	public UUID uuid;
 	
 	public float x, y, theta, vx, vy, vtheta;
+	
+	public String orientation;
 
 }

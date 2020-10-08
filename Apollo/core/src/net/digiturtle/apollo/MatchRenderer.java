@@ -30,12 +30,14 @@ public class MatchRenderer {
 	}
 	
 	public void render () {
+		if (match.getPlayers().size() == 0) return;
+		
 		float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         
         camera.translate(-w/2, -h/2);
         
-        Vector2 position = MathUtils.mapToScreen(match.getPlayer().getPosition(), 256);
+        Vector2 position = MathUtils.mapToScreen(match.getPlayer(Apollo.userId).getPosition(), 256);
         
         camera.translate(position.x, position.y);
         
@@ -55,10 +57,12 @@ public class MatchRenderer {
         
         camera.update();
         
-		playerRenderer.begin(camera);
-		playerRenderer.render(match.getPlayer().getRenderablePlayer(), match.getPlayer().getPosition(), 256);
+    	playerRenderer.begin(camera);
+		for (Player player : match.getPlayers()) {
+			playerRenderer.render(player.getRenderablePlayer(), player.getPosition(), 256);
+		}
 		playerRenderer.end();
-
+        
         camera.translate(-16, -16);
 
         camera.translate(-position.x, -position.y);

@@ -1,5 +1,6 @@
 package net.digiturtle.apollo;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -26,18 +27,25 @@ public class Match {
 	}
 	
 	public void update(float dt) {
+		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+			if (player.getValue().getBody() == null) {
+				player.getValue().update(dt);
+			}
+		}
 		world.step(dt, 8, 3);
 	}
 	
-	public void addPlayer(Player player) {
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		Body body = world.createBody(bodyDef);
-	    PolygonShape polygonShape = new PolygonShape();
-	    polygonShape.setAsBox(32/2, 32/2);
-		Fixture fixture = body.createFixture(polygonShape, 1);
-		fixture.setFriction(0.1f);
-		player.setBody(body);
+	public void addPlayer(Player player, boolean simulated) {
+		if (simulated) {
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyDef.BodyType.DynamicBody;
+			Body body = world.createBody(bodyDef);
+		    PolygonShape polygonShape = new PolygonShape();
+		    polygonShape.setAsBox(32/2, 32/2);
+			Fixture fixture = body.createFixture(polygonShape, 1);
+			fixture.setFriction(0.1f);
+			player.setBody(body);
+		}
 		players.put(player.getId(), player);
 	}
 	
@@ -64,12 +72,12 @@ public class Match {
 	    return center.scl(1/tileSize);
 	}*/
 	
-	public Player getPlayer (UUID uuid) {
-		return players.get(uuid);
+	public Collection<Player> getPlayers () {
+		return players.values();
 	}
 	
-	public Player getPlayer () {
-		return players.values().iterator().next();//FIXME
+	public Player getPlayer (UUID uuid) {
+		return players.get(uuid);
 	}
 	
 	public TiledMap getTiledMap () {

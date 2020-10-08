@@ -10,13 +10,14 @@ import com.badlogic.gdx.math.Vector2;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
 import net.digiturtle.apollo.packets.MatchStartPacket;
+import net.digiturtle.apollo.packets.MatchStatePacket;
 import net.digiturtle.apollo.packets.PlayerStatePacket;
 
 public class Apollo extends ApplicationAdapter {
 	
 	private MatchRenderer matchRenderer;
 	private Match match;
-	private UUID userId;
+	public static final UUID userId = UUID.randomUUID();
 	
 	private UdpClient client;
 	private FiberPool fiberPool;
@@ -25,11 +26,11 @@ public class Apollo extends ApplicationAdapter {
 	public void create () {
 		client = new UdpClient("localhost", 4560);
 		client.listen(this::onPacket);
-		fiberPool = new FiberPool(1);
+		fiberPool = new FiberPool(2);
 		
-		userId = UUID.randomUUID();
+		//userId = UUID.randomUUID();
 		match = new Match();
-		match.addPlayer(new Player(userId));
+		//match.addPlayer(new Player(userId));
 		matchRenderer = new MatchRenderer(match);
 		matchRenderer.create();
         Gdx.input.setInputProcessor(new MatchInputController(match));
@@ -44,13 +45,50 @@ public class Apollo extends ApplicationAdapter {
 	}
 	
 	public void onPacket(Object object) {
+		//System.out.println(object);
 		if (object instanceof MatchStartPacket) {
-			MatchStartPacket matchStart = (MatchStartPacket)object;
-			for (PlayerStatePacket playerState : matchStart.playerStates) {
+			Gdx.app.postRunnable(() -> {
+				// Initialize on UI thread, FIXME to avoid race conditions
+				MatchStartPacket matchStart = (MatchStartPacket)object;
+				for (PlayerStatePacket playerState : matchStart.playerStates) {
+					Player player = new Player(playerState.uuid); //match.getPlayer(playerState.uuid);
+					match.addPlayer(player, playerState.uuid.equals(Apollo.userId));
+					if (player.getBody() != null) {
+						player.getBody().setTransform(new Vector2(playerState.x, playerState.y), playerState.theta);
+						player.getBody().setAngularVelocity(playerState.vtheta);
+						player.getBody().setLinearVelocity(playerState.vx, playerState.vy);
+					} else {
+						player.relocate(new Vector2(playerState.x, playerState.y), new Vector2(playerState.vx, playerState.vy));
+						// FIXME set player orientation
+					}
+				}
+				fiberPool.scheduleTask(25, () -> {
+					PlayerStatePacket playerState = new PlayerStatePacket();
+					Player player = match.getPlayer(Apollo.userId);
+					playerState.uuid = Apollo.userId;
+					playerState.x = player.getPosition().x;
+					playerState.y = player.getPosition().y;
+					playerState.orientation = player.getDirection().name();
+					playerState.vx = player.getVelocity().x;
+					playerState.vy = player.getVelocity().y;
+					client.send(playerState);
+				});
+			});
+		}
+		if (object instanceof MatchStatePacket) {
+			MatchStatePacket matchState = (MatchStatePacket)object;
+			for (PlayerStatePacket playerState : matchState.playerStates) {
+				if (playerState.uuid.equals(Apollo.userId)) {
+					continue;
+				}
 				Player player = match.getPlayer(playerState.uuid);
-				player.getBody().setTransform(new Vector2(playerState.x, playerState.y), playerState.theta);
-				player.getBody().setAngularVelocity(playerState.vtheta);
-				player.getBody().setLinearVelocity(playerState.vx, playerState.vy);
+				if (player == null) {
+					continue;//FIXME shouldn't need
+				}
+				if (player.getBody() == null) {
+					player.relocate(new Vector2(playerState.x, playerState.y), new Vector2(playerState.vx, playerState.vy));
+					player.setDirection(Player.Direction.valueOf(playerState.orientation));
+				}
 			}
 		}
 	}
