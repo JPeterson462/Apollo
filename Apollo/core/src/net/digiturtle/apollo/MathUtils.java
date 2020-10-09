@@ -14,13 +14,6 @@ public class MathUtils {
 		return dx * dx + dy * dy;
 	}
 	
-	public static Vector2 mouseToMap(Vector2 mouse, float tileSize) {
-		matrix.setToLookAt(new Vector3(1, 0, 1).nor(), new Vector3(0, 0, 1));
-		Vector3 vector = new Vector3(mouse.x, mouse.y, 0);
-		vector = vector.mul(matrix);
-		return new Vector2(vector.x, vector.y);
-	}
-	
 	// http://clintbellanger.net/articles/isometric_math/
 	
 	public static Vector2 screenToMap(Vector2 screen, float tileSize) {
@@ -28,7 +21,7 @@ public class MathUtils {
 		float tileWidth = tileSize, tileHeight = tileSize * 0.5f;
 		map.x = tileSize * (screen.x / tileWidth + screen.y / tileHeight) /2;
 		map.y = tileSize * (screen.y / tileHeight - (screen.x / tileWidth)) /2;
-		return map;
+		return map.scl(1f / 3f);//FIXME save 1/3 as a constant
 	}
 	
 	public static Vector2 mapToScreen(Vector2 map, float tileSize) {

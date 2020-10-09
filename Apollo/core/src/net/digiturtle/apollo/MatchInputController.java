@@ -49,13 +49,12 @@ public class MatchInputController implements InputProcessor {
         if (keycode == Input.Keys.GRAVE) {
         	System.out.println(player.getPosition());
         }
-        if (keycode == Input.Keys.SPACE) {//FIXME store some stuff in constants
-        	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, Gdx.input.getY() - Gdx.graphics.getHeight()/2);
-        	Vector2 mouseOnMap = MathUtils.mouseToMap(mouse, tileSize);//.scl(1f / 3f); 
-        	//MathUtils.screenToMap(new Vector2(Gdx.input.getX(), Gdx.input.getY()), tileSize);
-        	System.out.println(mouse + " Mouse: " + mouseOnMap + " / Player: " + player.getPosition());
-        	Vector2 direction = mouseOnMap.sub(player.getPosition()).nor();
+        if (keycode == Input.Keys.SPACE) {//FIXME store some stuff in constants, also fix the magic numbers
+        	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, +48 -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
+        	Vector2 mouseOnMap = MathUtils.screenToMap(mouse, tileSize);
+        	Vector2 direction = mouseOnMap.nor();
         	Vector2 velocity = new Vector2(direction).scl(1024);
+        	System.out.println(velocity);
         	BulletPacket bullet = new BulletPacket();
         	bullet.shooter = Apollo.userId;
         	bullet.x = player.getPosition().x;

@@ -38,7 +38,7 @@ public class Match {
 		}
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-				if (bullets.get(i).getShooter().equals(player.getKey())) {
+				if (!bullets.get(i).getShooter().equals(player.getKey())) {
 					if (Intersector.intersectSegmentCircle(bullets.get(i).getPosition(), 
 							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), 16)) {
 						System.out.println(player.getKey() + " was shot! (" + bullets.size() + ")");
