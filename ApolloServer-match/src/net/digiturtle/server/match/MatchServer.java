@@ -54,7 +54,8 @@ public class MatchServer {
 				}
 			}
 			if (object instanceof BulletPacket) {
-				server.broadcast(object);;
+				System.out.println("Received a bullet packet.");
+				server.broadcast(object);
 			}
 			if (object instanceof PlayerStatePacket) {
 				// TODO FIXME this needs security so you can't update other players

@@ -36,7 +36,7 @@ public class Apollo extends ApplicationAdapter {
 		match = new Match();
 		matchRenderer = new MatchRenderer(match);
 		matchRenderer.create();
-        Gdx.input.setInputProcessor(new MatchInputController(match));
+        Gdx.input.setInputProcessor(new MatchInputController(match, 256));
         
         fiberPool.scheduleTask(() -> {
         	try {
@@ -90,11 +90,15 @@ public class Apollo extends ApplicationAdapter {
 				}
 				if (player.getBody() == null) {
 					player.relocate(new Vector2(playerState.x, playerState.y), new Vector2(playerState.vx, playerState.vy));
+					if (playerState.orientation == null) { //FIXME
+						playerState.orientation = Player.Direction.UP.name();
+					}
 					player.setDirection(Player.Direction.valueOf(playerState.orientation));
 				}
 			}
 		}
 		if (object instanceof BulletPacket) {
+			System.out.println("Received a bullet packet.");
 			BulletPacket bullet = (BulletPacket)object;//FIXME need to correct for latency by including time stamp
 			if (!Apollo.userId.equals(bullet.shooter)) {
 				match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy), bullet.shooter);

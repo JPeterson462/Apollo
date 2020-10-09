@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -29,15 +30,25 @@ public class Match {
         bullets = new ArrayList<Bullet>();
 	}
 	
-	public void update(float dt) {
+	public void update (float dt) {
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 			if (player.getValue().getBody() == null) {
 				player.getValue().update(dt);
 			}
 		}
-		for (int i = 0; i < bullets.size(); i++) {
-			bullets.get(i).update(dt);
+		for (int i = bullets.size() - 1; i >= 0; i--) {
+			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+				if (bullets.get(i).getShooter().equals(player.getKey())) {
+					if (Intersector.intersectSegmentCircle(bullets.get(i).getPosition(), 
+							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), 16)) {
+						System.out.println(player.getKey() + " was shot! (" + bullets.size() + ")");
+						
+						break;
+					}
+				}
+			}
 		}
+		bullets.clear();
 		world.step(dt, 8, 3);
 	}
 	
@@ -46,12 +57,14 @@ public class Match {
 	}
 
 	public Bullet addBullet (Vector2 position, Vector2 velocity, UUID shooter) {
+		System.out.println("Someone fired a bullet.");
 		Bullet bullet = new Bullet(position, velocity, shooter);
 		bullets.add(bullet);
 		return bullet;
 	}
 	
 	public Bullet addBullet (Vector2 position, Vector2 velocity) {
+		System.out.println("Firing bullet.");
 		Bullet bullet = new Bullet(position, velocity, Apollo.userId);
 		bullets.add(bullet);
 		return bullet;

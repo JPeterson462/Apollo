@@ -1,7 +1,7 @@
 package net.digiturtle.apollo.networking;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.function.BiConsumer;
 
 import io.netty.bootstrap.Bootstrap;
@@ -19,11 +19,11 @@ public class UdpServer {
 	private int port;
 	private Channel channel;
 	private BiConsumer<Object, InetSocketAddress> packetConsumer;
-	private ArrayList<InetSocketAddress> clients;
+	private HashSet<InetSocketAddress> clients;
 
 	public UdpServer (int port) {
 		this.port = port;
-		clients = new ArrayList<>();
+		clients = new HashSet<>();
 	}
 
 	public UdpServer listen (BiConsumer<Object, InetSocketAddress> packetConsumer) {
@@ -37,8 +37,8 @@ public class UdpServer {
 	}
 
 	public void broadcast (Object object) {
-		for (int i = 0, len = clients.size(); i < len; i++) {
-			send(object, clients.get(i));
+		for (InetSocketAddress client : clients) {
+			send(object, client);
 		}
 	}
 
@@ -53,7 +53,7 @@ public class UdpServer {
 				@Override
 				protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
 					Object object = NetworkUtils.deserialize(packet);
-					clients.add(packet.sender());
+					clients.add(packet.sender()); //NOTE: If I'm going to update for EVERY packet, must use a Set NOT a List
 					packetConsumer.accept(object, packet.sender());
 				}
 			});

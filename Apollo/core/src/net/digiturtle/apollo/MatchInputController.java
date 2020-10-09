@@ -1,5 +1,6 @@
 package net.digiturtle.apollo;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -10,8 +11,11 @@ public class MatchInputController implements InputProcessor {
 	
 	private Match match;
 	
-	public MatchInputController(Match match) {
+	private float tileSize;
+	
+	public MatchInputController(Match match, float tileSize) {
 		this.match = match;
+		this.tileSize = tileSize;
 	}
 
 	@Override
@@ -26,7 +30,7 @@ public class MatchInputController implements InputProcessor {
             player.changeOrientation(player.getOrientation() | Player.ORIENTATION_UP);
         if(keycode == Input.Keys.S)
             player.changeOrientation(player.getOrientation() | Player.ORIENTATION_DOWN);
-		return false;
+		return true;
 	}
 
 	@Override
@@ -45,17 +49,23 @@ public class MatchInputController implements InputProcessor {
         if (keycode == Input.Keys.GRAVE) {
         	System.out.println(player.getPosition());
         }
-        if (keycode == Input.Keys.SPACE) {
-        	Bullet b = match.addBullet(player.getPosition(), new Vector2(1024, -1024));
+        if (keycode == Input.Keys.SPACE) {//FIXME store some stuff in constants
+        	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, Gdx.input.getY() - Gdx.graphics.getHeight()/2);
+        	Vector2 mouseOnMap = MathUtils.mouseToMap(mouse, tileSize);//.scl(1f / 3f); 
+        	//MathUtils.screenToMap(new Vector2(Gdx.input.getX(), Gdx.input.getY()), tileSize);
+        	System.out.println(mouse + " Mouse: " + mouseOnMap + " / Player: " + player.getPosition());
+        	Vector2 direction = mouseOnMap.sub(player.getPosition()).nor();
+        	Vector2 velocity = new Vector2(direction).scl(1024);
         	BulletPacket bullet = new BulletPacket();
         	bullet.shooter = Apollo.userId;
-        	bullet.x = b.getPosition().x;
-        	bullet.y = b.getPosition().y;
-        	bullet.vx = 1024;
-        	bullet.vy = -1024;
+        	bullet.x = player.getPosition().x;
+        	bullet.y = player.getPosition().y;
+        	bullet.vx = velocity.x;
+        	bullet.vy = velocity.y;
+        	Bullet b = match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy));
         	Apollo.send(bullet);
         }
-        return false;
+        return true;
 	}
 
 	@Override

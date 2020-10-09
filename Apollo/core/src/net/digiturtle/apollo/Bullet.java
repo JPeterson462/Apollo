@@ -24,6 +24,10 @@ public class Bullet {
 		return position;
 	}
 	
+	public Vector2 getVelocity () {
+		return velocity;
+	}
+	
 	public UUID getShooter() {
 		return shooter;
 	}

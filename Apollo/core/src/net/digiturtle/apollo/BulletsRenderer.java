@@ -18,13 +18,10 @@ public class BulletsRenderer {
 	}
 	
 	public void render (Camera camera, ArrayList<Bullet> bullets, float tileSize) {
-		entityBatch.begin();
-		entityBatch.setProjectionMatrix(camera.combined);
-		for (int i = 0; i < bullets.size(); i++) {
-			Vector2 position = MathUtils.mapToScreen(bullets.get(i).getPosition(), tileSize);
-			entityBatch.draw(testBullet, position.x - 1, position.y - 1);
-		}
-		entityBatch.end();
+		//entityBatch.begin();
+		//entityBatch.setProjectionMatrix(camera.combined);
+		// FIXME TODO
+		//entityBatch.end();
 	}
 
 }
