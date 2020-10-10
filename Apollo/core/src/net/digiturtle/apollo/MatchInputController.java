@@ -49,11 +49,11 @@ public class MatchInputController implements InputProcessor {
         if (keycode == Input.Keys.GRAVE) {
         	System.out.println(player.getPosition());
         }
-        if (keycode == Input.Keys.SPACE) {//FIXME store some stuff in constants, also fix the magic numbers
+        if (keycode == Input.Keys.SPACE) {//FIXME  fix the magic numbers
         	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, +48 -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
         	Vector2 mouseOnMap = MathUtils.screenToMap(mouse, tileSize);
         	Vector2 direction = mouseOnMap.nor();
-        	Vector2 velocity = new Vector2(direction).scl(1024);
+        	Vector2 velocity = new Vector2(direction).scl(ApolloSettings.MAX_BULLET_DISTANCE);
         	System.out.println(velocity);
         	BulletPacket bullet = new BulletPacket();
         	bullet.shooter = Apollo.userId;
@@ -61,7 +61,14 @@ public class MatchInputController implements InputProcessor {
         	bullet.y = player.getPosition().y;
         	bullet.vx = velocity.x;
         	bullet.vy = velocity.y;
-        	Bullet b = match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy));
+        	match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy));
+        	
+        	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
+        			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
+
+        	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
+        			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
+        	
         	Apollo.send(bullet);
         }
         return true;

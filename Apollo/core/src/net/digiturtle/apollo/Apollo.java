@@ -36,7 +36,7 @@ public class Apollo extends ApplicationAdapter {
 		match = new Match();
 		matchRenderer = new MatchRenderer(match);
 		matchRenderer.create();
-        Gdx.input.setInputProcessor(new MatchInputController(match, 256));
+        Gdx.input.setInputProcessor(new MatchInputController(match, ApolloSettings.TILE_SIZE));
         
         fiberPool.scheduleTask(() -> {
         	try {

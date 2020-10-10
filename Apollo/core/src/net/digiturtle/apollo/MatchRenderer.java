@@ -30,6 +30,7 @@ public class MatchRenderer {
         playerRenderer.create();
         bulletsRenderer = new BulletsRenderer();
         bulletsRenderer.create();
+        DebugRenderer.create();
 	}
 	
 	public void render () {
@@ -40,11 +41,11 @@ public class MatchRenderer {
         
         camera.translate(-w/2, -h/2);
         
-        Vector2 position = MathUtils.mapToScreen(match.getPlayer(Apollo.userId).getPosition(), 256);
+        Vector2 position = MathUtils.mapToScreen(match.getPlayer(Apollo.userId).getPosition(), ApolloSettings.TILE_SIZE);
         
         camera.translate(position.x, position.y);
         
-        float testval = 128;
+        float testval = ApolloSettings.TILE_SIZE/2;
         camera.translate(0, testval);//FIXME this is tile size * .5 ?? maybe not
         
         camera.zoom = 1/3f;
@@ -58,19 +59,21 @@ public class MatchRenderer {
         
         camera.update();
         
-        bulletsRenderer.render(camera, match.getBullets(), 256);
+        bulletsRenderer.render(camera, match.getBullets(), ApolloSettings.TILE_SIZE);
         
-        camera.translate(16, 16);
+    //    DebugRenderer.render(camera);
+        
+        camera.translate(ApolloSettings.CHARACTER_SIZE/2, ApolloSettings.CHARACTER_SIZE/2);
         
         camera.update();
         
     	playerRenderer.begin(camera);
 		for (Player player : match.getPlayers()) {
-			playerRenderer.render(player.getRenderablePlayer(), player.getPosition(), 256);
+			playerRenderer.render(player.getRenderablePlayer(), player.getPosition(), ApolloSettings.TILE_SIZE);
 		}
 		playerRenderer.end();
         
-        camera.translate(-16, -16);
+        camera.translate(-ApolloSettings.CHARACTER_SIZE/2, -ApolloSettings.CHARACTER_SIZE/2);
 
         camera.translate(-position.x, -position.y);
         

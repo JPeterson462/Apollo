@@ -40,7 +40,7 @@ public class Match {
 			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 				if (!bullets.get(i).getShooter().equals(player.getKey())) {
 					if (Intersector.intersectSegmentCircle(bullets.get(i).getPosition(), 
-							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), 16)) {
+							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2)) {
 						System.out.println(player.getKey() + " was shot! (" + bullets.size() + ")");
 						
 						break;
