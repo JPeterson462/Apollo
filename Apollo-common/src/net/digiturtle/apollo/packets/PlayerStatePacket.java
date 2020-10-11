@@ -9,5 +9,7 @@ public class PlayerStatePacket {
 	public float x, y, theta, vx, vy, vtheta;
 	
 	public String orientation;
+	
+	public int team;
 
 }

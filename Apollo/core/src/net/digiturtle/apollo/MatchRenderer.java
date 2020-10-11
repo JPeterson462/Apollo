@@ -2,6 +2,8 @@ package net.digiturtle.apollo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +14,9 @@ public class MatchRenderer {
 	private TiledMapRenderer tiledMapRenderer;
 	private PlayerRenderer playerRenderer;
 	private BulletsRenderer bulletsRenderer;
+	
+	private SpriteBatch spriteBatch;
+	private Texture testHotspot;
 
 	private Match match;
 	
@@ -31,6 +36,18 @@ public class MatchRenderer {
         bulletsRenderer = new BulletsRenderer();
         bulletsRenderer.create();
         DebugRenderer.create();
+        
+        //FIXME
+        Hotspot testH = match.getHotspots().get(0);
+        DebugRenderer.addLine(
+        		MathUtils.mapToScreen(testH.getPosition(), ApolloSettings.TILE_SIZE), 
+        		MathUtils.mapToScreen(new Vector2(testH.getPosition()).add(testH.getSize().x, 0), ApolloSettings.TILE_SIZE));
+        DebugRenderer.addLine(
+        		MathUtils.mapToScreen(testH.getPosition(), ApolloSettings.TILE_SIZE), 
+        		MathUtils.mapToScreen(new Vector2(testH.getPosition()).add(0, testH.getSize().y), ApolloSettings.TILE_SIZE));
+        
+        spriteBatch = new SpriteBatch();
+        testHotspot = new Texture("TestHotspotIsometric.png");
 	}
 	
 	public void render () {
@@ -60,8 +77,24 @@ public class MatchRenderer {
         camera.update();
         
         bulletsRenderer.render(camera, match.getBullets(), ApolloSettings.TILE_SIZE);
+
+        camera.translate(0, 48);//FIXME magic number
         
-    //    DebugRenderer.render(camera);
+        camera.update();
+        
+        spriteBatch.begin();
+        spriteBatch.setProjectionMatrix(camera.combined);
+        for (Hotspot hotspot : match.getHotspots()) {
+        	Vector2 hotspotPosition = MathUtils.mapToScreen(hotspot.getPosition(), ApolloSettings.TILE_SIZE);
+        	spriteBatch.draw(testHotspot, hotspotPosition.x, hotspotPosition.y);
+        }
+        spriteBatch.end();
+
+        camera.translate(0, -48);
+        
+        camera.update();
+
+        DebugRenderer.render(camera);
         
         camera.translate(ApolloSettings.CHARACTER_SIZE/2, ApolloSettings.CHARACTER_SIZE/2);
         

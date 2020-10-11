@@ -32,12 +32,14 @@ public class Player {
 	private int orientation = 0;
 	private RenderablePlayer renderablePlayer;
 	private Vector2 position, velocity;
+	private int health, team;
 	
 	public Player (UUID uuid) {
 		this.uuid = uuid;
 		renderablePlayer = new RenderablePlayer();
 		position = new Vector2();
 		velocity = new Vector2();
+		health = ApolloSettings.PLAYER_HEALTH;
 	}
 	
 	public UUID getId () {
@@ -50,6 +52,22 @@ public class Player {
 	
 	public RenderablePlayer getRenderablePlayer() {
 		return renderablePlayer;
+	}
+	
+	public int getHealth () {
+		return health;
+	}
+	
+	public void setHealth (int health) {
+		this.health = health;
+	}
+	
+	public int getTeam () {
+		return team;
+	}
+	
+	public void setTeam (int team) {
+		this.team = team;
 	}
 	
 	public void update (float dt) {
@@ -69,6 +87,14 @@ public class Player {
 	
 	public Vector2 getPosition () {
 		return body != null ? body.getPosition() : position;
+	}
+	
+	public void setPosition (Vector2 position) {
+		if (body != null) {
+			body.setTransform(position, getRotation(orientation));
+		} else {
+			this.position.set(position);
+		}
 	}
 	
 	public Vector2 getVelocity () {

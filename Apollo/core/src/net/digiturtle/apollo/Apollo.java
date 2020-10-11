@@ -55,6 +55,7 @@ public class Apollo extends ApplicationAdapter {
 				MatchStartPacket matchStart = (MatchStartPacket)object;
 				for (PlayerStatePacket playerState : matchStart.playerStates) {
 					Player player = new Player(playerState.uuid); //match.getPlayer(playerState.uuid);
+					player.setTeam(playerState.team);
 					match.addPlayer(player, playerState.uuid.equals(Apollo.userId));
 					if (player.getBody() != null) {
 						player.getBody().setTransform(new Vector2(playerState.x, playerState.y), playerState.theta);

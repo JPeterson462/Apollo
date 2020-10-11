@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -21,6 +23,8 @@ public class Match {
 	private World world;
 	private HashMap<UUID, Player> players;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Hotspot> hotspots;
+	private Vector2[] respawns;
 	
 	public Match() {
         tiledMap = new TmxMapLoader().load("sample.tmx");
@@ -28,6 +32,16 @@ public class Match {
         //float tileSize = tiledMap.getProperties().get("tilewidth", Integer.class); 
         players = new HashMap<>();
         bullets = new ArrayList<Bullet>();
+        hotspots = new ArrayList<>();
+        
+        //FIXME
+        respawns = new Vector2[] {
+        	new Vector2(256, 0), new Vector2(0, -256)
+        };
+        Hotspot hotspot1 = new Hotspot();
+        hotspot1.setPosition(new Vector2(128, -128));//FIXME this is rendering at an unexpected location
+        hotspot1.setSize(new Vector2(64, 64));
+        hotspots.add(hotspot1);
 	}
 	
 	public void update (float dt) {
@@ -41,15 +55,51 @@ public class Match {
 				if (!bullets.get(i).getShooter().equals(player.getKey())) {
 					if (Intersector.intersectSegmentCircle(bullets.get(i).getPosition(), 
 							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2)) {
-						System.out.println(player.getKey() + " was shot! (" + bullets.size() + ")");
-						
+						processCollision(bullets.get(i), player.getValue());
 						break;
 					}
 				}
 			}
 		}
 		bullets.clear();
+		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+			Circle circle = new Circle();
+			circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
+			for (Hotspot hotspot : hotspots) {
+				//if (hotspot.getBounds().contains(player.getValue().getPosition())) {
+				if (Intersector.overlaps(circle, hotspot.getBounds()) && player.getKey().equals(Apollo.userId)) {
+					DebugRenderer.setColor(Color.RED);
+					System.out.println(circle + " AND " + hotspot.getBounds());
+				}
+				else if (player.getKey().equals(Apollo.userId)) {
+					DebugRenderer.setColor(Color.GREEN);
+				}
+				if (Intersector.overlaps(circle, hotspot.getBounds())) {
+					processCollision(player.getValue(), hotspot);
+				}
+			}
+		}
 		world.step(dt, 8, 3);
+	}
+	
+	public void processCollision (Object collider, Object impact) {
+		if (collider instanceof Bullet && impact instanceof Player) {
+			System.out.println(impact + " was shot!");
+			Player player = (Player)impact;
+			player.setHealth(player.getHealth() - 20);
+			if (player.getHealth() <= 0) {
+				// Respawn
+				player.setPosition(respawns[player.getTeam()]);
+				player.setHealth(ApolloSettings.PLAYER_HEALTH);
+			}
+		}
+		if (collider instanceof Player && impact instanceof Hotspot) {
+			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
+		}
+	}
+	
+	public ArrayList<Hotspot> getHotspots () {
+		return hotspots;
 	}
 	
 	public ArrayList<Bullet> getBullets () {

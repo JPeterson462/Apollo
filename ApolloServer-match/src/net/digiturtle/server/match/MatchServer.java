@@ -37,6 +37,7 @@ public class MatchServer {
 				playerState.uuid = packet.clientId;
 				playerState.x = 0;
 				playerState.y = 0;
+				playerState.team = playerStates.size();//FIXME
 				playerStates.put(packet.clientId, playerState);
 				
 				if (playerStates.size() == numPlayers) {

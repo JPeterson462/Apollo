@@ -30,6 +30,10 @@ public class DebugRenderer {
 		shapeRenderer.setAutoShapeType(true);
 	}
 	
+	public static void setColor (Color color) {
+		shapeRenderer.setColor(color);
+	}
+	
 	public static void render (Camera camera) {
 		shapeRenderer.begin();
 		shapeRenderer.setProjectionMatrix(camera.combined);

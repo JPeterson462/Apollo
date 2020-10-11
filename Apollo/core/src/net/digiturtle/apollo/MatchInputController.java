@@ -47,7 +47,10 @@ public class MatchInputController implements InputProcessor {
             player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_DOWN);
         
         if (keycode == Input.Keys.GRAVE) {
-        	System.out.println(player.getPosition());
+        	System.out.println(player.getPosition() + " | " + 
+        				MathUtils.rectangleToString(match.getHotspots().get(0).getBounds()) + " | " + 
+        				match.getHotspots().get(0).getBounds().contains(player.getPosition()) + " | " + 
+        				MathUtils.testRectanglePoint(match.getHotspots().get(0).getBounds(), player.getPosition()));
         }
         if (keycode == Input.Keys.SPACE) {//FIXME  fix the magic numbers
         	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, +48 -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
