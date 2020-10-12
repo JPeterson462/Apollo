@@ -1,4 +1,4 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -7,6 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+
+import net.digiturtle.apollo.Apollo;
+import net.digiturtle.apollo.ApolloSettings;
+import net.digiturtle.apollo.Match;
+import net.digiturtle.apollo.MathUtils;
+import net.digiturtle.apollo.Player;
+import net.digiturtle.apollo.Resource;
+import net.digiturtle.apollo.ResourceRegion;
 
 public class MatchRenderer {
 
@@ -37,17 +45,12 @@ public class MatchRenderer {
         bulletsRenderer.create();
         DebugRenderer.create();
         
-        //FIXME
-        Hotspot testH = match.getHotspots().get(0);
-        DebugRenderer.addLine(
-        		MathUtils.mapToScreen(testH.getPosition(), ApolloSettings.TILE_SIZE), 
-        		MathUtils.mapToScreen(new Vector2(testH.getPosition()).add(testH.getSize().x, 0), ApolloSettings.TILE_SIZE));
-        DebugRenderer.addLine(
-        		MathUtils.mapToScreen(testH.getPosition(), ApolloSettings.TILE_SIZE), 
-        		MathUtils.mapToScreen(new Vector2(testH.getPosition()).add(0, testH.getSize().y), ApolloSettings.TILE_SIZE));
-        
         spriteBatch = new SpriteBatch();
         testHotspot = new Texture("TestHotspotIsometric.png");
+        
+        for (Resource resource : Resource.values()) {
+        	resource.create();
+        }
 	}
 	
 	public void render () {
@@ -84,9 +87,9 @@ public class MatchRenderer {
         
         spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
-        for (Hotspot hotspot : match.getHotspots()) {
-        	Vector2 hotspotPosition = MathUtils.mapToScreen(hotspot.getPosition(), ApolloSettings.TILE_SIZE);
-        	spriteBatch.draw(testHotspot, hotspotPosition.x, hotspotPosition.y);
+        for (ResourceRegion resourceRegion : match.getResourceRegions()) {
+        	Vector2 hotspotPosition = MathUtils.mapToScreen(resourceRegion.getPosition(), ApolloSettings.TILE_SIZE);
+        	spriteBatch.draw(resourceRegion.getResource().getRegionTexture(), hotspotPosition.x, hotspotPosition.y);
         }
         spriteBatch.end();
 

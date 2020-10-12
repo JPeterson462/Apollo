@@ -1,9 +1,12 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.graphics;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+
+import net.digiturtle.apollo.MathUtils;
+import net.digiturtle.apollo.Player;
 
 public class PlayerRenderer {
 	

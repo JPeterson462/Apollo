@@ -1,4 +1,4 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.graphics;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+
+import net.digiturtle.apollo.Bullet;
 
 public class BulletsRenderer {
 	

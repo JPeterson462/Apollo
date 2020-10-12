@@ -1,4 +1,4 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.graphics;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.graphics;
 
 public abstract class TimedEffect implements IEffect {
 	

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+import net.digiturtle.apollo.graphics.DebugRenderer;
 import net.digiturtle.apollo.packets.BulletPacket;
 
 public class MatchInputController implements InputProcessor {
@@ -48,9 +49,9 @@ public class MatchInputController implements InputProcessor {
         
         if (keycode == Input.Keys.GRAVE) {
         	System.out.println(player.getPosition() + " | " + 
-        				MathUtils.rectangleToString(match.getHotspots().get(0).getBounds()) + " | " + 
-        				match.getHotspots().get(0).getBounds().contains(player.getPosition()) + " | " + 
-        				MathUtils.testRectanglePoint(match.getHotspots().get(0).getBounds(), player.getPosition()));
+        				MathUtils.rectangleToString(match.getResourceRegions().get(0).getBounds()) + " | " + 
+        				match.getResourceRegions().get(0).getBounds().contains(player.getPosition()) + " | " + 
+        				MathUtils.testRectanglePoint(match.getResourceRegions().get(0).getBounds(), player.getPosition()));
         }
         if (keycode == Input.Keys.SPACE) {//FIXME  fix the magic numbers
         	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, +48 -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
@@ -81,15 +82,34 @@ public class MatchInputController implements InputProcessor {
 	public boolean keyTyped(char character) {
 		return false;
 	}
-
+	
+	private long startedCollecting;
+	
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		return false;
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {// Mouse down
+		Player player = match.getPlayer(Apollo.userId);
+		if (button == Input.Buttons.LEFT) {
+			ResourceRegion currentRegion = match.getResourceRegion(player);
+			if (currentRegion != null) {
+				startedCollecting = System.currentTimeMillis();
+			}
+		}
+		return true;
 	}
 
 	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		return false;
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {// Mouse up
+		Player player = match.getPlayer(Apollo.userId);
+		if (button == Input.Buttons.LEFT) {
+			ResourceRegion currentRegion = match.getResourceRegion(player);
+			if (currentRegion != null) {
+				float t = (System.currentTimeMillis() - startedCollecting) / 1000f;
+				int collected = currentRegion.collect(t);
+				player.getBackpack().changeQuantity(currentRegion.getResource(), collected);
+				System.out.println("Player [" + player.getId() + "] collected " + collected + " of " + currentRegion.getResource().name());
+			}
+		}
+		return true;
 	}
 
 	@Override

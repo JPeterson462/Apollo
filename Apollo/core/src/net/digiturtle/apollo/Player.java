@@ -5,6 +5,9 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import net.digiturtle.apollo.graphics.RenderablePlayer;
+import net.digiturtle.apollo.graphics.VisualFX;
+
 public class Player {
 	
 	public enum Direction {
@@ -25,6 +28,12 @@ public class Player {
 		}
 	}
 	
+	public enum State {
+		STANDING,
+		WALKING,
+		COLLECTING
+	}
+	
 	public static final int ORIENTATION_LEFT = 1<<0, ORIENTATION_RIGHT = 1<<1, ORIENTATION_UP = 1<<2, ORIENTATION_DOWN = 1<<3;
 	
 	private UUID uuid;
@@ -34,6 +43,8 @@ public class Player {
 	private Vector2 position, velocity;
 	private int health, team;
 	private VisualFX visualFx;
+	private Backpack backpack;
+	private State state;
 	
 	public Player (UUID uuid) {
 		this.uuid = uuid;
@@ -42,6 +53,8 @@ public class Player {
 		velocity = new Vector2();
 		health = ApolloSettings.PLAYER_HEALTH;
 		visualFx = new VisualFX();
+		backpack = new Backpack();
+		state = State.STANDING;
 	}
 	
 	public UUID getId () {
@@ -74,6 +87,10 @@ public class Player {
 	
 	public VisualFX getVisualFX () {
 		return visualFx;
+	}
+	
+	public Backpack getBackpack() {
+		return backpack;
 	}
 	
 	public void update (float dt) {
@@ -223,6 +240,14 @@ public class Player {
 			this.orientation = orientation;
 			orientRenderablePlayer(getDirection(orientation));
 		}
+	}
+	
+	public State getState () {
+		return state;
+	}
+	
+	public void setState (State state) {
+		this.state = state;
 	}
 
 }

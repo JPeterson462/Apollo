@@ -17,13 +17,15 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import net.digiturtle.apollo.graphics.TintEffect;
+
 public class Match {
 	
 	private TiledMap tiledMap;
 	private World world;
 	private HashMap<UUID, Player> players;
 	private ArrayList<Bullet> bullets;
-	private ArrayList<Hotspot> hotspots;
+	private ArrayList<ResourceRegion> resourceRegions;
 	private Vector2[] respawns;
 	
 	public Match() {
@@ -32,16 +34,20 @@ public class Match {
         //float tileSize = tiledMap.getProperties().get("tilewidth", Integer.class); 
         players = new HashMap<>();
         bullets = new ArrayList<Bullet>();
-        hotspots = new ArrayList<>();
+        resourceRegions = new ArrayList<>();
         
         //FIXME
         respawns = new Vector2[] {
         	new Vector2(256, 0), new Vector2(0, -256)
         };
-        Hotspot hotspot1 = new Hotspot();
+        ResourceRegion hotspot1 = new ResourceRegion(Resource.COAL);
         hotspot1.setPosition(new Vector2(128, -128));//FIXME this is rendering at an unexpected location
         hotspot1.setSize(new Vector2(64, 64));
-        hotspots.add(hotspot1);
+        hotspot1.setCapacity(1000);
+        hotspot1.setCollectionRate(0.01f);
+        hotspot1.setRegenerationRate(0.02f);
+        hotspot1.setQuantity(1000);
+        resourceRegions.add(hotspot1);
 	}
 	
 	public void update (float dt) {
@@ -65,23 +71,13 @@ public class Match {
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 			Circle circle = new Circle();
 			circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
-			for (Hotspot hotspot : hotspots) {
-				//if (hotspot.getBounds().contains(player.getValue().getPosition())) {
-				if (Intersector.overlaps(circle, hotspot.getBounds()) && player.getKey().equals(Apollo.userId)) {
-					DebugRenderer.setColor(Color.RED);
-					System.out.println(circle + " AND " + hotspot.getBounds());
-				}
-				else if (player.getKey().equals(Apollo.userId)) {
-					DebugRenderer.setColor(Color.GREEN);
-				}
-				if (Intersector.overlaps(circle, hotspot.getBounds())) {
-					processCollision(player.getValue(), hotspot);
-				}
-			}
 		}
 		world.step(dt, 8, 3);
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 			player.getValue().getVisualFX().update(dt);
+		}
+		for (ResourceRegion resourceRegion : resourceRegions) {
+			resourceRegion.update(dt);
 		}
 	}
 	
@@ -101,13 +97,25 @@ public class Match {
 				System.out.println("Adding " + effect + " to " + player.getId());
 			}
 		}
-		if (collider instanceof Player && impact instanceof Hotspot) {
+		if (collider instanceof Player && impact instanceof ResourceRegion) {
 			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
 		}
 	}
 	
-	public ArrayList<Hotspot> getHotspots () {
-		return hotspots;
+	public ResourceRegion getResourceRegion (Player player) {
+		Circle circle = new Circle();
+		circle.set(player.getPosition(), ApolloSettings.CHARACTER_SIZE/2);
+		for (ResourceRegion resourceRegion : resourceRegions) {
+			//FIXME should probably not iterate through EVERY spot
+			if (resourceRegion.getBounds().contains(circle)) {
+				return resourceRegion;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<ResourceRegion> getResourceRegions () {
+		return resourceRegions;
 	}
 	
 	public ArrayList<Bullet> getBullets () {
@@ -141,29 +149,6 @@ public class Match {
 		}
 		players.put(player.getId(), player);
 	}
-	
-	/*private Body createBodyFromMapObject (MapObject object, float tileSize) {
-		//Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        Body body = world.createBody(bodyDef);
-        Fixture fixture = body.createFixture(getShapeFromRectangle(rectangle, tileSize), 0);
-        fixture.setFriction(0.1F);
-        body.setTransform(getTransformedCenterForRectangle(rectangle, tileSize), 0);
-        return body;
-	}
-	
-	private Shape getShapeFromRectangle (Rectangle rectangle, float tileSize) {
-	    PolygonShape polygonShape = new PolygonShape();
-	    polygonShape.setAsBox(rectangle.width*0.5F/ tileSize,rectangle.height*0.5F/ tileSize);
-	    return polygonShape;
-	}
-	
-	private Vector2 getTransformedCenterForRectangle (Rectangle rectangle, float tileSize){
-	    Vector2 center = new Vector2();
-	    rectangle.getCenter(center);
-	    return center.scl(1/tileSize);
-	}*/
 	
 	public Collection<Player> getPlayers () {
 		return players.values();

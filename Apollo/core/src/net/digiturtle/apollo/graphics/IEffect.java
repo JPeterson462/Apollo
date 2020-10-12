@@ -1,4 +1,4 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.graphics;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
