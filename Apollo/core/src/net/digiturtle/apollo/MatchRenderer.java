@@ -102,7 +102,7 @@ public class MatchRenderer {
         
     	playerRenderer.begin(camera);
 		for (Player player : match.getPlayers()) {
-			playerRenderer.render(player.getRenderablePlayer(), player.getPosition(), ApolloSettings.TILE_SIZE);
+			playerRenderer.render(player, player.getRenderablePlayer(), player.getPosition(), ApolloSettings.TILE_SIZE);
 		}
 		playerRenderer.end();
         

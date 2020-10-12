@@ -33,6 +33,7 @@ public class Player {
 	private RenderablePlayer renderablePlayer;
 	private Vector2 position, velocity;
 	private int health, team;
+	private VisualFX visualFx;
 	
 	public Player (UUID uuid) {
 		this.uuid = uuid;
@@ -40,6 +41,7 @@ public class Player {
 		position = new Vector2();
 		velocity = new Vector2();
 		health = ApolloSettings.PLAYER_HEALTH;
+		visualFx = new VisualFX();
 	}
 	
 	public UUID getId () {
@@ -68,6 +70,10 @@ public class Player {
 	
 	public void setTeam (int team) {
 		this.team = team;
+	}
+	
+	public VisualFX getVisualFX () {
+		return visualFx;
 	}
 	
 	public void update (float dt) {

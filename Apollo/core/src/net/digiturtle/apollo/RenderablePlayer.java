@@ -10,7 +10,7 @@ public class RenderablePlayer {
 	private int frame;
 	
 	public RenderablePlayer () {
-        playerTexture = new Texture("EntityTemplate.png");
+        playerTexture = new Texture("EntityTemplateWhite.png");
         playerBase = new TextureRegion[8];
         playerBase[0] = new TextureRegion(playerTexture, 0, 0, 32, 32);
         playerBase[1] = new TextureRegion(playerTexture, 32, 0, 32, 32);

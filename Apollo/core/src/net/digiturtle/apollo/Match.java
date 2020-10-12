@@ -80,6 +80,9 @@ public class Match {
 			}
 		}
 		world.step(dt, 8, 3);
+		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+			player.getValue().getVisualFX().update(dt);
+		}
 	}
 	
 	public void processCollision (Object collider, Object impact) {
@@ -91,6 +94,11 @@ public class Match {
 				// Respawn
 				player.setPosition(respawns[player.getTeam()]);
 				player.setHealth(ApolloSettings.PLAYER_HEALTH);
+			} else {
+				TintEffect effect = new TintEffect(Color.RED);
+				effect.setLength(.25f);
+				player.getVisualFX().addEffect(effect);
+				System.out.println("Adding " + effect + " to " + player.getId());
 			}
 		}
 		if (collider instanceof Player && impact instanceof Hotspot) {
