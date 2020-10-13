@@ -89,8 +89,12 @@ public class Player {
 		return visualFx;
 	}
 	
-	public Backpack getBackpack() {
+	public Backpack getBackpack () {
 		return backpack;
+	}
+	
+	public void setBackpack (Backpack backpack) {
+		this.backpack = backpack;
 	}
 	
 	public void update (float dt) {

@@ -26,15 +26,17 @@ public class Match {
 	private HashMap<UUID, Player> players;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<ResourceRegion> resourceRegions;
+	private ArrayList<DroppedBackpack> droppedBackpacks;
 	private Vector2[] respawns;
 	
-	public Match() {
+	public Match () {
         tiledMap = new TmxMapLoader().load("sample.tmx");
         world = new World(new Vector2(0, 0), true);
         //float tileSize = tiledMap.getProperties().get("tilewidth", Integer.class); 
         players = new HashMap<>();
         bullets = new ArrayList<Bullet>();
         resourceRegions = new ArrayList<>();
+        droppedBackpacks = new ArrayList<>();
         
         //FIXME
         respawns = new Vector2[] {
@@ -48,6 +50,7 @@ public class Match {
         hotspot1.setRegenerationRate(0.02f);
         hotspot1.setQuantity(1000);
         resourceRegions.add(hotspot1);
+        addDroppedBackpack(new Backpack(), new Vector2(128, -256));
 	}
 	
 	public void update (float dt) {
@@ -68,6 +71,18 @@ public class Match {
 			}
 		}
 		bullets.clear();
+		for (int i = droppedBackpacks.size() - 1; i >= 0; i--) {
+			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+				Circle circle = new Circle();
+				circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
+				if (droppedBackpacks.get(i).getBounds().contains(circle)) {
+					//FIXME all .contains(circle) calls aren't going to work with big circles and small rectangles
+					processCollision(player.getValue(), droppedBackpacks.get(i));
+					droppedBackpacks.remove(i);
+					break;
+				}
+			}
+		}
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 			Circle circle = new Circle();
 			circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
@@ -78,6 +93,9 @@ public class Match {
 		}
 		for (ResourceRegion resourceRegion : resourceRegions) {
 			resourceRegion.update(dt);
+		}
+		for (DroppedBackpack droppedBackpack : droppedBackpacks) {
+			droppedBackpack.update(dt);
 		}
 	}
 	
@@ -100,6 +118,9 @@ public class Match {
 		if (collider instanceof Player && impact instanceof ResourceRegion) {
 			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
 		}
+		if (collider instanceof Player && impact instanceof DroppedBackpack) {
+			((Player) collider).getBackpack().deposit(((DroppedBackpack) impact).getBackpack());
+		}
 	}
 	
 	public ResourceRegion getResourceRegion (Player player) {
@@ -116,6 +137,17 @@ public class Match {
 	
 	public ArrayList<ResourceRegion> getResourceRegions () {
 		return resourceRegions;
+	}
+	
+	public ArrayList<DroppedBackpack> getDroppedBackpacks () {
+		return droppedBackpacks;
+	}
+	
+	public void addDroppedBackpack (Backpack backpack, Vector2 position) {
+		DroppedBackpack droppedBackpack = new DroppedBackpack();
+		droppedBackpack.setBackpack(backpack);
+		droppedBackpack.setPosition(position);
+		droppedBackpacks.add(droppedBackpack);
 	}
 	
 	public ArrayList<Bullet> getBullets () {

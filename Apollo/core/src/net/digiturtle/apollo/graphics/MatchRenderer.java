@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
+import net.digiturtle.apollo.DroppedBackpack;
 import net.digiturtle.apollo.Match;
 import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.Player;
@@ -24,7 +25,7 @@ public class MatchRenderer {
 	private BulletsRenderer bulletsRenderer;
 	
 	private SpriteBatch spriteBatch;
-	private Texture testHotspot;
+	private Texture testHotspot, testDroppedBackpack;
 
 	private Match match;
 	
@@ -47,6 +48,7 @@ public class MatchRenderer {
         
         spriteBatch = new SpriteBatch();
         testHotspot = new Texture("TestHotspotIsometric.png");
+        testDroppedBackpack = new Texture("TestResourceDrop.png");
         
         for (Resource resource : Resource.values()) {
         	resource.create();
@@ -87,15 +89,27 @@ public class MatchRenderer {
         
         spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
+        
         for (ResourceRegion resourceRegion : match.getResourceRegions()) {
         	Vector2 hotspotPosition = MathUtils.mapToScreen(resourceRegion.getPosition(), ApolloSettings.TILE_SIZE);
         	spriteBatch.draw(resourceRegion.getResource().getRegionTexture(), hotspotPosition.x, hotspotPosition.y);
         }
+        
         spriteBatch.end();
 
         camera.translate(0, -48);
         
         camera.update();
+        
+        spriteBatch.begin();
+        spriteBatch.setProjectionMatrix(camera.combined);
+        
+        for (DroppedBackpack droppedBackpack : match.getDroppedBackpacks()) {
+        	Vector2 backpackPosition = MathUtils.mapToScreen(droppedBackpack.getPosition(), ApolloSettings.TILE_SIZE);
+        	spriteBatch.draw(testDroppedBackpack, backpackPosition.x, backpackPosition.y);
+        }//FIXME render in the correct position, and drop backpacks on respawn
+        
+        spriteBatch.end();
 
         DebugRenderer.render(camera);
         
