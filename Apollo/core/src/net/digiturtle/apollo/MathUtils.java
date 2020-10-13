@@ -1,5 +1,6 @@
 package net.digiturtle.apollo;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -20,6 +21,11 @@ public class MathUtils {
 		float dx = a.x - b.x;
 		float dy = a.y - b.y;
 		return dx * dx + dy * dy;
+	}
+	
+	public static boolean overlaps(Rectangle rectangle, Circle circle) {
+		return circle.contains(rectangle.x, rectangle.y) || circle.contains(rectangle.x + rectangle.width, rectangle.y) || 
+				circle.contains(rectangle.x, rectangle.y + rectangle.height) || circle.contains(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
 	}
 	
 	// http://clintbellanger.net/articles/isometric_math/

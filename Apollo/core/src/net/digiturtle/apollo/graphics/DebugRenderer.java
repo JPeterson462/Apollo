@@ -13,7 +13,7 @@ public class DebugRenderer {
 		Vector2 start, end;
 	}
 	
-	private static ArrayList<Line> lines;
+	private static ArrayList<Line> lines = new ArrayList<>();
 	private static ShapeRenderer shapeRenderer;
 	
 	public static void addLine (Vector2 start, Vector2 end) {
@@ -24,7 +24,7 @@ public class DebugRenderer {
 	}
 	
 	public static void create () {
-		lines = new ArrayList<>();
+		//lines = new ArrayList<>();
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setColor(Color.GREEN);
 		shapeRenderer.setAutoShapeType(true);

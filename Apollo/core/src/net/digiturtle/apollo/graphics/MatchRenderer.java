@@ -101,16 +101,24 @@ public class MatchRenderer {
         
         camera.update();
         
+        camera.translate(32, 32);
+
+        camera.update();
+        
         spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
         
         for (DroppedBackpack droppedBackpack : match.getDroppedBackpacks()) {
         	Vector2 backpackPosition = MathUtils.mapToScreen(droppedBackpack.getPosition(), ApolloSettings.TILE_SIZE);
         	spriteBatch.draw(testDroppedBackpack, backpackPosition.x, backpackPosition.y);
-        }//FIXME render in the correct position, and drop backpacks on respawn
+        }
         
         spriteBatch.end();
 
+        camera.translate(-32, -32);
+        
+        camera.update();
+        
         DebugRenderer.render(camera);
         
         camera.translate(ApolloSettings.CHARACTER_SIZE/2, ApolloSettings.CHARACTER_SIZE/2);

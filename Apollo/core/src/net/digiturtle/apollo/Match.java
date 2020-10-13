@@ -17,6 +17,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import net.digiturtle.apollo.graphics.DebugRenderer;
 import net.digiturtle.apollo.graphics.TintEffect;
 
 public class Match {
@@ -66,7 +67,7 @@ public class Match {
 							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2)) {
 						processCollision(bullets.get(i), player.getValue());
 						break;
-					}
+					}//FIXME bullets should only collide with the first player if two are in the direction
 				}
 			}
 		}
@@ -75,8 +76,7 @@ public class Match {
 			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 				Circle circle = new Circle();
 				circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
-				if (droppedBackpacks.get(i).getBounds().contains(circle)) {
-					//FIXME all .contains(circle) calls aren't going to work with big circles and small rectangles
+				if (MathUtils.overlaps(droppedBackpacks.get(i).getBounds(), circle)) {
 					processCollision(player.getValue(), droppedBackpacks.get(i));
 					droppedBackpacks.remove(i);
 					break;
@@ -106,6 +106,12 @@ public class Match {
 			player.setHealth(player.getHealth() - 20);
 			if (player.getHealth() <= 0) {
 				// Respawn
+				Backpack backpack = player.getBackpack();
+				player.setBackpack(new Backpack());
+				DroppedBackpack droppedBackpack = new DroppedBackpack();
+				droppedBackpack.setBackpack(backpack);
+				droppedBackpack.setPosition(new Vector2(player.getPosition()));
+				droppedBackpacks.add(droppedBackpack);
 				player.setPosition(respawns[player.getTeam()]);
 				player.setHealth(ApolloSettings.PLAYER_HEALTH);
 			} else {
