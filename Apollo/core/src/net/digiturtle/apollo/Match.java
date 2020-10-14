@@ -44,7 +44,7 @@ public class Match {
         	new Vector2(256, 0), new Vector2(0, -256)
         };
         ResourceRegion hotspot1 = new ResourceRegion(Resource.COAL);
-        hotspot1.setPosition(new Vector2(128, -128));//FIXME this is rendering at an unexpected location
+        hotspot1.setPosition(new Vector2(128, -128));
         hotspot1.setSize(new Vector2(64, 64));
         hotspot1.setCapacity(1000);
         hotspot1.setCollectionRate(0.01f);
@@ -134,7 +134,7 @@ public class Match {
 		circle.set(player.getPosition(), ApolloSettings.CHARACTER_SIZE/2);
 		for (ResourceRegion resourceRegion : resourceRegions) {
 			//FIXME should probably not iterate through EVERY spot
-			if (resourceRegion.getBounds().contains(circle)) {
+			if (MathUtils.overlaps(resourceRegion.getBounds(), circle)) {
 				return resourceRegion;
 			}
 		}
