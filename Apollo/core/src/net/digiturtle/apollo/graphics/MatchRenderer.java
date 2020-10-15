@@ -48,7 +48,7 @@ public class MatchRenderer {
         
         spriteBatch = new SpriteBatch();
         testHotspot = new Texture("TestHotspotIsometric.png");
-        testDroppedBackpack = new Texture("TestResourceDrop.png");
+        testDroppedBackpack = new Texture("BackpackV1.png");
         
         for (Resource resource : Resource.values()) {
         	resource.create();
@@ -83,7 +83,7 @@ public class MatchRenderer {
         
         bulletsRenderer.render(camera, match.getBullets(), ApolloSettings.TILE_SIZE);
 
-        camera.translate(0, 48);//FIXME magic number
+        camera.translate(0, 80);//FIXME magic number
         
         camera.update();
         
@@ -97,7 +97,7 @@ public class MatchRenderer {
         
         spriteBatch.end();
 
-        camera.translate(0, -48);
+        camera.translate(0, -80);
         
         camera.update();
         

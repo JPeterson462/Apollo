@@ -45,7 +45,7 @@ public class Match {
         };
         ResourceRegion hotspot1 = new ResourceRegion(Resource.COAL);
         hotspot1.setPosition(new Vector2(128, -128));
-        hotspot1.setSize(new Vector2(64, 64));
+        hotspot1.setSize(new Vector2(128, 128));//FIXME resource collection only works in the first 64x64
         hotspot1.setCapacity(1000);
         hotspot1.setCollectionRate(0.01f);
         hotspot1.setRegenerationRate(0.02f);

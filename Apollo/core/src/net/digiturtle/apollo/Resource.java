@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public enum Resource {
 	
-	COAL("TestHotspotIsometric.png"),
+	COAL("CoalResourceRegionV1.png"),
 	
 	;
 	
