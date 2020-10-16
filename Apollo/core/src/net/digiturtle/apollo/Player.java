@@ -150,28 +150,28 @@ public class Player {
 	private void orientRenderablePlayer (Direction direction) {
 		switch (direction) {
 		case DOWN:
-			renderablePlayer.setFrame(5);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_DOWN);
 			break;
 		case DOWN_LEFT:
-			renderablePlayer.setFrame(6);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_DOWN_LEFT);
 			break;
 		case DOWN_RIGHT:
-			renderablePlayer.setFrame(4);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_DOWN_RIGHT);
 			break;
 		case LEFT:
-			renderablePlayer.setFrame(7);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_LEFT);
 			break;
 		case RIGHT:
-			renderablePlayer.setFrame(3);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_RIGHT);
 			break;
 		case UP:
-			renderablePlayer.setFrame(1);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_UP);
 			break;
 		case UP_LEFT:
-			renderablePlayer.setFrame(0);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_UP_LEFT);
 			break;
 		case UP_RIGHT:
-			renderablePlayer.setFrame(2);
+			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_UP_RIGHT);
 			break;
 		default:
 			break;

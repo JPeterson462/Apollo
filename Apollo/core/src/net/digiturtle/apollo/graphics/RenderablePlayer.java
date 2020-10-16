@@ -3,6 +3,8 @@ package net.digiturtle.apollo.graphics;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import net.digiturtle.apollo.ApolloSettings;
+
 public class RenderablePlayer {
 	
 	private Texture playerTexture;
@@ -10,16 +12,12 @@ public class RenderablePlayer {
 	private int frame;
 	
 	public RenderablePlayer () {
-        playerTexture = new Texture("EntityTemplateWhite.png");
+        playerTexture = new Texture("PlayerV3.png");
         playerBase = new TextureRegion[8];
-        playerBase[0] = new TextureRegion(playerTexture, 0, 0, 32, 32);
-        playerBase[1] = new TextureRegion(playerTexture, 32, 0, 32, 32);
-        playerBase[2] = new TextureRegion(playerTexture, 64, 0, 32, 32);
-        playerBase[7] = new TextureRegion(playerTexture, 0, 32, 32, 32);
-        playerBase[3] = new TextureRegion(playerTexture, 64, 32, 32, 32);
-        playerBase[6] = new TextureRegion(playerTexture, 0, 64, 32, 32);
-        playerBase[5] = new TextureRegion(playerTexture, 32, 64, 32, 32);
-        playerBase[4] = new TextureRegion(playerTexture, 64, 64, 32, 32);
+        for (int i = 0; i < 8; i++) {
+        	int[] region = ApolloSettings.getFrame(i, 0, ApolloSettings.PLAYER_FRAMES);
+        	playerBase[i] = new TextureRegion(playerTexture, region[0], region[1], region[2], region[3]);
+        }
 	}
 	
 	public void setFrame (int frame) {
