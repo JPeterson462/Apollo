@@ -56,9 +56,9 @@ public class Match {
 	
 	public void update (float dt) {
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-			if (player.getValue().getBody() == null) {
+			//if (player.getValue().getBody() == null) {
 				player.getValue().update(dt);
-			}
+			//}
 		}
 		for (int i = bullets.size() - 1; i >= 0; i--) {
 			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {

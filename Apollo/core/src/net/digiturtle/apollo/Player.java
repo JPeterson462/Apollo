@@ -29,9 +29,17 @@ public class Player {
 	}
 	
 	public enum State {
-		STANDING,
-		WALKING,
-		COLLECTING
+		STANDING(ApolloSettings.PLAYER_STANDING_FRAME, 1, 1f),
+		WALKING(ApolloSettings.PLAYER_WALKING_FRAME, ApolloSettings.PLAYER_WALKING_FRAME_COUNT, .5f/(float)ApolloSettings.PLAYER_WALKING_FRAME_COUNT),
+		COLLECTING(0,0,1f);
+		
+		public final int frame, numFrames;
+		public final float timePerFrame;
+		State(int frame, int numFrames, float timePerFrame) {
+			this.frame = frame;
+			this.numFrames = numFrames;
+			this.timePerFrame = timePerFrame;
+		}
 	}
 	
 	public static final int ORIENTATION_LEFT = 1<<0, ORIENTATION_RIGHT = 1<<1, ORIENTATION_UP = 1<<2, ORIENTATION_DOWN = 1<<3;
@@ -101,6 +109,9 @@ public class Player {
 		if (body == null) {
 			// Not simulated with Box2D
 			position.add(new Vector2(velocity).scl(dt));
+		}
+		if (renderablePlayer != null) {
+			renderablePlayer.update(dt);
 		}
 	}
 	
@@ -243,6 +254,15 @@ public class Player {
 			}
 			this.orientation = orientation;
 			orientRenderablePlayer(getDirection(orientation));
+			if (movement.len2() == 0) {
+				if (state != Player.State.STANDING) {
+					setState(Player.State.STANDING);
+				}
+			} else {
+				if (state != Player.State.WALKING) {
+					setState(Player.State.WALKING);
+				}
+			}
 		}
 	}
 	
@@ -252,6 +272,9 @@ public class Player {
 	
 	public void setState (State state) {
 		this.state = state;
+		if (renderablePlayer != null) {
+			renderablePlayer.onStateChange(state);
+		}
 	}
 
 }

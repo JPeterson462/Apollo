@@ -6,6 +6,28 @@ import com.badlogic.gdx.math.Vector2;
 
 public class MathUtils {
 	
+	// https://www.geeksforgeeks.org/modulus-two-float-double-numbers/
+	
+	public static float floatMod(float a, float b) {
+		// Handling negative values 
+        if (a < 0) 
+            a = -a; 
+        if (b < 0) 
+            b = -b; 
+      
+        // Finding mod by repeated subtraction 
+        float mod = a; 
+        while (mod >= b) 
+            mod = mod - b; 
+      
+        // Sign of result typically depends 
+        // on sign of a. 
+        if (a < 0) 
+            return -mod; 
+      
+        return mod;
+	}
+	
 	public static String testRectanglePoint(Rectangle r, Vector2 p) {
 		return Boolean.toString(r.x <= p.x) + ":" + 
 				Boolean.toString(r.x + r.width >= p.x) + ":" +

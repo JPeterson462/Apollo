@@ -31,7 +31,8 @@ public class MatchInputController implements InputProcessor {
             player.changeOrientation(player.getOrientation() | Player.ORIENTATION_UP);
         if(keycode == Input.Keys.S)
             player.changeOrientation(player.getOrientation() | Player.ORIENTATION_DOWN);
-		return true;
+        	
+        return true;
 	}
 
 	@Override
