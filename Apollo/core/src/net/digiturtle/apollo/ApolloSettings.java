@@ -2,7 +2,7 @@ package net.digiturtle.apollo;
 
 public interface ApolloSettings {
 	
-	public static final String VERSION = "v0.2.0a";
+	public static final String VERSION = "v0.3.0a";
 	
 	public static final String FONT_FACE = "PixelParty";
 	//public static final String FONT_FACE = "arial-15";

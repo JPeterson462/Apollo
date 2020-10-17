@@ -1,27 +1,2 @@
-Oct 17, 2020 7:30:11 PM io.netty.util.internal.PlatformDependent <clinit>
+Oct 17, 2020 7:34:05 PM io.netty.util.internal.PlatformDependent <clinit>
 INFO: Your platform does not provide complete low-level API for accessing direct buffers reliably. Unless explicitly requested, heap buffer will always be preferred to avoid potential system instability.
-Exception in thread "Thread-0" java.net.BindException: Address already in use
-	at java.base/sun.nio.ch.Net.bind0(Native Method)
-	at java.base/sun.nio.ch.Net.bind(Net.java:479)
-	at java.base/sun.nio.ch.DatagramChannelImpl.bindInternal(DatagramChannelImpl.java:1147)
-	at java.base/sun.nio.ch.DatagramChannelImpl.bind(DatagramChannelImpl.java:1118)
-	at io.netty.all@4.1.52.Final/io.netty.util.internal.SocketUtils$6.run(SocketUtils.java:133)
-	at io.netty.all@4.1.52.Final/io.netty.util.internal.SocketUtils$6.run(SocketUtils.java:130)
-	at java.base/java.security.AccessController.doPrivileged(AccessController.java:554)
-	at io.netty.all@4.1.52.Final/io.netty.util.internal.SocketUtils.bind(SocketUtils.java:130)
-	at io.netty.all@4.1.52.Final/io.netty.channel.socket.nio.NioDatagramChannel.doBind0(NioDatagramChannel.java:200)
-	at io.netty.all@4.1.52.Final/io.netty.channel.socket.nio.NioDatagramChannel.doBind(NioDatagramChannel.java:195)
-	at io.netty.all@4.1.52.Final/io.netty.channel.AbstractChannel$AbstractUnsafe.bind(AbstractChannel.java:550)
-	at io.netty.all@4.1.52.Final/io.netty.channel.DefaultChannelPipeline$HeadContext.bind(DefaultChannelPipeline.java:1334)
-	at io.netty.all@4.1.52.Final/io.netty.channel.AbstractChannelHandlerContext.invokeBind(AbstractChannelHandlerContext.java:506)
-	at io.netty.all@4.1.52.Final/io.netty.channel.AbstractChannelHandlerContext.bind(AbstractChannelHandlerContext.java:491)
-	at io.netty.all@4.1.52.Final/io.netty.channel.DefaultChannelPipeline.bind(DefaultChannelPipeline.java:973)
-	at io.netty.all@4.1.52.Final/io.netty.channel.AbstractChannel.bind(AbstractChannel.java:248)
-	at io.netty.all@4.1.52.Final/io.netty.bootstrap.AbstractBootstrap$2.run(AbstractBootstrap.java:356)
-	at io.netty.all@4.1.52.Final/io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:164)
-	at io.netty.all@4.1.52.Final/io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:472)
-	at io.netty.all@4.1.52.Final/io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:500)
-	at io.netty.all@4.1.52.Final/io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:989)
-	at io.netty.all@4.1.52.Final/io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
-	at io.netty.all@4.1.52.Final/io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.base/java.lang.Thread.run(Thread.java:832)
