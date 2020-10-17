@@ -32,7 +32,7 @@ public class RenderablePlayer {
             	int[] region = ApolloSettings.getFrame(j, Player.State.WALKING.frame + i, ApolloSettings.PLAYER_FRAMES);
         		playerWalking[i][j] = new TextureRegion(playerTexture, region[0], region[1], region[2], region[3]);
         	}
-        }
+        }//FIXME walking down right looks weird
 	}
 	
 	public void onStateChange (Player.State state) {
