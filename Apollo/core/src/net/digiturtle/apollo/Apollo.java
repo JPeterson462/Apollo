@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
@@ -22,8 +23,6 @@ public class Apollo extends ApplicationAdapter {
 	private Match match;
 	public static final UUID userId = UUID.randomUUID();
 	
-	private TextRenderer _textRenderer;
-	
 	private static UdpClient client;
 	private FiberPool fiberPool;
 	
@@ -41,9 +40,6 @@ public class Apollo extends ApplicationAdapter {
 		matchRenderer = new MatchRenderer(match);
 		matchRenderer.create();
         Gdx.input.setInputProcessor(new MatchInputController(match, ApolloSettings.TILE_SIZE));
-        
-        _textRenderer = new TextRenderer();
-        _textRenderer.create();
         
         fiberPool.scheduleTask(() -> {
         	try {
@@ -131,9 +127,6 @@ public class Apollo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         matchRenderer.render();
         match.update(Gdx.graphics.getDeltaTime());
-        
-        _textRenderer.text("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n1234567890:;,.\\\"!~`@#$%^&*()\n_- +={}[]|\\<>/?", 50, 50);
-        _textRenderer.text("Hello World. Apollo "+ApolloSettings.VERSION, 50, 100);
 	}
 	
 	@Override

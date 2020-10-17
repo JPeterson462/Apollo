@@ -1,10 +1,27 @@
 package net.digiturtle.apollo;
 
+import java.util.Arrays;
+
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class MathUtils {
+	
+	public static String[] getClockTime(float t, int padding) {
+		int seconds = (int) t;
+		int minutes = (seconds - seconds % 60) / 60;
+		seconds -= minutes * 60;
+		return new String[] {
+			pad(minutes, padding), pad(seconds, padding)
+		};
+	}
+	private static String pad(int number, int digits) {
+		int spaces = (number == 0 ? digits : digits - (int)Math.floor(Math.log10(number))) - 1;
+		char[] zeros = new char[spaces];
+		Arrays.fill(zeros, '0');
+		return new String(zeros) + Integer.toString(number);
+	}
 	
 	// https://www.geeksforgeeks.org/modulus-two-float-double-numbers/
 	

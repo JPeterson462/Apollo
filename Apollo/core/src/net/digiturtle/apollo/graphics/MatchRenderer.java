@@ -23,9 +23,10 @@ public class MatchRenderer {
 	private TiledMapRenderer tiledMapRenderer;
 	private PlayerRenderer playerRenderer;
 	private BulletsRenderer bulletsRenderer;
+	private HUDRenderer hudRenderer;
 	
 	private SpriteBatch spriteBatch;
-	private Texture testHotspot, testDroppedBackpack;
+	private Texture droppedBackpack;
 
 	private Match match;
 	
@@ -44,11 +45,13 @@ public class MatchRenderer {
         playerRenderer.create();
         bulletsRenderer = new BulletsRenderer();
         bulletsRenderer.create();
+        hudRenderer = new HUDRenderer(match);
+        hudRenderer.create();
+        
         DebugRenderer.create();
         
         spriteBatch = new SpriteBatch();
-        testHotspot = new Texture("TestHotspotIsometric.png");
-        testDroppedBackpack = new Texture("BackpackV1.png");
+        droppedBackpack = new Texture("BackpackV1.png");
         
         for (Resource resource : Resource.values()) {
         	resource.create();
@@ -110,7 +113,7 @@ public class MatchRenderer {
         
         for (DroppedBackpack droppedBackpack : match.getDroppedBackpacks()) {
         	Vector2 backpackPosition = MathUtils.mapToScreen(droppedBackpack.getPosition(), ApolloSettings.TILE_SIZE);
-        	spriteBatch.draw(testDroppedBackpack, backpackPosition.x, backpackPosition.y);
+        	spriteBatch.draw(this.droppedBackpack, backpackPosition.x, backpackPosition.y);
         }
         
         spriteBatch.end();
@@ -137,6 +140,7 @@ public class MatchRenderer {
         
         camera.translate(w/2, h/2);
         
+        hudRenderer.render();
 	}
 
 }

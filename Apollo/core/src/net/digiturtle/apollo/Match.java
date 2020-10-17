@@ -29,6 +29,7 @@ public class Match {
 	private ArrayList<ResourceRegion> resourceRegions;
 	private ArrayList<DroppedBackpack> droppedBackpacks;
 	private Vector2[] respawns;
+	private float lengthSeconds, totalTimeSeconds;
 	
 	public Match () {
         tiledMap = new TmxMapLoader().load("sample.tmx");
@@ -52,9 +53,19 @@ public class Match {
         hotspot1.setQuantity(1000);
         resourceRegions.add(hotspot1);
         addDroppedBackpack(new Backpack(), new Vector2(128, -256));
+        lengthSeconds = totalTimeSeconds = 5*60;
+	}
+	
+	public float getTotalTime () {
+		return totalTimeSeconds;
+	}
+	
+	public float getTimeLeft () {
+		return Math.max(0, lengthSeconds);
 	}
 	
 	public void update (float dt) {
+		lengthSeconds -= dt;
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 			//if (player.getValue().getBody() == null) {
 				player.getValue().update(dt);
