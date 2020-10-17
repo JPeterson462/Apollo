@@ -132,7 +132,8 @@ public class Apollo extends ApplicationAdapter {
         matchRenderer.render();
         match.update(Gdx.graphics.getDeltaTime());
         
-        _textRenderer.text("ABCDEFGHIJKLMNOPQRSTUVWXYZ", 50, 50);
+        _textRenderer.text("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nabcdefghijklmnopqrstuvwxyz\n1234567890:;,.\\\"!~`@#$%^&*()\n_- +={}[]|\\<>/?", 50, 50);
+        _textRenderer.text("Hello World. Apollo "+ApolloSettings.VERSION, 50, 100);
 	}
 	
 	@Override
