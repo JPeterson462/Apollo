@@ -84,7 +84,7 @@ public class MatchInputController implements InputProcessor {
 		return false;
 	}
 	
-	private long startedCollecting;
+	//private long startedCollecting;
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {// Mouse down
@@ -93,8 +93,7 @@ public class MatchInputController implements InputProcessor {
 		if (button == Input.Buttons.LEFT) {
 			ResourceRegion currentRegion = match.getResourceRegion(player);
 			if (currentRegion != null) {
-				Apollo.debugMessage = "Collecting";
-				startedCollecting = System.currentTimeMillis();
+				player.setState(Player.State.COLLECTING);
 			}
 		}
 		return true;
@@ -105,13 +104,16 @@ public class MatchInputController implements InputProcessor {
 		Player player = match.getPlayer(Apollo.userId);
 		Apollo.debugMessage = "Mouse Up: " + button;
 		if (button == Input.Buttons.LEFT) {
-			ResourceRegion currentRegion = match.getResourceRegion(player);
-			if (currentRegion != null) {
+			/*ResourceRegion currentRegion = match.getResourceRegion(player);
+			if (currentRegion != null) {//FIXME intermittently collect
 				Apollo.debugMessage = "Not Collecting";
 				float t = (System.currentTimeMillis() - startedCollecting) / 1000f;
 				int collected = currentRegion.collect(t);
 				player.getBackpack().changeQuantity(currentRegion.getResource(), collected);
 				System.out.println("Player [" + player.getId() + "] collected " + collected + " of " + currentRegion.getResource().name());
+			}*/
+			if (player.getState().equals(Player.State.COLLECTING)) {
+				player.setState(Player.State.STANDING);
 			}
 		}
 		return true;

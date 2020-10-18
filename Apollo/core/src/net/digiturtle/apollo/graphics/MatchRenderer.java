@@ -95,8 +95,8 @@ public class MatchRenderer {
         
         for (ResourceRegion resourceRegion : match.getResourceRegions()) {
         	Vector2 hotspotPosition = MathUtils.mapToScreen(resourceRegion.getPosition(), ApolloSettings.TILE_SIZE);
-        	// FIXME just a debug conditional
-        	spriteBatch.draw(resourceRegion.getResource().getRegionTexture(), hotspotPosition.x, hotspotPosition.y);
+        	int state = (int) (((float)resourceRegion.getQuantity()/resourceRegion.getCapacity()) / (1f/resourceRegion .getResource().getNumberOfStates()));
+        	spriteBatch.draw(resourceRegion.getResource().getRegionTexture(resourceRegion.getResource().getNumberOfStates() - 1 - state), hotspotPosition.x, hotspotPosition.y);
         }
         
         spriteBatch.end();

@@ -49,7 +49,7 @@ public class Match {
         hotspot1.setSize(new Vector2(128, 128));//FIXME resource collection only works in the first 64x64
         hotspot1.setCapacity(1000);
         hotspot1.setCollectionRate(0.01f);
-        hotspot1.setRegenerationRate(0.02f);
+        hotspot1.setRegenerationRate(0.05f);
         hotspot1.setQuantity(1000);
         resourceRegions.add(hotspot1);
         addDroppedBackpack(new Backpack(), new Vector2(128, -256));
@@ -107,6 +107,20 @@ public class Match {
 		}
 		for (DroppedBackpack droppedBackpack : droppedBackpacks) {
 			droppedBackpack.update(dt);
+		}
+		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+			if (player.getValue().getState().equals(Player.State.COLLECTING)) {
+				Apollo.debugMessage = "Collecting " + getPlayer(Apollo.userId).getBackpack().getContents().get(Resource.COAL) + " vs " + resourceRegions.get(0).getQuantity();
+				ResourceRegion resourceRegion = this.getResourceRegion(player.getValue());
+				// FIXME if the time intervals are inexact, should I store the dt - collected*x and handle in the next frame?
+				if (resourceRegion != null) {
+					int collected = resourceRegion.collect(dt);
+					player.getValue().getBackpack().changeQuantity(resourceRegion.getResource(), collected);
+				}
+			} else {
+				Apollo.debugMessage = "Not Collecting" + getPlayer(Apollo.userId).getBackpack().getContents().get(Resource.COAL) + " vs " + resourceRegions.get(0).getQuantity();
+				
+			}
 		}
 	}
 	

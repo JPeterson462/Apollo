@@ -87,7 +87,7 @@ public class ResourceRegion {
 	
 	public int collect (float t) {
 		int taken = (int) Math.floor(t / collectionRate);
-		taken = Math.min(taken, capacity);
+		taken = Math.min(taken, quantity);
 		quantity -= taken;
 		return taken;
 	}
