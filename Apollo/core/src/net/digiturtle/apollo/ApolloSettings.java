@@ -1,5 +1,7 @@
 package net.digiturtle.apollo;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public interface ApolloSettings {
 	
 	public static final String VERSION = "v0.3.0a";
@@ -16,6 +18,8 @@ public interface ApolloSettings {
 	public static final int PLAYER_HEALTH = 100;
 	
 	public static final int DROPPED_BACKPACK_SIZE = 16;
+	
+	public static final Rectangle HEALTH_BAR_BOUNDS = new Rectangle(30, 17, 69, 4);
 	
 	public static final int PLAYER_FRAME_DOWN = 0, PLAYER_FRAME_DOWN_RIGHT = 1, PLAYER_FRAME_RIGHT = 2,
 							PLAYER_FRAME_UP_RIGHT = 3, PLAYER_FRAME_UP = 4, PLAYER_FRAME_UP_LEFT = 5,
