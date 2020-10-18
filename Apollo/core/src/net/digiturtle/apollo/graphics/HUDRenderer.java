@@ -63,6 +63,9 @@ public class HUDRenderer {
 		String clockText = String.join(":", MathUtils.getClockTime(match.getTimeLeft(), 2));
 		int width = (int) textRenderer.getTextWidth("00:00");
 		textRenderer.text(clockText, (topHud.getRegionWidth() - width) / 2, 2, Color.WHITE);
+		
+		textRenderer.text(Apollo.debugMessage, 0, 100, Color.YELLOW);
+		
 		textRenderer.end();
 	}
 

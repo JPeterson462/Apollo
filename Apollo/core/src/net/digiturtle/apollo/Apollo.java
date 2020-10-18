@@ -19,6 +19,8 @@ import net.digiturtle.apollo.packets.PlayerStatePacket;
 
 public class Apollo extends ApplicationAdapter {
 	
+	public static String debugMessage = "";
+	
 	private MatchRenderer matchRenderer;
 	private Match match;
 	public static final UUID userId = UUID.randomUUID();

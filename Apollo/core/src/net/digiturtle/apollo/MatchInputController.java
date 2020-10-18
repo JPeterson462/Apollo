@@ -89,9 +89,11 @@ public class MatchInputController implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {// Mouse down
 		Player player = match.getPlayer(Apollo.userId);
+		Apollo.debugMessage = "Mouse Down: " + button;
 		if (button == Input.Buttons.LEFT) {
 			ResourceRegion currentRegion = match.getResourceRegion(player);
 			if (currentRegion != null) {
+				Apollo.debugMessage = "Collecting";
 				startedCollecting = System.currentTimeMillis();
 			}
 		}
@@ -101,9 +103,11 @@ public class MatchInputController implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {// Mouse up
 		Player player = match.getPlayer(Apollo.userId);
+		Apollo.debugMessage = "Mouse Up: " + button;
 		if (button == Input.Buttons.LEFT) {
 			ResourceRegion currentRegion = match.getResourceRegion(player);
 			if (currentRegion != null) {
+				Apollo.debugMessage = "Not Collecting";
 				float t = (System.currentTimeMillis() - startedCollecting) / 1000f;
 				int collected = currentRegion.collect(t);
 				player.getBackpack().changeQuantity(currentRegion.getResource(), collected);

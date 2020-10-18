@@ -64,7 +64,8 @@ public class MathUtils {
 	
 	public static boolean overlaps(Rectangle rectangle, Circle circle) {
 		return circle.contains(rectangle.x, rectangle.y) || circle.contains(rectangle.x + rectangle.width, rectangle.y) || 
-				circle.contains(rectangle.x, rectangle.y + rectangle.height) || circle.contains(rectangle.x + rectangle.width, rectangle.y + rectangle.height);
+				circle.contains(rectangle.x, rectangle.y + rectangle.height) || circle.contains(rectangle.x + rectangle.width, rectangle.y + rectangle.height) ||
+				rectangle.contains(circle.x, circle.y);
 	}
 	
 	// http://clintbellanger.net/articles/isometric_math/
