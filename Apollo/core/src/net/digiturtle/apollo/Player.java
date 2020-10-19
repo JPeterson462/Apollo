@@ -47,6 +47,7 @@ public class Player {
 	private UUID uuid;
 	private Body body;
 	private int orientation = 0;
+	private Direction cache;
 	private RenderablePlayer renderablePlayer;
 	private Vector2 position, velocity;
 	private int health, team;
@@ -196,37 +197,40 @@ public class Player {
 	public Direction getDirection (int orientation) {
 		if ((orientation & ORIENTATION_UP) != 0) {
 			if ((orientation & ORIENTATION_LEFT) != 0) {
-				return Direction.UP_LEFT;
+				cache = Direction.UP_LEFT;
 			}
 			else if ((orientation & ORIENTATION_RIGHT) != 0) {
-				return Direction.UP_RIGHT;
+				cache = Direction.UP_RIGHT;
 			}
 			else {
-				return Direction.UP;
+				cache = Direction.UP;
 			}
 		}
 		else if ((orientation & ORIENTATION_DOWN) != 0) {
 			if ((orientation & ORIENTATION_LEFT) != 0) {
-				return Direction.DOWN_LEFT;
+				cache = Direction.DOWN_LEFT;
 			}
 			else if ((orientation & ORIENTATION_RIGHT) != 0) {
-				return Direction.DOWN_RIGHT;
+				cache = Direction.DOWN_RIGHT;
 			}
 			else {
-				return Direction.DOWN;
+				cache = Direction.DOWN;
 			}
 		}
 		else {
 			if ((orientation & ORIENTATION_LEFT) != 0) {
-				return Direction.LEFT;
+				cache = Direction.LEFT;
 			}
 			else if ((orientation & ORIENTATION_RIGHT) != 0) {
-				return Direction.RIGHT;
+				cache = Direction.RIGHT;
 			}
 			else {
-				return Direction.UP;
+				if (cache == null) {
+					cache = Direction.DOWN;
+				}
 			}
 		}
+		return cache;
 	}
 	
 	public void changeOrientation(int orientation) {
@@ -248,9 +252,9 @@ public class Player {
 			movement.scl(-1);//FIXME
 			if (body != null) {
 				body.setAngularVelocity(getRotation(orientation) - body.getAngle());
-				body.setLinearVelocity(movement.scl(256));
+				body.setLinearVelocity(movement.scl(ApolloSettings.PLAYER_SPEED));
 			} else {
-				velocity = movement.scl(256);
+				velocity = movement.scl(ApolloSettings.PLAYER_SPEED);
 			}
 			this.orientation = orientation;
 			orientRenderablePlayer(getDirection(orientation));

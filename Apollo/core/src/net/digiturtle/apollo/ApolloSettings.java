@@ -16,6 +16,8 @@ public interface ApolloSettings {
 	public static final int CHARACTER_SIZE = 32;
 	
 	public static final int PLAYER_HEALTH = 100;
+	public static final int BULLET_DAMAGE = 20;
+	public static final int PLAYER_SPEED = 256;
 	
 	public static final int DROPPED_BACKPACK_SIZE = 16;
 	

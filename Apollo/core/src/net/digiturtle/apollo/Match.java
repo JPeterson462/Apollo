@@ -17,7 +17,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-import net.digiturtle.apollo.graphics.DebugRenderer;
+import net.digiturtle.apollo.graphics.TimedEffect;
+import net.digiturtle.apollo.graphics.TimedTextureEffect;
 import net.digiturtle.apollo.graphics.TintEffect;
 
 public class Match {
@@ -128,7 +129,7 @@ public class Match {
 		if (collider instanceof Bullet && impact instanceof Player) {
 			System.out.println(impact + " was shot!");
 			Player player = (Player)impact;
-			player.setHealth(player.getHealth() - 20);
+			player.setHealth(player.getHealth() - ApolloSettings.BULLET_DAMAGE);
 			if (player.getHealth() <= 0) {
 				// Respawn
 				Backpack backpack = player.getBackpack();
@@ -189,6 +190,7 @@ public class Match {
 		System.out.println("Someone fired a bullet.");
 		Bullet bullet = new Bullet(position, velocity, shooter);
 		bullets.add(bullet);
+		onMuzzleFlash(shooter);
 		return bullet;
 	}
 	
@@ -196,7 +198,17 @@ public class Match {
 		System.out.println("Firing bullet.");
 		Bullet bullet = new Bullet(position, velocity, Apollo.userId);
 		bullets.add(bullet);
+		onMuzzleFlash(Apollo.userId);
 		return bullet;
+	}
+	
+	private void onMuzzleFlash (UUID uuid) {
+		Player player = getPlayer(uuid);
+		TimedEffect effect = new TimedTextureEffect("PlayerV4_MuzzleFlash.png", 
+				() -> MathUtils.mapToScreen(player.getPosition(), ApolloSettings.TILE_SIZE), 
+				32, 32, player.getRenderablePlayer().getFrame());
+		effect.setLength(4f / 60f);
+		player.getVisualFX().addEffect(effect);
 	}
 	
 	public void addPlayer (Player player, boolean simulated) {
