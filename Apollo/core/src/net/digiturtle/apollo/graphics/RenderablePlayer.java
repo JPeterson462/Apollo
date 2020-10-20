@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.Player;
+import net.digiturtle.apollo.definitions.TeamDefinition;
 
 public class RenderablePlayer {
 	
@@ -17,9 +18,19 @@ public class RenderablePlayer {
 	private float t;
 	private Player.State state;
 	
-	public RenderablePlayer () {
+	public RenderablePlayer (int color) {
+		String colorText = "";
+		if (color == TeamDefinition.COLOR_BLUE) {
+			colorText = "_Blue";
+		}
+		if (color == TeamDefinition.COLOR_RED) {
+			colorText = "_Red";
+		}
+		if (color == TeamDefinition.COLOR_GREEN) {
+			colorText = "_Green";
+		}
 		state = Player.State.STANDING;
-        playerTexture = new Texture("PlayerV4.png");
+        playerTexture = new Texture("PlayerV4" + colorText + ".png");
         playerBase = new TextureRegion[8];
         for (int i = 0; i < 8; i++) {
         	int[] region = ApolloSettings.getFrame(i, Player.State.STANDING.frame, ApolloSettings.PLAYER_FRAMES);

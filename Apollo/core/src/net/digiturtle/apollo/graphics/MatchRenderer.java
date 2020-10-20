@@ -1,5 +1,7 @@
 package net.digiturtle.apollo.graphics;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -130,7 +132,10 @@ public class MatchRenderer {
         camera.update();
         
     	playerRenderer.begin(camera);
-		for (Player player : match.getPlayers()) {
+    	ArrayList<Player> playersToRender = new ArrayList<Player>(match.getPlayers());
+    	// TODO only render players in view
+    	playersToRender.sort((p1, p2) -> -Float.compare(p1.getPosition().y, p2.getPosition().y));
+		for (Player player : playersToRender) {
 			playerRenderer.render(player, player.getRenderablePlayer(), player.getPosition(), ApolloSettings.TILE_SIZE);
 		}
 		playerRenderer.end();

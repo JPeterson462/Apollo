@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import net.digiturtle.apollo.definitions.TeamDefinition;
 import net.digiturtle.apollo.graphics.RenderablePlayer;
 import net.digiturtle.apollo.graphics.VisualFX;
 
@@ -57,7 +58,7 @@ public class Player {
 	
 	public Player (UUID uuid) {
 		this.uuid = uuid;
-		renderablePlayer = new RenderablePlayer();
+		renderablePlayer = new RenderablePlayer(TeamDefinition.COLOR_RED);
 		position = new Vector2();
 		velocity = new Vector2();
 		health = ApolloSettings.PLAYER_HEALTH;
@@ -92,6 +93,7 @@ public class Player {
 	
 	public void setTeam (int team) {
 		this.team = team;
+		renderablePlayer = new RenderablePlayer(team);
 	}
 	
 	public VisualFX getVisualFX () {
