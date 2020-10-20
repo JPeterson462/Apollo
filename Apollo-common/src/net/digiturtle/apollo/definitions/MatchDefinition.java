@@ -5,5 +5,9 @@ public class MatchDefinition {
 	public String tiledMapFile;
 	
 	public ResourceRegionDefinition[] resourceRegions;
-
+	
+	public TeamDefinition[] teams;
+	
+	public float lengthSeconds;
+	
 }

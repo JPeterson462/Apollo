@@ -17,6 +17,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
+import net.digiturtle.apollo.definitions.MatchDefinition;
+import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
 import net.digiturtle.apollo.graphics.TimedEffect;
 import net.digiturtle.apollo.graphics.TimedTextureEffect;
 import net.digiturtle.apollo.graphics.TintEffect;
@@ -29,10 +31,12 @@ public class Match {
 	private ArrayList<Bullet> bullets;
 	private ArrayList<ResourceRegion> resourceRegions;
 	private ArrayList<DroppedBackpack> droppedBackpacks;
-	private Vector2[] respawns;
 	private float lengthSeconds, totalTimeSeconds;
+	private Team[] teams;
+	//private Random random;
 	
 	public Match () {
+		//random = new Random();
         tiledMap = new TmxMapLoader().load("sample.tmx");
         world = new World(new Vector2(0, 0), true);
         //float tileSize = tiledMap.getProperties().get("tilewidth", Integer.class); 
@@ -42,9 +46,6 @@ public class Match {
         droppedBackpacks = new ArrayList<>();
         
         //FIXME
-        respawns = new Vector2[] {
-        	new Vector2(256, 0), new Vector2(0, -256)
-        };
         ResourceRegion hotspot1 = new ResourceRegion(Resource.COAL);
         hotspot1.setPosition(new Vector2(128, -128));
         hotspot1.setSize(new Vector2(128, 128));//FIXME resource collection only works in the first 64x64
@@ -55,6 +56,24 @@ public class Match {
         resourceRegions.add(hotspot1);
         addDroppedBackpack(new Backpack(), new Vector2(128, -256));
         lengthSeconds = totalTimeSeconds = 5*60;
+	}
+	
+	public void load (MatchDefinition definition) {
+		//random = new Random();
+        tiledMap = new TmxMapLoader().load(definition.tiledMapFile);
+        world = new World(new Vector2(0, 0), true);
+        players = new HashMap<>();
+        bullets = new ArrayList<Bullet>();
+        resourceRegions = new ArrayList<>();
+        droppedBackpacks = new ArrayList<>();
+        for (ResourceRegionDefinition regionDefinition : definition.resourceRegions) {
+        	resourceRegions.add(new ResourceRegion(regionDefinition));
+        }
+        teams = new Team[definition.teams.length];
+        for (int i = 0; i < teams.length; i++) {
+        	teams[i] = new Team(definition.teams[i]);
+        }
+        lengthSeconds = totalTimeSeconds = definition.lengthSeconds;
 	}
 	
 	public float getTotalTime () {
@@ -125,6 +144,16 @@ public class Match {
 		}
 	}
 	
+	public void respawnAllPlayers () {
+		for (Player player : players.values()) {
+			respawnPlayer(player);
+		}
+	}
+	
+	private void respawnPlayer (Player player) {
+		player.setPosition(teams[player.getTeam()].getRespawnPoint());
+	}
+	
 	public void processCollision (Object collider, Object impact) {
 		if (collider instanceof Bullet && impact instanceof Player) {
 			System.out.println(impact + " was shot!");
@@ -138,7 +167,7 @@ public class Match {
 				droppedBackpack.setBackpack(backpack);
 				droppedBackpack.setPosition(new Vector2(player.getPosition()));
 				droppedBackpacks.add(droppedBackpack);
-				player.setPosition(respawns[player.getTeam()]);
+				respawnPlayer(player);
 				player.setHealth(ApolloSettings.PLAYER_HEALTH);
 			} else {
 				TintEffect effect = new TintEffect(Color.RED);

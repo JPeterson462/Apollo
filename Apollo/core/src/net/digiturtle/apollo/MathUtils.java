@@ -1,12 +1,17 @@
 package net.digiturtle.apollo;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class MathUtils {
+	
+	public static Vector2 randomPoint(Rectangle rectangle, Random random) {
+		return new Vector2(rectangle.x + random.nextFloat() * rectangle.width, rectangle.y + random.nextFloat() * rectangle.height);
+	}
 	
 	public static String[] getClockTime(float t, int padding) {
 		int seconds = (int) t;

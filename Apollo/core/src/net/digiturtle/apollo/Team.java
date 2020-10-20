@@ -2,12 +2,15 @@ package net.digiturtle.apollo;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+
+import net.digiturtle.apollo.definitions.TeamDefinition;
 
 public class Team {
 	
 	// Definition
-	private Vector2 respawnPoint; //FIXME should probably be a region
+	private Rectangle respawnPoint;
 	
 	// State
 	private Backpack bank;
@@ -19,12 +22,16 @@ public class Team {
 		players = new ArrayList<>();
 	}
 	
+	public Team (TeamDefinition definition) {
+		respawnPoint = new Rectangle(definition.respawnRegion[0], definition.respawnRegion[1], definition.respawnRegion[2], definition.respawnRegion[3]);
+	}
+	
 	public Vector2 getRespawnPoint () {
-		return respawnPoint;
+		return new Vector2(respawnPoint.x + respawnPoint.width * 0.5f, respawnPoint.y + respawnPoint.height * 0.5f);
 	}
 	
 	public void setRespawnPoint (Vector2 respawnPoint) {
-		this.respawnPoint = respawnPoint;
+		this.respawnPoint = new Rectangle().setSize(5, 5).setCenter(respawnPoint);
 	}
 	
 	public Backpack getBank () {

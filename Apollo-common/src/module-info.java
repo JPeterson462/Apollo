@@ -4,6 +4,7 @@ module ApolloCommon {
 	requires com.google.gson;
 	
 	exports net.digiturtle.apollo;
+	exports net.digiturtle.apollo.definitions;
 	exports net.digiturtle.apollo.networking;
 	exports net.digiturtle.apollo.packets;
 }

@@ -4,12 +4,10 @@ import java.util.UUID;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.graphics.MatchRenderer;
-import net.digiturtle.apollo.graphics.TextRenderer;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.packets.BulletPacket;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
@@ -58,6 +56,9 @@ public class Apollo extends ApplicationAdapter {
 			Gdx.app.postRunnable(() -> {
 				// Initialize on UI thread, FIXME to avoid race conditions
 				MatchStartPacket matchStart = (MatchStartPacket)object;
+				
+				match.load(matchStart.matchDefinition);
+				
 				for (PlayerStatePacket playerState : matchStart.playerStates) {
 					Player player = new Player(playerState.uuid); //match.getPlayer(playerState.uuid);
 					player.setTeam(playerState.team);
@@ -71,6 +72,9 @@ public class Apollo extends ApplicationAdapter {
 						// FIXME set player orientation
 					}
 				}
+				
+				match.respawnAllPlayers();
+				
 				fiberPool.scheduleTask(25, () -> {
 					PlayerStatePacket playerState = new PlayerStatePacket();
 					Player player = match.getPlayer(Apollo.userId);

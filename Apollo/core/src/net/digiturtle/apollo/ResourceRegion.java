@@ -3,6 +3,8 @@ package net.digiturtle.apollo;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
+
 public class ResourceRegion {
 	
 	// Definition
@@ -18,6 +20,18 @@ public class ResourceRegion {
 	public ResourceRegion (Resource resource) {
 		this.resource = resource;
 		bounds = new Rectangle();
+		t = 0;
+	}
+	
+	public ResourceRegion (ResourceRegionDefinition definition) {
+		resource = Resource.valueOf(definition.resource);
+		bounds = new Rectangle();
+		position = new Vector2(definition.position[0], definition.position[1]);
+		size = new Vector2(definition.size[0], definition.size[1]);
+		capacity = definition.capacity;
+		quantity = definition.quantity;
+		regenerationRate = definition.regenerationRate;
+		collectionRate = definition.collectionRate;
 		t = 0;
 	}
 	
