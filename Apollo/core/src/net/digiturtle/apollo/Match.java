@@ -120,6 +120,13 @@ public class Match {
 		}
 		world.step(dt, 8, 3);
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+			Team team = teams[player.getValue().getTeam()];
+			if (team.containsPoint(player.getValue().getPosition())) {
+				if (!player.getValue().getBackpack().isEmpty()) {
+					team.getBank().deposit(player.getValue().getBackpack());
+					player.getValue().setBackpack(new Backpack());
+				}
+			}
 			player.getValue().getVisualFX().update(dt);
 		}
 		for (ResourceRegion resourceRegion : resourceRegions) {

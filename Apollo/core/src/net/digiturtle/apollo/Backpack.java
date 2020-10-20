@@ -18,6 +18,10 @@ public class Backpack {
 		}
 	}
 	
+	public boolean isEmpty () {
+		return items.values().stream().mapToInt(val -> val).sum() == 0;
+	}
+	
 	/** This is an UNCHECKED change */
 	public void changeQuantity (Resource resource, int difference) {
 		items.put(resource, items.get(resource) + difference);

@@ -23,6 +23,8 @@ public class Team {
 	}
 	
 	public Team (TeamDefinition definition) {
+		bank = new Backpack();
+		players = new ArrayList<>();
 		respawnPoint = new Rectangle(definition.respawnRegion[0], definition.respawnRegion[1], definition.respawnRegion[2], definition.respawnRegion[3]);
 	}
 	
@@ -40,6 +42,10 @@ public class Team {
 	
 	public ArrayList<Player> getPlayers () {
 		return players;
+	}
+	
+	public boolean containsPoint (Vector2 point) {
+		return respawnPoint.contains(point);
 	}
 	
 	public void respawn (Player player) {
