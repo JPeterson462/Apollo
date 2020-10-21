@@ -145,8 +145,16 @@ public class Match {
 			circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
 		}
 		for (int i = explosions.size() - 1; i >= 0; i--) {
-			explosions.get(i).update(dt);
-			if (explosions.get(i).getTime() >= explosions.get(i).getLength()) {
+			Explosion explosion = explosions.get(i);
+			explosion.update(dt);
+			if (explosion.getTime() >= explosion.getLength()) {
+				// process the collision when removing the explosion so it only happens once
+				for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
+					int radius = explosion.getPower()/2;
+					if (MathUtils.distanceSquared(player.getValue().getPosition(), explosion.getPosition()) < radius*radius) {
+						processCollision(explosion, player.getValue());
+					}
+				}
 				explosions.remove(i);
 			}
 		}
@@ -198,28 +206,38 @@ public class Match {
 			System.out.println(impact + " was shot!");
 			Player player = (Player)impact;
 			player.setHealth(player.getHealth() - ApolloSettings.BULLET_DAMAGE);
-			if (player.getHealth() <= 0) {
-				// Respawn
-				Backpack backpack = player.getBackpack();
-				player.setBackpack(new Backpack());
-				DroppedBackpack droppedBackpack = new DroppedBackpack();
-				droppedBackpack.setBackpack(backpack);
-				droppedBackpack.setPosition(new Vector2(player.getPosition()));
-				droppedBackpacks.add(droppedBackpack);
-				respawnPlayer(player);
-				player.setHealth(ApolloSettings.PLAYER_HEALTH);
-			} else {
-				TintEffect effect = new TintEffect(Color.RED);
-				effect.setLength(.25f);
-				player.getVisualFX().addEffect(effect);
-				System.out.println("Adding " + effect + " to " + player.getId());
-			}
+			checkForDeath(player);
 		}
 		if (collider instanceof Player && impact instanceof ResourceRegion) {
 			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
 		}
 		if (collider instanceof Player && impact instanceof DroppedBackpack) {
 			((Player) collider).getBackpack().deposit(((DroppedBackpack) impact).getBackpack());
+		}
+		if (collider instanceof Explosion && impact instanceof Player) {
+			int damage = ((Explosion) collider).getPower();
+			Player player = (Player)impact;
+			player.setHealth(player.getHealth() - damage);
+			checkForDeath(player);
+		}
+	}
+	
+	private void checkForDeath (Player player) {
+		if (player.getHealth() <= 0) {
+			// Respawn
+			Backpack backpack = player.getBackpack();
+			player.setBackpack(new Backpack());
+			DroppedBackpack droppedBackpack = new DroppedBackpack();
+			droppedBackpack.setBackpack(backpack);
+			droppedBackpack.setPosition(new Vector2(player.getPosition()));
+			droppedBackpacks.add(droppedBackpack);
+			respawnPlayer(player);
+			player.setHealth(ApolloSettings.PLAYER_HEALTH);
+		} else {
+			TintEffect effect = new TintEffect(Color.RED);
+			effect.setLength(.25f);
+			player.getVisualFX().addEffect(effect);
+			System.out.println("Adding " + effect + " to " + player.getId());
 		}
 	}
 	

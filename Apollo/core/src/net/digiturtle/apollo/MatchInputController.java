@@ -77,7 +77,7 @@ public class MatchInputController implements InputProcessor {
         	Apollo.send(bullet);
         }
         if (keycode == Input.Keys.NUM_1) {
-        	match.getExplosions().add(new Explosion(new Vector2(player.getPosition()), 0, .4f));
+        	match.getExplosions().add(new Explosion(new Vector2(player.getPosition()), 60, .4f));
         }
         return true;
 	}

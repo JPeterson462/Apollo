@@ -15,7 +15,7 @@ public class ExplosionRenderer {
 	private SpriteBatch spriteBatch;
 	private OrthographicCamera camera;
 	private TextureRegion[] explosion1regions;
-	private Texture explosion1;
+	private Texture explosion1;//60
 	
 	public ExplosionRenderer (OrthographicCamera camera) {
 		this.camera = camera;
@@ -37,7 +37,9 @@ public class ExplosionRenderer {
 	
 	public void render (Explosion explosion) {
 		Vector2 position = MathUtils.mapToScreen(explosion.getPosition(), ApolloSettings.TILE_SIZE);
-		spriteBatch.draw(explosion1regions[(int) (8 * explosion.getTime() / explosion.getLength())], position.x, position.y);
+		if (explosion.getPower() == 60) {
+			spriteBatch.draw(explosion1regions[(int) (8 * explosion.getTime() / explosion.getLength())], position.x, position.y);
+		}
 	}
 	
 	public void end () {

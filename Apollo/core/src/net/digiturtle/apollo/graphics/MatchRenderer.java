@@ -129,22 +129,6 @@ public class MatchRenderer {
         
         camera.update();
         
-        camera.translate(128, 64);
-        camera.translate(0, 16);
-
-        camera.update();
-        
-        explosionRenderer.begin();
-        for (Explosion explosion : match.getExplosions()) {
-        	explosionRenderer.render(explosion);
-        }
-        explosionRenderer.end();
-
-        camera.translate(0, -16);
-        camera.translate(-128, -64);
-        
-        camera.update();
-        
         DebugRenderer.render(camera);
         
         camera.translate(ApolloSettings.CHARACTER_SIZE/2, ApolloSettings.CHARACTER_SIZE/2);
@@ -161,6 +145,24 @@ public class MatchRenderer {
 		playerRenderer.end();
         
         camera.translate(-ApolloSettings.CHARACTER_SIZE/2, -ApolloSettings.CHARACTER_SIZE/2);
+        
+        camera.update();
+
+        camera.translate(128, 64);
+        camera.translate(0, 16);
+
+        camera.update();
+        
+        explosionRenderer.begin();
+        for (Explosion explosion : match.getExplosions()) {
+        	explosionRenderer.render(explosion);
+        }
+        explosionRenderer.end();
+
+        camera.translate(0, -16);
+        camera.translate(-128, -64);
+        
+        camera.update();
 
         camera.translate(-position.x, -position.y);
         
