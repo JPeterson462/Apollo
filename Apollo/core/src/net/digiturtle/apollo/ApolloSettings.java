@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public interface ApolloSettings {
 	
-	public static final String VERSION = "v0.4.0a";
+	public static final String VERSION = "v0.5.0a";
 	
 	public static final String FONT_FACE = "PixelParty";
 	//public static final String FONT_FACE = "arial-15";
