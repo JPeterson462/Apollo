@@ -31,6 +31,7 @@ public class Match {
 	private ArrayList<Bullet> bullets;
 	private ArrayList<ResourceRegion> resourceRegions;
 	private ArrayList<DroppedBackpack> droppedBackpacks;
+	private ArrayList<Explosion> explosions;
 	private float lengthSeconds, totalTimeSeconds;
 	private Team[] teams;
 	//private Random random;
@@ -46,6 +47,7 @@ public class Match {
         resourceRegions = new ArrayList<>();
         droppedBackpacks = new ArrayList<>();
         allowFriendlyFire = false;
+        explosions = new ArrayList<>();
         
         //FIXME
         ResourceRegion hotspot1 = new ResourceRegion(Resource.COAL);
@@ -77,6 +79,7 @@ public class Match {
         }
         lengthSeconds = totalTimeSeconds = definition.lengthSeconds;
         allowFriendlyFire = definition.allowFriendlyFire;
+        explosions = new ArrayList<>();
 	}
 	
 	public Team[] getTeams () {
@@ -140,6 +143,12 @@ public class Match {
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 			Circle circle = new Circle();
 			circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
+		}
+		for (int i = explosions.size() - 1; i >= 0; i--) {
+			explosions.get(i).update(dt);
+			if (explosions.get(i).getTime() >= explosions.get(i).getLength()) {
+				explosions.remove(i);
+			}
 		}
 		world.step(dt, 8, 3);
 		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
@@ -232,6 +241,10 @@ public class Match {
 	
 	public ArrayList<DroppedBackpack> getDroppedBackpacks () {
 		return droppedBackpacks;
+	}
+	
+	public ArrayList<Explosion> getExplosions () {
+		return explosions;
 	}
 	
 	public void addDroppedBackpack (Backpack backpack, Vector2 position) {

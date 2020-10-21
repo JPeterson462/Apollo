@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.DroppedBackpack;
+import net.digiturtle.apollo.Explosion;
 import net.digiturtle.apollo.Match;
 import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.Player;
@@ -26,6 +27,7 @@ public class MatchRenderer {
 	private PlayerRenderer playerRenderer;
 	private BulletsRenderer bulletsRenderer;
 	private HUDRenderer hudRenderer;
+	private ExplosionRenderer explosionRenderer;
 	
 	private SpriteBatch spriteBatch;
 	private Texture droppedBackpack;
@@ -49,6 +51,8 @@ public class MatchRenderer {
         bulletsRenderer.create();
         hudRenderer = new HUDRenderer(match);
         hudRenderer.create();
+        explosionRenderer = new ExplosionRenderer(camera);
+        explosionRenderer.create();
         
         DebugRenderer.create();
         
@@ -122,6 +126,22 @@ public class MatchRenderer {
         spriteBatch.end();
 
         camera.translate(-32, -32);
+        
+        camera.update();
+        
+        camera.translate(128, 64);
+        camera.translate(0, 16);
+
+        camera.update();
+        
+        explosionRenderer.begin();
+        for (Explosion explosion : match.getExplosions()) {
+        	explosionRenderer.render(explosion);
+        }
+        explosionRenderer.end();
+
+        camera.translate(0, -16);
+        camera.translate(-128, -64);
         
         camera.update();
         
