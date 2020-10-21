@@ -79,6 +79,10 @@ public class Match {
         allowFriendlyFire = definition.allowFriendlyFire;
 	}
 	
+	public Team[] getTeams () {
+		return teams;
+	}
+	
 	public float getTotalTime () {
 		return totalTimeSeconds;
 	}

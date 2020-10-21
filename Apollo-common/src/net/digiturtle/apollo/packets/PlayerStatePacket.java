@@ -8,8 +8,10 @@ public class PlayerStatePacket {
 	
 	public float x, y, theta, vx, vy, vtheta;
 	
-	public String orientation;
+	public String orientation, state;
 	
 	public int team;
+	
+	public BackpackPacket backpack;
 
 }

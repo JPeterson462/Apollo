@@ -1,5 +1,7 @@
 package net.digiturtle.apollo;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.graphics.MatchRenderer;
 import net.digiturtle.apollo.networking.UdpClient;
+import net.digiturtle.apollo.packets.BackpackPacket;
 import net.digiturtle.apollo.packets.BulletPacket;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
 import net.digiturtle.apollo.packets.MatchStartPacket;
@@ -84,6 +87,12 @@ public class Apollo extends ApplicationAdapter {
 					playerState.orientation = player.getDirection().name();
 					playerState.vx = player.getVelocity().x;
 					playerState.vy = player.getVelocity().y;
+					playerState.state = player.getState().name();
+					playerState.backpack = new BackpackPacket();
+					playerState.backpack.contents = new HashMap<>();
+					for (Map.Entry<Resource, Integer> item : player.getBackpack().getContents().entrySet()) {
+						playerState.backpack.contents.put(item.getKey().name(), item.getValue());
+					}
 					client.send(playerState);
 				});
 			});
@@ -104,6 +113,11 @@ public class Apollo extends ApplicationAdapter {
 						playerState.orientation = Player.Direction.UP.name();
 					}
 					player.setDirection(Player.Direction.valueOf(playerState.orientation));
+					player.setState(playerState.state != null ? Player.State.valueOf(playerState.state) : Player.State.STANDING);
+					player.getBackpack().reset();
+					for (Map.Entry<String, Integer> item : playerState.backpack.contents.entrySet()) {
+						player.getBackpack().changeQuantity(Resource.valueOf(item.getKey()), item.getValue());
+					}
 				}
 			}
 		}

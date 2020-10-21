@@ -1,5 +1,8 @@
 package net.digiturtle.apollo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.badlogic.gdx.math.Rectangle;
 
 public interface ApolloSettings {
@@ -44,6 +47,24 @@ public interface ApolloSettings {
 			frames[frameNumber][direction * 4 + 0], frames[frameNumber][direction * 4 + 1], 
 			frames[frameNumber][direction * 4 + 2], frames[frameNumber][direction * 4 + 3]
 		};
+	}
+	
+	public static final int[] RED_BAR_BOUNDS = new int[] {
+		367, 3, 420-367, 4
+	};
+	public static final int[] BLUE_BAR_BOUNDS = new int[] {
+		367, 10, 420-367, 4
+	};
+	public static final int[] GREEN_BAR_BOUNDS = new int[] {
+		367, 17, 420-367, 4
+	};
+	
+	public static int getResourceValue(HashMap<Resource, Integer> items) {
+		int value = 0;
+		for (Map.Entry<Resource, Integer> item : items.entrySet()) {
+			value += item.getValue() * SharedSettings.getValue(item.getKey().name());
+		}
+		return value;
 	}
 
 }
