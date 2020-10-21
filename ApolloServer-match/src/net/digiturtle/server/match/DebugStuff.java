@@ -30,6 +30,7 @@ public class DebugStuff {
 			definition.teams[i] = teamDefinition;
 		}
 		definition.lengthSeconds = 5*60;
+		definition.allowFriendlyFire = false;
 		
 		return definition;
 	}

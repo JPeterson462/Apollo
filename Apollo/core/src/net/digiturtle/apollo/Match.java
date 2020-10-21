@@ -34,6 +34,7 @@ public class Match {
 	private float lengthSeconds, totalTimeSeconds;
 	private Team[] teams;
 	//private Random random;
+	private boolean allowFriendlyFire;
 	
 	public Match () {
 		//random = new Random();
@@ -44,6 +45,7 @@ public class Match {
         bullets = new ArrayList<Bullet>();
         resourceRegions = new ArrayList<>();
         droppedBackpacks = new ArrayList<>();
+        allowFriendlyFire = false;
         
         //FIXME
         ResourceRegion hotspot1 = new ResourceRegion(Resource.COAL);
@@ -74,6 +76,7 @@ public class Match {
         	teams[i] = new Team(definition.teams[i]);
         }
         lengthSeconds = totalTimeSeconds = definition.lengthSeconds;
+        allowFriendlyFire = definition.allowFriendlyFire;
 	}
 	
 	public float getTotalTime () {
@@ -92,13 +95,29 @@ public class Match {
 			//}
 		}
 		for (int i = bullets.size() - 1; i >= 0; i--) {
+			ArrayList<Player> playersHit = new ArrayList<>();
 			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
 				if (!bullets.get(i).getShooter().equals(player.getKey())) {
 					if (Intersector.intersectSegmentCircle(bullets.get(i).getPosition(), 
 							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2)) {
-						processCollision(bullets.get(i), player.getValue());
-						break;
-					}//FIXME bullets should only collide with the first player if two are in the direction
+						//processCollision(bullets.get(i), player.getValue());
+						//break;
+						playersHit.add(player.getValue());
+					}
+				}
+			}
+			Bullet bullet = bullets.get(i);
+			if (playersHit.size() > 0) {
+				Player firstToBeHit = playersHit.get(0);
+				float distance = MathUtils.distanceSquared(firstToBeHit.getPosition(), bullet.getPosition());
+				for (int j = 1; j < playersHit.size(); j++) {
+					float newDistance = MathUtils.distanceSquared(playersHit.get(j).getPosition(), bullet.getPosition());
+					if (newDistance < distance) {
+						firstToBeHit = playersHit.get(j);
+					}
+				}
+				if (allowFriendlyFire || firstToBeHit.getTeam() != getPlayer(bullet.getShooter()).getTeam()) {
+					processCollision(bullet, firstToBeHit);
 				}
 			}
 		}

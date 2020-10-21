@@ -10,4 +10,6 @@ public class MatchDefinition {
 	
 	public float lengthSeconds;
 	
+	public boolean allowFriendlyFire;
+	
 }
