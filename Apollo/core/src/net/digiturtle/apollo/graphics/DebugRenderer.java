@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+
+import net.digiturtle.apollo.Vector2;
 
 public class DebugRenderer {
 	
@@ -38,7 +39,7 @@ public class DebugRenderer {
 		shapeRenderer.begin();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		for (Line line : lines) {
-			shapeRenderer.line(line.start, line.end);
+			shapeRenderer.line(line.start.x, line.start.y, line.end.x, line.end.y);
 		}
 		shapeRenderer.end();
 	}

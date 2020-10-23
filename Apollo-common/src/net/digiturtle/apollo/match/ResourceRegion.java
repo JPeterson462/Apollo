@@ -1,8 +1,7 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.match;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
+import net.digiturtle.apollo.Rectangle;
+import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
 
 public class ResourceRegion {

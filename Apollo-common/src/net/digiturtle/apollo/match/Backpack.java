@@ -1,4 +1,4 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.match;
 
 import java.util.HashMap;
 import java.util.Map;

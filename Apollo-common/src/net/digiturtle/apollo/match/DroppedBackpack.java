@@ -1,7 +1,8 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.match;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import net.digiturtle.apollo.ApolloSettings;
+import net.digiturtle.apollo.Rectangle;
+import net.digiturtle.apollo.Vector2;
 
 public class DroppedBackpack {
 	
@@ -30,8 +31,10 @@ public class DroppedBackpack {
 	}
 	
 	public Rectangle getBounds () {
-		bounds.setSize(ApolloSettings.DROPPED_BACKPACK_SIZE, ApolloSettings.DROPPED_BACKPACK_SIZE);
-		bounds.setCenter(position);
+		bounds.width = ApolloSettings.DROPPED_BACKPACK_SIZE;
+		bounds.height = ApolloSettings.DROPPED_BACKPACK_SIZE;
+		bounds.x = position.x - bounds.width/2;
+		bounds.y = position.y - bounds.height/2;
 		return bounds;
 	}
 	

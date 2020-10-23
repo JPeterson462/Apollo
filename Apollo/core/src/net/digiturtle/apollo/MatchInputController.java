@@ -3,9 +3,12 @@ package net.digiturtle.apollo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.graphics.DebugRenderer;
+import net.digiturtle.apollo.match.Explosion;
+import net.digiturtle.apollo.match.Match;
+import net.digiturtle.apollo.match.Player;
+import net.digiturtle.apollo.match.ResourceRegion;
 import net.digiturtle.apollo.packets.BulletPacket;
 
 public class MatchInputController implements InputProcessor {
@@ -66,13 +69,15 @@ public class MatchInputController implements InputProcessor {
         	bullet.y = player.getPosition().y;
         	bullet.vx = velocity.x;
         	bullet.vy = velocity.y;
-        	match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy));
+        	match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy), Apollo.userId);
         	
         	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
         			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
 
         	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
         			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
+        	
+        	System.out.println(bullet.x + " " + bullet.y + " "  + bullet.vx + " " + bullet.vy);
         	
         	Apollo.send(bullet);
         }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class VisualFX implements IEffect {
+import net.digiturtle.apollo.match.IVisualFX;
+
+public class VisualFX implements IEffect, IVisualFX {
 	
 	private ArrayList<IEffect> effects;
 	

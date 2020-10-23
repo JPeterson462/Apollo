@@ -1,6 +1,6 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.match;
 
-import com.badlogic.gdx.math.Vector2;
+import net.digiturtle.apollo.Vector2;
 
 public class Explosion {
 	

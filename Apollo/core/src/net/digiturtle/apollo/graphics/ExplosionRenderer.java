@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.ApolloSettings;
-import net.digiturtle.apollo.Explosion;
 import net.digiturtle.apollo.MathUtils;
+import net.digiturtle.apollo.match.Explosion;
 
 public class ExplosionRenderer {
 	
@@ -36,7 +35,7 @@ public class ExplosionRenderer {
 	}
 	
 	public void render (Explosion explosion) {
-		Vector2 position = MathUtils.mapToScreen(explosion.getPosition(), ApolloSettings.TILE_SIZE);
+		net.digiturtle.apollo.Vector2 position = MathUtils.mapToScreen(explosion.getPosition(), ApolloSettings.TILE_SIZE);
 		if (explosion.getPower() == 60) {
 			spriteBatch.draw(explosion1regions[(int) (8 * explosion.getTime() / explosion.getLength())], position.x, position.y);
 		}

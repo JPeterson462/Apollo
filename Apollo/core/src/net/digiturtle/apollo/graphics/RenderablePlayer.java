@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.MathUtils;
-import net.digiturtle.apollo.Player;
 import net.digiturtle.apollo.definitions.TeamDefinition;
+import net.digiturtle.apollo.match.IRenderablePlayer;
+import net.digiturtle.apollo.match.Player;
 
-public class RenderablePlayer {
+public class RenderablePlayer implements IRenderablePlayer {
 	
 	private Texture playerTexture;
 	private TextureRegion[] playerBase;
@@ -19,6 +20,10 @@ public class RenderablePlayer {
 	private Player.State state;
 	
 	public RenderablePlayer (int color) {
+		setTeam(color);
+	}
+	
+	public void setTeam (int color) {
 		String colorText = "";
 		if (color == TeamDefinition.COLOR_BLUE) {
 			colorText = "_Blue";

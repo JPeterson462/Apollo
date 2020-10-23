@@ -1,24 +1,28 @@
 package net.digiturtle.apollo.graphics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
-import net.digiturtle.apollo.DroppedBackpack;
-import net.digiturtle.apollo.Explosion;
-import net.digiturtle.apollo.Match;
+import net.digiturtle.apollo.GdxIntegration.GdxTiledMap;
 import net.digiturtle.apollo.MathUtils;
-import net.digiturtle.apollo.Player;
-import net.digiturtle.apollo.Resource;
-import net.digiturtle.apollo.ResourceRegion;
+import net.digiturtle.apollo.match.DroppedBackpack;
+import net.digiturtle.apollo.match.Explosion;
+import net.digiturtle.apollo.match.Match;
+import net.digiturtle.apollo.match.Player;
+import net.digiturtle.apollo.match.Resource;
+import net.digiturtle.apollo.match.ResourceRegion;
+import net.digiturtle.apollo.match.VisualFXEngine;
 
 public class MatchRenderer {
 
@@ -28,14 +32,17 @@ public class MatchRenderer {
 	private BulletsRenderer bulletsRenderer;
 	private HUDRenderer hudRenderer;
 	private ExplosionRenderer explosionRenderer;
+	private VisualFXEngine fxEngine;
+	private HashMap<Resource, TextureRegion[]> resourceTextures;
 	
 	private SpriteBatch spriteBatch;
 	private Texture droppedBackpack;
 
 	private Match match;
 	
-	public MatchRenderer(Match match) {
+	public MatchRenderer(Match match, VisualFXEngine fxEngine) {
 		this.match = match;
+		this.fxEngine = fxEngine;
 	}
 	
 	public void create () {
@@ -44,7 +51,7 @@ public class MatchRenderer {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
         camera.update();
-        tiledMapRenderer = new IsometricTiledMapRenderer(match.getTiledMap());
+        tiledMapRenderer = new IsometricTiledMapRenderer(((GdxTiledMap) match.getTiledMap()).tiledMap);
         playerRenderer = new PlayerRenderer();
         playerRenderer.create();
         bulletsRenderer = new BulletsRenderer();
@@ -53,6 +60,16 @@ public class MatchRenderer {
         hudRenderer.create();
         explosionRenderer = new ExplosionRenderer(camera);
         explosionRenderer.create();
+        
+        resourceTextures = new HashMap<>();
+        for (Resource resource : Resource.values()) {
+        	Texture regionTexture = new Texture(resource.getRegionTextureSource());
+    		TextureRegion[] regions = new TextureRegion[resource.getNumberOfStates()];
+    		for (int i = 0; i < resource.getNumberOfStates(); i++) {
+    			regions[i] = new TextureRegion(regionTexture, i * resource.getWidth(), 0, resource.getWidth(), resource.getHeight());
+    		}
+    		resourceTextures.put(resource, regions);
+        }
         
         DebugRenderer.create();
         
@@ -72,7 +89,7 @@ public class MatchRenderer {
         
         camera.translate(-w/2, -h/2);
         
-        Vector2 position = MathUtils.mapToScreen(match.getPlayer(Apollo.userId).getPosition(), ApolloSettings.TILE_SIZE);
+        net.digiturtle.apollo.Vector2 position = MathUtils.mapToScreen(match.getPlayer(Apollo.userId).getPosition(), ApolloSettings.TILE_SIZE);
         
         camera.translate(position.x, position.y);
         
@@ -100,9 +117,9 @@ public class MatchRenderer {
         spriteBatch.setProjectionMatrix(camera.combined);
         
         for (ResourceRegion resourceRegion : match.getResourceRegions()) {
-        	Vector2 hotspotPosition = MathUtils.mapToScreen(resourceRegion.getPosition(), ApolloSettings.TILE_SIZE);
+        	net.digiturtle.apollo.Vector2 hotspotPosition = MathUtils.mapToScreen(resourceRegion.getPosition(), ApolloSettings.TILE_SIZE);
         	int state = (int) (((float)resourceRegion.getQuantity()/resourceRegion.getCapacity()) / (1f/resourceRegion .getResource().getNumberOfStates()));
-        	spriteBatch.draw(resourceRegion.getResource().getRegionTexture(resourceRegion.getResource().getNumberOfStates() - 1 - state), hotspotPosition.x, hotspotPosition.y);
+        	spriteBatch.draw(resourceTextures.get(resourceRegion.getResource())[resourceRegion.getResource().getNumberOfStates() - 1 - state], hotspotPosition.x, hotspotPosition.y);
         }
         
         spriteBatch.end();
@@ -119,7 +136,7 @@ public class MatchRenderer {
         spriteBatch.setProjectionMatrix(camera.combined);
         
         for (DroppedBackpack droppedBackpack : match.getDroppedBackpacks()) {
-        	Vector2 backpackPosition = MathUtils.mapToScreen(droppedBackpack.getPosition(), ApolloSettings.TILE_SIZE);
+        	net.digiturtle.apollo.Vector2 backpackPosition = MathUtils.mapToScreen(droppedBackpack.getPosition(), ApolloSettings.TILE_SIZE);
         	spriteBatch.draw(this.droppedBackpack, backpackPosition.x, backpackPosition.y);
         }
         
@@ -140,7 +157,8 @@ public class MatchRenderer {
     	// TODO only render players in view
     	playersToRender.sort((p1, p2) -> -Float.compare(p1.getPosition().y, p2.getPosition().y));
 		for (Player player : playersToRender) {
-			playerRenderer.render(player, player.getRenderablePlayer(), player.getPosition(), ApolloSettings.TILE_SIZE);
+			net.digiturtle.apollo.Vector2 pos = player.getPosition();
+			playerRenderer.render(player, player.getRenderablePlayer(), new Vector2(pos.x, pos.y), ApolloSettings.TILE_SIZE);
 		}
 		playerRenderer.end();
         

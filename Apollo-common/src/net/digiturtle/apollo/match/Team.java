@@ -1,10 +1,9 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.match;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
+import net.digiturtle.apollo.Rectangle;
+import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.definitions.TeamDefinition;
 
 public class Team {
@@ -33,7 +32,7 @@ public class Team {
 	}
 	
 	public void setRespawnPoint (Vector2 respawnPoint) {
-		this.respawnPoint = new Rectangle().setSize(5, 5).setCenter(respawnPoint);
+		this.respawnPoint = new Rectangle(respawnPoint.x - 2.5f, respawnPoint.y - 2.5f, 5, 5);
 	}
 	
 	public Backpack getBank () {

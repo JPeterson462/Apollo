@@ -3,10 +3,6 @@ package net.digiturtle.apollo;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
 public class MathUtils {
 	
 	public static Vector2 randomPoint(Rectangle rectangle, Random random) {
@@ -68,6 +64,7 @@ public class MathUtils {
 	}
 	
 	public static boolean overlaps(Rectangle rectangle, Circle circle) {
+		//System.out.println(rectangle + " " + circle);
 		return circle.contains(rectangle.x, rectangle.y) || circle.contains(rectangle.x + rectangle.width, rectangle.y) || 
 				circle.contains(rectangle.x, rectangle.y + rectangle.height) || circle.contains(rectangle.x + rectangle.width, rectangle.y + rectangle.height) ||
 				rectangle.contains(circle.x, circle.y);

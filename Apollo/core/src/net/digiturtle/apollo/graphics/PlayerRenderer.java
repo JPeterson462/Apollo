@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.MathUtils;
-import net.digiturtle.apollo.Player;
+import net.digiturtle.apollo.match.IRenderablePlayer;
+import net.digiturtle.apollo.match.Player;
 
 public class PlayerRenderer {
 	
@@ -22,11 +23,11 @@ public class PlayerRenderer {
 		entityBatch.setColor(Color.WHITE);
 	}
 	
-	public void render (Player basePlayer, RenderablePlayer player, Vector2 playerPosition, float tileSize) {
-		basePlayer.getVisualFX().apply(entityBatch);
-        Vector2 position = MathUtils.mapToScreen(playerPosition, tileSize);
-		entityBatch.draw(player.getCurrentTexture(), position.x, position.y);
-		basePlayer.getVisualFX().unapply(entityBatch);
+	public void render (Player basePlayer, IRenderablePlayer player, Vector2 playerPosition, float tileSize) {
+		((VisualFX) basePlayer.getVisualFX()).apply(entityBatch);
+        net.digiturtle.apollo.Vector2 position = MathUtils.mapToScreen(new net.digiturtle.apollo.Vector2(playerPosition.x, playerPosition.y), tileSize);
+		entityBatch.draw(((RenderablePlayer) player).getCurrentTexture(), position.x, position.y);
+		((VisualFX) basePlayer.getVisualFX()).unapply(entityBatch);
 	}
 	
 	public void end () {

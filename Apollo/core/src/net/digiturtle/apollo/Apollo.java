@@ -9,7 +9,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 
+import net.digiturtle.apollo.GdxIntegration.GdxWorld;
+import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
 import net.digiturtle.apollo.graphics.MatchRenderer;
+import net.digiturtle.apollo.graphics.RenderablePlayer;
+import net.digiturtle.apollo.graphics.VisualFX;
+import net.digiturtle.apollo.match.Match;
+import net.digiturtle.apollo.match.Player;
+import net.digiturtle.apollo.match.Resource;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.packets.BackpackPacket;
 import net.digiturtle.apollo.packets.BulletPacket;
@@ -39,8 +46,8 @@ public class Apollo extends ApplicationAdapter {
 		client.listen(this::onPacket);
 		fiberPool = new FiberPool(2);
 		
-		match = new Match();
-		matchRenderer = new MatchRenderer(match);
+		match = new Match(new GdxIntegration.GdxTiledMapLoader(), new GdxIntegration.GdxIntersector(), new ApolloVisualFXEngine());
+		matchRenderer = new MatchRenderer(match, new ApolloVisualFXEngine());
 		matchRenderer.create();
         Gdx.input.setInputProcessor(new MatchInputController(match, ApolloSettings.TILE_SIZE));
         
@@ -60,18 +67,19 @@ public class Apollo extends ApplicationAdapter {
 				// Initialize on UI thread, FIXME to avoid race conditions
 				MatchStartPacket matchStart = (MatchStartPacket)object;
 				
-				match.load(matchStart.matchDefinition);
+				match.load(matchStart.matchDefinition, new GdxIntegration.GdxTiledMapLoader(), new GdxIntegration.GdxIntersector(), new ApolloVisualFXEngine());
 				
 				for (PlayerStatePacket playerState : matchStart.playerStates) {
-					Player player = new Player(playerState.uuid); //match.getPlayer(playerState.uuid);
+					Player player = new Player(playerState.uuid, new VisualFX(), new RenderablePlayer(playerState.team)); //match.getPlayer(playerState.uuid);
 					player.setTeam(playerState.team);
-					match.addPlayer(player, playerState.uuid.equals(Apollo.userId));
+					match.addPlayer(player, playerState.uuid.equals(Apollo.userId) ? new GdxIntegration.GdxBody((GdxWorld) match.getWorld()) : null);
 					if (player.getBody() != null) {
-						player.getBody().setTransform(new Vector2(playerState.x, playerState.y), playerState.theta);
+						player.getBody().setTransform(new net.digiturtle.apollo.Vector2(playerState.x, playerState.y), playerState.theta);
 						player.getBody().setAngularVelocity(playerState.vtheta);
 						player.getBody().setLinearVelocity(playerState.vx, playerState.vy);
 					} else {
-						player.relocate(new Vector2(playerState.x, playerState.y), new Vector2(playerState.vx, playerState.vy));
+						player.relocate(new net.digiturtle.apollo.Vector2(playerState.x, playerState.y), 
+								new net.digiturtle.apollo.Vector2(playerState.vx, playerState.vy));
 						// FIXME set player orientation
 					}
 				}
@@ -108,7 +116,8 @@ public class Apollo extends ApplicationAdapter {
 					continue;//FIXME shouldn't need
 				}
 				if (player.getBody() == null) {
-					player.relocate(new Vector2(playerState.x, playerState.y), new Vector2(playerState.vx, playerState.vy));
+					player.relocate(new net.digiturtle.apollo.Vector2(playerState.x, playerState.y), 
+							new net.digiturtle.apollo.Vector2(playerState.vx, playerState.vy));
 					if (playerState.orientation == null) { //FIXME
 						playerState.orientation = Player.Direction.UP.name();
 					}
@@ -125,7 +134,8 @@ public class Apollo extends ApplicationAdapter {
 			System.out.println("Received a bullet packet.");
 			BulletPacket bullet = (BulletPacket)object;//FIXME need to correct for latency by including time stamp
 			if (!Apollo.userId.equals(bullet.shooter)) {
-				match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy), bullet.shooter);
+				match.addBullet(new net.digiturtle.apollo.Vector2(bullet.x, bullet.y), 
+						new net.digiturtle.apollo.Vector2(bullet.vx, bullet.vy), bullet.shooter);
 			}
 		}
 	}

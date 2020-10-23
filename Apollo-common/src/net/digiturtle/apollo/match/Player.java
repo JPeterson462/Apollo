@@ -1,13 +1,9 @@
-package net.digiturtle.apollo;
+package net.digiturtle.apollo.match;
 
 import java.util.UUID;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-
-import net.digiturtle.apollo.definitions.TeamDefinition;
-import net.digiturtle.apollo.graphics.RenderablePlayer;
-import net.digiturtle.apollo.graphics.VisualFX;
+import net.digiturtle.apollo.ApolloSettings;
+import net.digiturtle.apollo.Vector2;
 
 public class Player {
 	
@@ -46,23 +42,23 @@ public class Player {
 	public static final int ORIENTATION_LEFT = 1<<0, ORIENTATION_RIGHT = 1<<1, ORIENTATION_UP = 1<<2, ORIENTATION_DOWN = 1<<3;
 	
 	private UUID uuid;
-	private Body body;
+	private IBody body;
 	private int orientation = 0;
 	private Direction cache;
-	private RenderablePlayer renderablePlayer;
+	private IRenderablePlayer renderablePlayer;
 	private Vector2 position, velocity;
 	private int health, team;
-	private VisualFX visualFx;
+	private IVisualFX visualFx;
 	private Backpack backpack;
 	private State state;
 	
-	public Player (UUID uuid) {
+	public Player (UUID uuid, IVisualFX visualFx, IRenderablePlayer renderablePlayer) {
 		this.uuid = uuid;
-		renderablePlayer = new RenderablePlayer(TeamDefinition.COLOR_RED);
+		this.renderablePlayer = renderablePlayer;
 		position = new Vector2();
 		velocity = new Vector2();
 		health = ApolloSettings.PLAYER_HEALTH;
-		visualFx = new VisualFX();
+		this.visualFx = visualFx;
 		backpack = new Backpack();
 		state = State.STANDING;
 	}
@@ -75,7 +71,7 @@ public class Player {
 		return orientation;
 	}
 	
-	public RenderablePlayer getRenderablePlayer() {
+	public IRenderablePlayer getRenderablePlayer() {
 		return renderablePlayer;
 	}
 	
@@ -93,10 +89,12 @@ public class Player {
 	
 	public void setTeam (int team) {
 		this.team = team;
-		renderablePlayer = new RenderablePlayer(team);
+		if (renderablePlayer != null) {
+			renderablePlayer.setTeam(team);
+		}
 	}
 	
-	public VisualFX getVisualFX () {
+	public IVisualFX getVisualFX () {
 		return visualFx;
 	}
 	
@@ -118,11 +116,11 @@ public class Player {
 		}
 	}
 	
-	public void setBody (Body body) {
+	public void setBody (IBody body) {
 		this.body = body;
 	}
 	
-	public Body getBody () {
+	public IBody getBody () {
 		return body;
 	}
 	
