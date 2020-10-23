@@ -58,7 +58,7 @@ public class MatchInputController implements InputProcessor {
         				MathUtils.testRectanglePoint(match.getResourceRegions().get(0).getBounds(), player.getPosition()));
         }
         if (keycode == Input.Keys.SPACE) {//FIXME  fix the magic numbers
-        	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, +48 -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
+        	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
         	Vector2 mouseOnMap = MathUtils.screenToMap(mouse, tileSize);
         	Vector2 direction = mouseOnMap.nor();
         	Vector2 velocity = new Vector2(direction).scl(ApolloSettings.MAX_BULLET_DISTANCE);

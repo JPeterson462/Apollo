@@ -5,6 +5,7 @@ import java.util.UUID;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.match.Backpack;
+import net.digiturtle.apollo.match.Bullet;
 import net.digiturtle.apollo.match.DroppedBackpack;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
@@ -35,7 +36,9 @@ public class MatchSimulator implements IEventListener {
 			}
 		}
 		if (event instanceof PlayerShootEvent) {
+			PlayerShootEvent playerShootEvent = (PlayerShootEvent) event;
 			Player player = ((PlayerShootEvent) event).getPlayer();
+			match.getBullets().add(new Bullet(playerShootEvent.getPosition(), playerShootEvent.getVelocity(), player.getId()));
 			onMuzzleFlash(player);
 		}
 	}

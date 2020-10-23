@@ -58,5 +58,9 @@ public class Vector2 {
 		y *= s;
 		return this;
 	}
+	
+	public String toString () {
+		return "Vector2[" + x + ", " + y + "]";
+	}
 
 }

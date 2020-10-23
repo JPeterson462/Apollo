@@ -32,7 +32,8 @@ public class GdxIntegration {
 			gdxStart.set(start.x, start.y);
 			gdxEnd.set(end.x, end.y);
 			gdxCenter.set(center.x, center.y);
-			return Intersector.intersectSegmentCircle(gdxStart, gdxEnd, gdxCenter, radius);
+			//System.out.println("Intersect [" + start + ", " + end + "], (" + center + ", " + radius + ")");
+			return Intersector.intersectSegmentCircle(gdxStart, gdxEnd, gdxCenter, radius*radius);
 		}
 		
 	}
