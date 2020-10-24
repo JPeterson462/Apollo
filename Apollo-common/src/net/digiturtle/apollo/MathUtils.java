@@ -2,8 +2,23 @@ package net.digiturtle.apollo;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.function.Function;
 
 public class MathUtils {
+	
+	public static Vector2 getMouseDirection(Vector2 mousePosition, Vector2 screenSize) {
+		Vector2 mouse = new Vector2(mousePosition.x - screenSize.x/2, -(mousePosition.y - screenSize.y/2));
+    	Vector2 mouseOnMap = MathUtils.screenToMap(mouse, ApolloSettings.TILE_SIZE);
+    	Vector2 direction = mouseOnMap.nor();
+    	return direction;
+	}
+	
+	public static Function<Float, Float> createLagrangePolynomial(float x0, float x1, float x2, float mid) {
+		return t -> {
+			float c2 = mid * ((t - x0) * (t - x2) / ((x1 - x0) * (x1 - x2)));
+			return c2;
+		};
+	}
 	
 	public static Vector2 randomPoint(Rectangle rectangle, Random random) {
 		return new Vector2(rectangle.x + random.nextFloat() * rectangle.width, rectangle.y + random.nextFloat() * rectangle.height);

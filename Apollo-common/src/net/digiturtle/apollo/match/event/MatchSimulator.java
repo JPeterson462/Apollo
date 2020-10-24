@@ -77,7 +77,7 @@ public class MatchSimulator implements IEventListener {
 		for (int i = match.getExplosions().size() - 1; i >= 0; i--) {
 			Explosion explosion = match.getExplosions().get(i);
 			explosion.update(dt);
-			if (explosion.getTime() >= explosion.getLength()) {
+			if (explosion.getTime() >= explosion.getLength()+explosion.getDelay()) {
 				// process the collision when removing the explosion so it only happens once
 				for (java.util.Map.Entry<UUID, Player> player : match.getPlayersMap().entrySet()) {
 					int radius = explosion.getPower()/2;
@@ -123,7 +123,7 @@ public class MatchSimulator implements IEventListener {
 
 	public void processCollision (Object collider, Object impact) {
 		if (collider instanceof Bullet && impact instanceof Player) {
-			match.onEvent(new PlayerDamageEvent((Player)impact, PlayerDamageEvent.DamageType.BULLET));
+			match.onEvent(new PlayerDamageEvent(((Player)impact).getId(), PlayerDamageEvent.DamageType.BULLET));
 		}
 		if (collider instanceof Player && impact instanceof ResourceRegion) {
 			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
@@ -132,14 +132,14 @@ public class MatchSimulator implements IEventListener {
 			((Player) collider).getBackpack().deposit(((DroppedBackpack) impact).getBackpack());
 		}
 		if (collider instanceof Explosion && impact instanceof Player) {
-			match.onEvent(new PlayerDamageEvent((Player)impact, PlayerDamageEvent.DamageType.EXPLOSIVE));
+			match.onEvent(new PlayerDamageEvent(((Player)impact).getId(), PlayerDamageEvent.DamageType.EXPLOSIVE));
 		}
 	}
 	
 	@Override
 	public void onEvent (Event event) {
 		if (event instanceof PlayerDamageEvent) {
-			Player player = ((PlayerDamageEvent) event).getPlayer();
+			Player player = match.getPlayer(((PlayerDamageEvent) event).getPlayer());
 			if (((PlayerDamageEvent) event).getDamageType().equals(PlayerDamageEvent.DamageType.BULLET)) {
 				player.setHealth(player.getHealth() - ApolloSettings.BULLET_DAMAGE);
 				checkForDeath(player);
@@ -152,13 +152,13 @@ public class MatchSimulator implements IEventListener {
 		}
 		if (event instanceof PlayerShootEvent) {
 			PlayerShootEvent playerShootEvent = (PlayerShootEvent) event;
-			Player player = ((PlayerShootEvent) event).getPlayer();
+			Player player = match.getPlayer(((PlayerShootEvent) event).getPlayer());
 			match.getBullets().add(new Bullet(playerShootEvent.getPosition(), playerShootEvent.getVelocity(), player.getId()));
 			onMuzzleFlash(player);
 		}
 		if (event instanceof PlayerStateChangeEvent) {
 			PlayerStateChangeEvent playerStateChangeEvent = (PlayerStateChangeEvent) event;
-			Player player = playerStateChangeEvent.getPlayer();
+			Player player = match.getPlayer(playerStateChangeEvent.getPlayer());
 			player.setState(playerStateChangeEvent.getState());
 			player.changeOrientation(playerStateChangeEvent.getOrientation());
 			//FIXME use popState value

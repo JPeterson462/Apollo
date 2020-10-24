@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Circle;
@@ -30,6 +31,8 @@ public class Match {
 	//private Random random;
 	private boolean allowFriendlyFire;
 	private IEventListener eventListener;
+	
+	public static Consumer<Event> eventForwarder;
 	
 	public Match () {
 		
@@ -93,6 +96,10 @@ public class Match {
 	}
 	
 	public void onEvent(Event event) {//FIXME send event across network and timestamp it
+		if (!event.isRemote()) {
+			if (eventForwarder != null)
+				eventForwarder.accept(event);
+		}
 		eventListener.onEvent(event);
 	}
 	

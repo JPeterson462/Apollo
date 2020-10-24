@@ -16,6 +16,7 @@ import net.digiturtle.apollo.graphics.VisualFX;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.Resource;
+import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.MatchSimulator;
 import net.digiturtle.apollo.match.event.PlayerShootEvent;
 import net.digiturtle.apollo.networking.UdpClient;
@@ -44,6 +45,7 @@ public class Apollo extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		Match.eventForwarder = Apollo::send;
 		client = new UdpClient("localhost", 4560);
 		client.listen(this::onPacket);
 		fiberPool = new FiberPool(2);
@@ -51,7 +53,7 @@ public class Apollo extends ApplicationAdapter {
 		match = new Match(new GdxIntegration.GdxTiledMapLoader(), new GdxIntegration.GdxIntersector(), new ApolloVisualFXEngine());
 		matchRenderer = new MatchRenderer(match, new ApolloVisualFXEngine());
 		matchRenderer.create();
-        Gdx.input.setInputProcessor(new MatchInputController(match, ApolloSettings.TILE_SIZE));
+        Gdx.input.setInputProcessor(new MatchInputController(match));
         
         fiberPool.scheduleTask(() -> {
         	try {
@@ -63,6 +65,11 @@ public class Apollo extends ApplicationAdapter {
 	}
 	
 	public void onPacket(Object object) {
+		if (object instanceof Event) {
+			Event event = (Event) object;
+			event.setRemote(true);
+			match.onEvent(event);
+		}
 		//System.out.println(object);
 		if (object instanceof MatchStartPacket) {
 			Gdx.app.postRunnable(() -> {
@@ -128,8 +135,10 @@ public class Apollo extends ApplicationAdapter {
 					player.setDirection(Player.Direction.valueOf(playerState.orientation));
 					player.setState(playerState.state != null ? Player.State.valueOf(playerState.state) : Player.State.STANDING);
 					player.getBackpack().reset();
-					for (Map.Entry<String, Integer> item : playerState.backpack.contents.entrySet()) {
-						player.getBackpack().changeQuantity(Resource.valueOf(item.getKey()), item.getValue());
+					if (playerState.backpack != null && playerState.backpack.contents != null) {
+						for (Map.Entry<String, Integer> item : playerState.backpack.contents.entrySet()) {
+							player.getBackpack().changeQuantity(Resource.valueOf(item.getKey()), item.getValue());
+						}
 					}
 				}
 			}
@@ -138,7 +147,7 @@ public class Apollo extends ApplicationAdapter {
 			System.out.println("Received a bullet packet.");
 			BulletPacket bullet = (BulletPacket)object;//FIXME need to correct for latency by including time stamp
 			if (!Apollo.userId.equals(bullet.shooter)) {
-				match.onEvent(new PlayerShootEvent(match.getPlayer(bullet.shooter), new net.digiturtle.apollo.Vector2(bullet.x, bullet.y), 
+				match.onEvent(new PlayerShootEvent(bullet.shooter, new net.digiturtle.apollo.Vector2(bullet.x, bullet.y), 
 						new net.digiturtle.apollo.Vector2(bullet.vx, bullet.vy)));
 			}
 		}

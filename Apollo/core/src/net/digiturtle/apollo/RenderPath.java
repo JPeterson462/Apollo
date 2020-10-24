@@ -1,6 +1,6 @@
 package net.digiturtle.apollo;
 
-import com.badlogic.gdx.math.Vector2;
+import java.util.function.Function;
 
 public class RenderPath {
 	
@@ -12,12 +12,24 @@ public class RenderPath {
 	
 	// http://mathonline.wikidot.com/quadratic-lagrange-interpolating-polynomials
 	
+	private static void approximateIsometricHeight(Vector2 p, float height, Vector2 start, Vector2 end) {
+		//FIXME implement
+		p.x += height * (float)1/Math.sqrt(2);
+		p.y += height * (float)1/Math.sqrt(2);
+	}
+	
 	public static RenderPath createdProjectedArc(Vector2 start, float peak, Vector2 end, int steps) {
-		Vector2 mid = new Vector2((start.x + end.x) * .5f, (start.y + end.y) * .5f);
+		Function<Float, Float> polynomial = MathUtils.createLagrangePolynomial(start.x, (start.x + end.x)/2, end.x, peak);
 		Vector2[] rawPoints = new Vector2[steps + 1];
-		float[] rawHeights = new float[steps + 1];
-		//FIXME
-		return null;
+		for (int i = 0; i <= steps; i++) {
+			rawPoints[i] = new Vector2(start.x + (end.x - start.x) * (float)i/steps, start.y + (end.y - start.y) * (float)i/steps);
+			approximateIsometricHeight(rawPoints[i], polynomial.apply(rawPoints[i].x), start, end);
+		}
+		return new RenderPath(rawPoints);
+	}
+	
+	public Vector2[] getPoints () {
+		return points;
 	}
 	
 	public Vector2 getPointAt (float t) {

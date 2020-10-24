@@ -41,6 +41,14 @@ public class UdpServer {
 			send(object, client);
 		}
 	}
+	
+	public void forward (Object object, InetSocketAddress ip) {
+		for (InetSocketAddress client : clients) {
+			if (client != ip) {
+				send(object, client);
+			}
+		}
+	}
 
 	public void connect () throws InterruptedException {
 		EventLoopGroup group = new NioEventLoopGroup();

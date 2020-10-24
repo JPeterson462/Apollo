@@ -1,12 +1,13 @@
 package net.digiturtle.apollo.match.event;
 
+import java.util.UUID;
+
 import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.match.Explosion;
-import net.digiturtle.apollo.match.Player;
 
 public class PlayerExplosiveEvent extends Event {
 	
-	private Player player;
+	private UUID player;
 	
 	private Explosion explosion;
 	
@@ -16,17 +17,17 @@ public class PlayerExplosiveEvent extends Event {
 		
 	}
 	
-	public PlayerExplosiveEvent (Player player, Explosion explosion, Vector2 position) {
+	public PlayerExplosiveEvent (UUID player, Explosion explosion, Vector2 position) {
 		this.player = player;
 		this.explosion = explosion;
 		this.position = position;
 	}
 
-	public Player getPlayer() {
+	public UUID getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(UUID player) {
 		this.player = player;
 	}
 

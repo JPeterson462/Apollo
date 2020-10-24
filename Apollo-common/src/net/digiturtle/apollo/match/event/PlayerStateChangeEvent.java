@@ -1,10 +1,12 @@
 package net.digiturtle.apollo.match.event;
 
+import java.util.UUID;
+
 import net.digiturtle.apollo.match.Player;
 
 public class PlayerStateChangeEvent extends Event {
 	
-	private Player player;
+	private UUID player;
 	
 	private Player.State state;
 	
@@ -16,18 +18,18 @@ public class PlayerStateChangeEvent extends Event {
 		
 	}
 	
-	public PlayerStateChangeEvent (Player player, Player.State state, boolean popState, int orientation) {
+	public PlayerStateChangeEvent (UUID player, Player.State state, boolean popState, int orientation) {
 		this.player = player;
 		this.state = state;
 		this.popState = popState;
 		this.orientation = orientation;
 	}
 
-	public Player getPlayer() {
+	public UUID getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(UUID player) {
 		this.player = player;
 	}
 

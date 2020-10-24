@@ -1,6 +1,6 @@
 package net.digiturtle.apollo.match.event;
 
-import net.digiturtle.apollo.match.Player;
+import java.util.UUID;
 
 public class PlayerDamageEvent extends Event {
 	
@@ -9,7 +9,7 @@ public class PlayerDamageEvent extends Event {
 		EXPLOSIVE
 	}
 	
-	private Player player;
+	private UUID player;
 	
 	private DamageType damageType;
 	
@@ -17,16 +17,16 @@ public class PlayerDamageEvent extends Event {
 		
 	}
 	
-	public PlayerDamageEvent (Player player, DamageType damageType) {
+	public PlayerDamageEvent (UUID player, DamageType damageType) {
 		this.player = player;
 		this.damageType = damageType;
 	}
 
-	public Player getPlayer () {
+	public UUID getPlayer () {
 		return player;
 	}
 
-	public void setPlayer (Player player) {
+	public void setPlayer (UUID player) {
 		this.player = player;
 	}
 

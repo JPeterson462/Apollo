@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.MathUtils;
+import net.digiturtle.apollo.RenderPath;
 import net.digiturtle.apollo.match.Explosion;
 
 public class ExplosionRenderer {
@@ -14,7 +15,7 @@ public class ExplosionRenderer {
 	private SpriteBatch spriteBatch;
 	private OrthographicCamera camera;
 	private TextureRegion[] explosion1regions;
-	private Texture explosion1;//60
+	private Texture explosion1, explosion1projectile;//60
 	
 	public ExplosionRenderer (OrthographicCamera camera) {
 		this.camera = camera;
@@ -27,6 +28,7 @@ public class ExplosionRenderer {
 		for (int i = 0; i < 8; i++) {
 			explosion1regions[i] = new TextureRegion(explosion1, i * 256, 0, 256, 128);
 		}
+		explosion1projectile = new Texture("GrenadeV1.png");
 	}
 	
 	public void begin () {
@@ -36,8 +38,20 @@ public class ExplosionRenderer {
 	
 	public void render (Explosion explosion) {
 		net.digiturtle.apollo.Vector2 position = MathUtils.mapToScreen(explosion.getPosition(), ApolloSettings.TILE_SIZE);
-		if (explosion.getPower() == 60) {
-			spriteBatch.draw(explosion1regions[(int) (8 * explosion.getTime() / explosion.getLength())], position.x, position.y);
+		if (explosion.getPower() == ApolloSettings.EXPLOSION_POWER) {
+			if (explosion.getTime() < explosion.getDelay()) {
+				RenderPath renderPath = new RenderPath(explosion.getPath());
+				position = MathUtils.mapToScreen(renderPath.getPointAt(explosion.getTime()/explosion.getDelay()), ApolloSettings.TILE_SIZE);
+				position.x += ApolloSettings.TILE_SIZE/2;
+				position.y += ApolloSettings.TILE_SIZE/4;
+				
+				//FIXME magic numbers \/
+				position.y += ApolloSettings.CHARACTER_SIZE/2;
+				
+				spriteBatch.draw(explosion1projectile, position.x, position.y);
+			} else {
+				spriteBatch.draw(explosion1regions[(int) (8 * (explosion.getTime()-explosion.getDelay()) / explosion.getLength())], position.x, position.y);
+			}
 		}
 	}
 	

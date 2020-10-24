@@ -22,6 +22,7 @@ public class DebugRenderer {
 		line.start = start;
 		line.end = end;
 		lines.add(line);
+		System.out.println(line.start + " " + line.end);
 	}
 	
 	public static void create () {

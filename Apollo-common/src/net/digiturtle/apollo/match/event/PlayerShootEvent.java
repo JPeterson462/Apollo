@@ -1,11 +1,12 @@
 package net.digiturtle.apollo.match.event;
 
+import java.util.UUID;
+
 import net.digiturtle.apollo.Vector2;
-import net.digiturtle.apollo.match.Player;
 
 public class PlayerShootEvent extends Event {
 
-	private Player player;
+	private UUID player;
 	
 	private Vector2 position, velocity;
 	
@@ -13,17 +14,17 @@ public class PlayerShootEvent extends Event {
 		
 	}
 	
-	public PlayerShootEvent (Player player, Vector2 position, Vector2 velocity) {
+	public PlayerShootEvent (UUID player, Vector2 position, Vector2 velocity) {
 		this.player = player;
 		this.position = position;
 		this.velocity = velocity;
 	}
 
-	public Player getPlayer() {
+	public UUID getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
+	public void setPlayer(UUID player) {
 		this.player = player;
 	}
 

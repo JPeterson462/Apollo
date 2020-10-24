@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import net.digiturtle.apollo.FiberPool;
 import net.digiturtle.apollo.SharedUtils;
+import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.networking.UdpServer;
 import net.digiturtle.apollo.packets.BulletPacket;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
@@ -97,6 +98,9 @@ public class MatchServer {
 				// TODO FIXME this needs security so you can't update other players
 				PlayerStatePacket playerState = (PlayerStatePacket)object;
 				playerStates.put(playerState.uuid, playerState);
+			}
+			if (object instanceof Event) {
+				server.forward(object, sender);
 			}
 		});
 		fiberPool.scheduleTask(() -> {

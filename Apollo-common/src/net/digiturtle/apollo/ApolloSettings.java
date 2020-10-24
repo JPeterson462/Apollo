@@ -13,6 +13,11 @@ public interface ApolloSettings {
 	//public static final String FONT_FACE = "arial-15";
 	
 	public static final int MAX_BULLET_DISTANCE = 1024;
+	public static final int EXPLOSION_DISTANCE = 128;
+	public static final float EXPLOSION_TIME = 0.4f;
+	public static final int EXPLOSION_POWER = 60;
+	public static final float EXPLOSION_TIME_TO_HIT = 1f;
+	public static final int EXPLOSION_PATH_INTERVALS = 6;
 	
 	public static final int TILE_SIZE = 256;
 	
