@@ -9,6 +9,9 @@ import net.digiturtle.apollo.match.Explosion;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.ResourceRegion;
+import net.digiturtle.apollo.match.event.PlayerExplosiveEvent;
+import net.digiturtle.apollo.match.event.PlayerShootEvent;
+import net.digiturtle.apollo.match.event.PlayerStateChangeEvent;
 import net.digiturtle.apollo.packets.BulletPacket;
 
 public class MatchInputController implements InputProcessor {
@@ -26,14 +29,18 @@ public class MatchInputController implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		Player player = match.getPlayer(Apollo.userId);
 		if (player == null) return false;
-        if(keycode == Input.Keys.A)
-            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_LEFT);
-        if(keycode == Input.Keys.D)
-            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_RIGHT);
-        if(keycode == Input.Keys.W)
-            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_UP);
-        if(keycode == Input.Keys.S)
-            player.changeOrientation(player.getOrientation() | Player.ORIENTATION_DOWN);
+        if(keycode == Input.Keys.A) {
+        	match.onEvent(new PlayerStateChangeEvent(player, Player.State.WALKING, false, player.getOrientation() | Player.ORIENTATION_LEFT));
+        }
+        if(keycode == Input.Keys.D) {
+            match.onEvent(new PlayerStateChangeEvent(player, Player.State.WALKING, false, player.getOrientation() | Player.ORIENTATION_RIGHT));
+        }
+        if(keycode == Input.Keys.W) {
+            match.onEvent(new PlayerStateChangeEvent(player, Player.State.WALKING, false, player.getOrientation() | Player.ORIENTATION_UP));
+        }
+        if(keycode == Input.Keys.S) {
+            match.onEvent(new PlayerStateChangeEvent(player, Player.State.WALKING, false, player.getOrientation() | Player.ORIENTATION_DOWN));
+        }
         	
         return true;
 	}
@@ -42,14 +49,18 @@ public class MatchInputController implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		Player player = match.getPlayer(Apollo.userId);
 		if (player == null) return false;
-        if(keycode == Input.Keys.A)
-            player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_LEFT);
-        if(keycode == Input.Keys.D)
-        	player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_RIGHT);
-        if(keycode == Input.Keys.W)
-        	player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_UP);
-        if(keycode == Input.Keys.S)
-            player.changeOrientation(player.getOrientation() & ~Player.ORIENTATION_DOWN);
+        if(keycode == Input.Keys.A) {
+            match.onEvent(new PlayerStateChangeEvent(player, Player.State.STANDING, false, player.getOrientation() & ~Player.ORIENTATION_LEFT));
+        }
+        if(keycode == Input.Keys.D) {
+        	match.onEvent(new PlayerStateChangeEvent(player, Player.State.STANDING, false, player.getOrientation() & ~Player.ORIENTATION_RIGHT));
+        }
+        if(keycode == Input.Keys.W) {
+        	match.onEvent(new PlayerStateChangeEvent(player, Player.State.STANDING, false, player.getOrientation() & ~Player.ORIENTATION_UP));
+        }
+        if(keycode == Input.Keys.S) {
+            match.onEvent(new PlayerStateChangeEvent(player, Player.State.STANDING, false, player.getOrientation() & ~Player.ORIENTATION_DOWN));
+        }
         
         if (keycode == Input.Keys.GRAVE) {
         	System.out.println(player.getPosition() + " | " + 
@@ -57,7 +68,7 @@ public class MatchInputController implements InputProcessor {
         				match.getResourceRegions().get(0).getBounds().contains(player.getPosition()) + " | " + 
         				MathUtils.testRectanglePoint(match.getResourceRegions().get(0).getBounds(), player.getPosition()));
         }
-        if (keycode == Input.Keys.SPACE) {//FIXME  fix the magic numbers
+        if (keycode == Input.Keys.SPACE) {
         	Vector2 mouse = new Vector2(Gdx.input.getX() - Gdx.graphics.getWidth()/2, -(Gdx.input.getY() - Gdx.graphics.getHeight()/2));
         	Vector2 mouseOnMap = MathUtils.screenToMap(mouse, tileSize);
         	Vector2 direction = mouseOnMap.nor();
@@ -69,7 +80,7 @@ public class MatchInputController implements InputProcessor {
         	bullet.y = player.getPosition().y;
         	bullet.vx = velocity.x;
         	bullet.vy = velocity.y;
-        	match.addBullet(new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy), Apollo.userId);
+        	match.onEvent(new PlayerShootEvent(match.getPlayer(Apollo.userId), new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy)));
         	
         	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
         			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
@@ -77,12 +88,10 @@ public class MatchInputController implements InputProcessor {
         	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
         			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
         	
-        	System.out.println(bullet.x + " " + bullet.y + " "  + bullet.vx + " " + bullet.vy);
-        	
         	Apollo.send(bullet);
         }
         if (keycode == Input.Keys.NUM_1) {
-        	match.getExplosions().add(new Explosion(new Vector2(player.getPosition()), 60, .4f));
+        	match.onEvent(new PlayerExplosiveEvent(player, new Explosion(new Vector2(player.getPosition()), 60, .4f), player.getPosition()));
         }
         return true;
 	}
@@ -101,7 +110,7 @@ public class MatchInputController implements InputProcessor {
 		if (button == Input.Buttons.LEFT) {
 			ResourceRegion currentRegion = match.getResourceRegion(player);
 			if (currentRegion != null) {
-				player.setState(Player.State.COLLECTING);
+				match.onEvent(new PlayerStateChangeEvent(player, Player.State.COLLECTING, false, player.getOrientation()));
 			}
 		}
 		return true;
@@ -112,16 +121,8 @@ public class MatchInputController implements InputProcessor {
 		Player player = match.getPlayer(Apollo.userId);
 		Apollo.debugMessage = "Mouse Up: " + button;
 		if (button == Input.Buttons.LEFT) {
-			/*ResourceRegion currentRegion = match.getResourceRegion(player);
-			if (currentRegion != null) {//FIXME intermittently collect
-				Apollo.debugMessage = "Not Collecting";
-				float t = (System.currentTimeMillis() - startedCollecting) / 1000f;
-				int collected = currentRegion.collect(t);
-				player.getBackpack().changeQuantity(currentRegion.getResource(), collected);
-				System.out.println("Player [" + player.getId() + "] collected " + collected + " of " + currentRegion.getResource().name());
-			}*/
 			if (player.getState().equals(Player.State.COLLECTING)) {
-				player.setState(Player.State.STANDING);
+				match.onEvent(new PlayerStateChangeEvent(player, Player.State.STANDING, true, player.getOrientation()));
 			}
 		}
 		return true;

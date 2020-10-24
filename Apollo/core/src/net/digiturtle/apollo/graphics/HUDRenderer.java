@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.MathUtils;
-import net.digiturtle.apollo.SharedUtils;
 import net.digiturtle.apollo.definitions.TeamDefinition;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;

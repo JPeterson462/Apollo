@@ -14,7 +14,6 @@ import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
 import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.IEventListener;
 import net.digiturtle.apollo.match.event.MatchSimulator;
-import net.digiturtle.apollo.match.event.PlayerShootEvent;
 
 public class Match {
 	
@@ -93,7 +92,7 @@ public class Match {
 		return allowFriendlyFire;
 	}
 	
-	public void onEvent(Event event) {
+	public void onEvent(Event event) {//FIXME send event across network and timestamp it
 		eventListener.onEvent(event);
 	}
 	
@@ -166,10 +165,6 @@ public class Match {
 		return bullets;
 	}
 
-	public void addBullet (Vector2 position, Vector2 velocity, UUID shooter) {
-		eventListener.onEvent(new PlayerShootEvent(getPlayer(shooter), position, velocity));
-	}
-	
 	public void addPlayer (Player player, IBody body) {
 		player.setBody(body);
 		players.put(player.getId(), player);

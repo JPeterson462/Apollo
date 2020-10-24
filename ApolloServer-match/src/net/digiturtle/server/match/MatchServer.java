@@ -1,8 +1,6 @@
 package net.digiturtle.server.match;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;

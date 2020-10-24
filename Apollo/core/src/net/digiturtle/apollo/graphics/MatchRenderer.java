@@ -29,7 +29,6 @@ public class MatchRenderer {
 	private OrthographicCamera camera;
 	private TiledMapRenderer tiledMapRenderer;
 	private PlayerRenderer playerRenderer;
-	private BulletsRenderer bulletsRenderer;
 	private HUDRenderer hudRenderer;
 	private ExplosionRenderer explosionRenderer;
 	private VisualFXEngine fxEngine;
@@ -54,8 +53,6 @@ public class MatchRenderer {
         tiledMapRenderer = new IsometricTiledMapRenderer(((GdxTiledMap) match.getTiledMap()).tiledMap);
         playerRenderer = new PlayerRenderer();
         playerRenderer.create();
-        bulletsRenderer = new BulletsRenderer();
-        bulletsRenderer.create();
         hudRenderer = new HUDRenderer(match);
         hudRenderer.create();
         explosionRenderer = new ExplosionRenderer(camera);
@@ -106,8 +103,6 @@ public class MatchRenderer {
         camera.translate(0, -testval);//FIXME this is tile size * .5 ?? maybe not
         
         camera.update();
-        
-        bulletsRenderer.render(camera, match.getBullets(), ApolloSettings.TILE_SIZE);
 
         camera.translate(0, 80);//FIXME magic number
         

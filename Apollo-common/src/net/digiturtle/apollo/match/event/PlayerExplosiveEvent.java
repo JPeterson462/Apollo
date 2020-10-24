@@ -1,22 +1,25 @@
 package net.digiturtle.apollo.match.event;
 
 import net.digiturtle.apollo.Vector2;
+import net.digiturtle.apollo.match.Explosion;
 import net.digiturtle.apollo.match.Player;
 
-public class PlayerShootEvent extends Event {
-
+public class PlayerExplosiveEvent extends Event {
+	
 	private Player player;
 	
-	private Vector2 position, velocity;
+	private Explosion explosion;
 	
-	public PlayerShootEvent () {
+	private Vector2 position;
+	
+	public PlayerExplosiveEvent () {
 		
 	}
 	
-	public PlayerShootEvent (Player player, Vector2 position, Vector2 velocity) {
+	public PlayerExplosiveEvent (Player player, Explosion explosion, Vector2 position) {
 		this.player = player;
+		this.explosion = explosion;
 		this.position = position;
-		this.velocity = velocity;
 	}
 
 	public Player getPlayer() {
@@ -27,6 +30,14 @@ public class PlayerShootEvent extends Event {
 		this.player = player;
 	}
 
+	public Explosion getExplosion() {
+		return explosion;
+	}
+
+	public void setExplosion(Explosion explosion) {
+		this.explosion = explosion;
+	}
+
 	public Vector2 getPosition() {
 		return position;
 	}
@@ -35,12 +46,4 @@ public class PlayerShootEvent extends Event {
 		this.position = position;
 	}
 
-	public Vector2 getVelocity() {
-		return velocity;
-	}
-
-	public void setVelocity(Vector2 velocity) {
-		this.velocity = velocity;
-	}
-	
 }

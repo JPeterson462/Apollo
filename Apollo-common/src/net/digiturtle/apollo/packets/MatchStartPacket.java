@@ -6,7 +6,6 @@ public class MatchStartPacket {
 	
 	public PlayerStatePacket[] playerStates;
 	
-	@SuppressWarnings("exports")
 	public MatchDefinition matchDefinition;
 
 }

@@ -31,9 +31,7 @@ public class MatchSimulator implements IEventListener {
 	public void update (float dt) {
 		match.setTimeLeft(match.getTimeLeft() - dt);
 		for (java.util.Map.Entry<UUID, Player> player : match.getPlayersMap().entrySet()) {
-			//if (player.getValue().getBody() == null) {
-				player.getValue().update(dt);
-			//}
+			player.getValue().update(dt);
 		}
 		for (int i = match.getBullets().size() - 1; i >= 0; i--) {
 			ArrayList<Player> playersHit = new ArrayList<>();
@@ -41,8 +39,6 @@ public class MatchSimulator implements IEventListener {
 				if (!match.getBullets().get(i).getShooter().equals(player.getKey())) {
 					if (match.getIntersector().intersectSegmentCircle(match.getBullets().get(i).getPosition(), 
 							new Vector2(match.getBullets().get(i).getPosition()).add(match.getBullets().get(i).getVelocity()), player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2)) {
-						//processCollision(bullets.get(i), player.getValue());
-						//break;
 						playersHit.add(player.getValue());
 					}
 				}
@@ -159,6 +155,17 @@ public class MatchSimulator implements IEventListener {
 			Player player = ((PlayerShootEvent) event).getPlayer();
 			match.getBullets().add(new Bullet(playerShootEvent.getPosition(), playerShootEvent.getVelocity(), player.getId()));
 			onMuzzleFlash(player);
+		}
+		if (event instanceof PlayerStateChangeEvent) {
+			PlayerStateChangeEvent playerStateChangeEvent = (PlayerStateChangeEvent) event;
+			Player player = playerStateChangeEvent.getPlayer();
+			player.setState(playerStateChangeEvent.getState());
+			player.changeOrientation(playerStateChangeEvent.getOrientation());
+			//FIXME use popState value
+		}
+		if (event instanceof PlayerExplosiveEvent) {
+			PlayerExplosiveEvent playerExplosiveEvent = (PlayerExplosiveEvent) event;
+			match.getExplosions().add(playerExplosiveEvent.getExplosion());//FIXME render path
 		}
 	}
 

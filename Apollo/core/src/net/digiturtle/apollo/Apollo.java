@@ -7,7 +7,6 @@ import java.util.UUID;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
 
 import net.digiturtle.apollo.GdxIntegration.GdxWorld;
 import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
@@ -18,6 +17,7 @@ import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.Resource;
 import net.digiturtle.apollo.match.event.MatchSimulator;
+import net.digiturtle.apollo.match.event.PlayerShootEvent;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.packets.BackpackPacket;
 import net.digiturtle.apollo.packets.BulletPacket;
@@ -138,8 +138,8 @@ public class Apollo extends ApplicationAdapter {
 			System.out.println("Received a bullet packet.");
 			BulletPacket bullet = (BulletPacket)object;//FIXME need to correct for latency by including time stamp
 			if (!Apollo.userId.equals(bullet.shooter)) {
-				match.addBullet(new net.digiturtle.apollo.Vector2(bullet.x, bullet.y), 
-						new net.digiturtle.apollo.Vector2(bullet.vx, bullet.vy), bullet.shooter);
+				match.onEvent(new PlayerShootEvent(match.getPlayer(bullet.shooter), new net.digiturtle.apollo.Vector2(bullet.x, bullet.y), 
+						new net.digiturtle.apollo.Vector2(bullet.vx, bullet.vy)));
 			}
 		}
 	}
