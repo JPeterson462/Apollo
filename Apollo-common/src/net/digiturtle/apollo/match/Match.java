@@ -11,9 +11,9 @@ import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.definitions.MatchDefinition;
 import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
+import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.IEventListener;
 import net.digiturtle.apollo.match.event.MatchSimulator;
-import net.digiturtle.apollo.match.event.PlayerDamageEvent;
 import net.digiturtle.apollo.match.event.PlayerShootEvent;
 
 public class Match {
@@ -85,6 +85,22 @@ public class Match {
         explosions = new ArrayList<>();
 	}
 	
+	public void setTimeLeft(float lengthSeconds) {
+		this.lengthSeconds = lengthSeconds;
+	}
+	
+	public boolean canAllowFriendlyFire () {
+		return allowFriendlyFire;
+	}
+	
+	public void onEvent(Event event) {
+		eventListener.onEvent(event);
+	}
+	
+	public IIntersector getIntersector () {
+		return intersector;
+	}
+	
 	public IWorld getWorld () {
 		return world;
 	}
@@ -101,101 +117,8 @@ public class Match {
 		return Math.max(0, lengthSeconds);
 	}
 	
-	public void update (float dt) {
-		lengthSeconds -= dt;
-		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-			//if (player.getValue().getBody() == null) {
-				player.getValue().update(dt);
-			//}
-		}
-		for (int i = bullets.size() - 1; i >= 0; i--) {
-			ArrayList<Player> playersHit = new ArrayList<>();
-			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-				if (!bullets.get(i).getShooter().equals(player.getKey())) {
-					if (intersector.intersectSegmentCircle(bullets.get(i).getPosition(), 
-							new Vector2(bullets.get(i).getPosition()).add(bullets.get(i).getVelocity()), player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2)) {
-						//processCollision(bullets.get(i), player.getValue());
-						//break;
-						playersHit.add(player.getValue());
-					}
-				}
-			}
-			Bullet bullet = bullets.get(i);
-			if (playersHit.size() > 0) {
-				Player firstToBeHit = playersHit.get(0);
-				float distance = MathUtils.distanceSquared(firstToBeHit.getPosition(), bullet.getPosition());
-				for (int j = 1; j < playersHit.size(); j++) {
-					float newDistance = MathUtils.distanceSquared(playersHit.get(j).getPosition(), bullet.getPosition());
-					if (newDistance < distance) {
-						firstToBeHit = playersHit.get(j);
-					}
-				}
-				if (allowFriendlyFire || firstToBeHit.getTeam() != getPlayer(bullet.getShooter()).getTeam()) {
-					processCollision(bullet, firstToBeHit);
-				}
-			}
-		}
-		bullets.clear();
-		for (int i = droppedBackpacks.size() - 1; i >= 0; i--) {
-			for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-				Circle circle = new Circle();
-				circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
-				if (MathUtils.overlaps(droppedBackpacks.get(i).getBounds(), circle)) {
-					processCollision(player.getValue(), droppedBackpacks.get(i));
-					droppedBackpacks.remove(i);
-					break;
-				}
-			}
-		}
-		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-			Circle circle = new Circle();
-			circle.set(player.getValue().getPosition(), ApolloSettings.CHARACTER_SIZE/2);
-		}
-		for (int i = explosions.size() - 1; i >= 0; i--) {
-			Explosion explosion = explosions.get(i);
-			explosion.update(dt);
-			if (explosion.getTime() >= explosion.getLength()) {
-				// process the collision when removing the explosion so it only happens once
-				for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-					int radius = explosion.getPower()/2;
-					if (MathUtils.distanceSquared(player.getValue().getPosition(), explosion.getPosition()) < radius*radius) {
-						processCollision(explosion, player.getValue());
-					}
-				}
-				explosions.remove(i);
-			}
-		}
-		world.step(dt, 8, 3);
-		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-			Team team = teams[player.getValue().getTeam()];
-			if (team.containsPoint(player.getValue().getPosition())) {
-				if (!player.getValue().getBackpack().isEmpty()) {
-					team.getBank().deposit(player.getValue().getBackpack());
-					player.getValue().setBackpack(new Backpack());
-				}
-			}
-			player.getValue().getVisualFX().update(dt);
-		}
-		for (ResourceRegion resourceRegion : resourceRegions) {
-			resourceRegion.update(dt);
-		}
-		for (DroppedBackpack droppedBackpack : droppedBackpacks) {
-			droppedBackpack.update(dt);
-		}
-		for (java.util.Map.Entry<UUID, Player> player : players.entrySet()) {
-			if (player.getValue().getState().equals(Player.State.COLLECTING)) {
-				System.out.println("Collecting " + player.getValue().getBackpack().getContents().get(Resource.COAL) + " vs " + resourceRegions.get(0).getQuantity());
-				ResourceRegion resourceRegion = this.getResourceRegion(player.getValue());
-				// FIXME if the time intervals are inexact, should I store the dt - collected*x and handle in the next frame?
-				if (resourceRegion != null) {
-					int collected = resourceRegion.collect(dt);
-					player.getValue().getBackpack().changeQuantity(resourceRegion.getResource(), collected);
-				}
-			} else {
-				//Apollo.debugMessage = "Not Collecting" + getPlayer(Apollo.userId).getBackpack().getContents().get(Resource.COAL) + " vs " + resourceRegions.get(0).getQuantity();
-				
-			}
-		}
+	public HashMap<UUID, Player> getPlayersMap () {
+		return players;
 	}
 	
 	public void respawnAllPlayers () {
@@ -206,21 +129,6 @@ public class Match {
 	
 	public void respawnPlayer (Player player) {
 		player.setPosition(teams[player.getTeam()].getRespawnPoint());
-	}
-	
-	public void processCollision (Object collider, Object impact) {
-		if (collider instanceof Bullet && impact instanceof Player) {
-			eventListener.onEvent(new PlayerDamageEvent((Player)impact, PlayerDamageEvent.DamageType.BULLET));
-		}
-		if (collider instanceof Player && impact instanceof ResourceRegion) {
-			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
-		}
-		if (collider instanceof Player && impact instanceof DroppedBackpack) {
-			((Player) collider).getBackpack().deposit(((DroppedBackpack) impact).getBackpack());
-		}
-		if (collider instanceof Explosion && impact instanceof Player) {
-			eventListener.onEvent(new PlayerDamageEvent((Player)impact, PlayerDamageEvent.DamageType.EXPLOSIVE));
-		}
 	}
 	
 	public ResourceRegion getResourceRegion (Player player) {
@@ -259,25 +167,11 @@ public class Match {
 	}
 
 	public void addBullet (Vector2 position, Vector2 velocity, UUID shooter) {
-		/*System.out.println("Someone fired a bullet.");
-		Bullet bullet = new Bullet(position, velocity, shooter);
-		bullets.add(bullet);
-		onMuzzleFlash(shooter);
-		return bullet;*/
 		eventListener.onEvent(new PlayerShootEvent(getPlayer(shooter), position, velocity));
 	}
 	
 	public void addPlayer (Player player, IBody body) {
-		//if (simulated) {
-			/*BodyDef bodyDef = new BodyDef();
-			bodyDef.type = BodyDef.BodyType.DynamicBody;
-			Body body = world.createBody(bodyDef);
-		    PolygonShape polygonShape = new PolygonShape();
-		    polygonShape.setAsBox(32/2, 32/2);
-			Fixture fixture = body.createFixture(polygonShape, 1);
-			fixture.setFriction(0.1f);*/
-			player.setBody(body);
-		//}
+		player.setBody(body);
 		players.put(player.getId(), player);
 	}
 	

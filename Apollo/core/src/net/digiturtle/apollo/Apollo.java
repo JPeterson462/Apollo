@@ -17,6 +17,7 @@ import net.digiturtle.apollo.graphics.VisualFX;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.Resource;
+import net.digiturtle.apollo.match.event.MatchSimulator;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.packets.BackpackPacket;
 import net.digiturtle.apollo.packets.BulletPacket;
@@ -31,6 +32,7 @@ public class Apollo extends ApplicationAdapter {
 	
 	private MatchRenderer matchRenderer;
 	private Match match;
+	private MatchSimulator matchSimulator;
 	public static final UUID userId = UUID.randomUUID();
 	
 	private static UdpClient client;
@@ -85,6 +87,8 @@ public class Apollo extends ApplicationAdapter {
 				}
 				
 				match.respawnAllPlayers();
+				
+				matchSimulator = new MatchSimulator(match, new ApolloVisualFXEngine());
 				
 				fiberPool.scheduleTask(25, () -> {
 					PlayerStatePacket playerState = new PlayerStatePacket();
@@ -156,7 +160,9 @@ public class Apollo extends ApplicationAdapter {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         matchRenderer.render();
-        match.update(Gdx.graphics.getDeltaTime());
+        if (matchSimulator != null) {
+        	matchSimulator.update(Gdx.graphics.getDeltaTime());
+        }
 	}
 	
 	@Override
