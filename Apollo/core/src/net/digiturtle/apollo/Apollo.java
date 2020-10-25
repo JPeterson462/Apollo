@@ -15,15 +15,12 @@ import net.digiturtle.apollo.graphics.RenderablePlayer;
 import net.digiturtle.apollo.graphics.VisualFX;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
-import net.digiturtle.apollo.match.Resource;
 import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.MatchConnectEvent;
 import net.digiturtle.apollo.match.event.MatchSimulator;
 import net.digiturtle.apollo.match.event.MatchStartEvent;
 import net.digiturtle.apollo.match.event.PlayerEvent;
 import net.digiturtle.apollo.networking.UdpClient;
-import net.digiturtle.apollo.packets.MatchStatePacket;
-import net.digiturtle.apollo.packets.PlayerStatePacket;
 
 public class Apollo extends ApplicationAdapter {
 	
@@ -96,7 +93,7 @@ public class Apollo extends ApplicationAdapter {
 			match.onEvent(event);
 		}
 		//System.out.println(object);
-		if (object instanceof MatchStatePacket) {
+		/*if (object instanceof MatchStatePacket) {
 			MatchStatePacket matchState = (MatchStatePacket)object;
 			for (PlayerStatePacket playerState : matchState.playerStates) {
 				if (playerState.uuid.equals(Apollo.userId)) {
@@ -122,7 +119,7 @@ public class Apollo extends ApplicationAdapter {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	private boolean _sentConnect = false;
