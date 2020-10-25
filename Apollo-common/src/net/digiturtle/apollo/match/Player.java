@@ -229,10 +229,16 @@ public class Player {
 				cache = Direction.RIGHT;
 			}
 			else {
-				if (cache == null) {
+				/*if (cache == null) {
 					cache = Direction.DOWN;
+				}*/
+				if (orientation != this.orientation) {
+					cache = getDirection(this.orientation);
 				}
 			}
+		}
+		if (cache == null) {
+			cache = Direction.DOWN;
 		}
 		return cache;
 	}
@@ -272,8 +278,8 @@ public class Player {
 	}
 	
 	public void changeOrientation (int orientation) {
-		this.orientation = orientation;
 		orientRenderablePlayer(getDirection(orientation));
+		this.orientation = orientation;
 	}
 	
 	public State getState () {
