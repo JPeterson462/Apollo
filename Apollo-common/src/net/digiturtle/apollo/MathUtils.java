@@ -92,7 +92,7 @@ public class MathUtils {
 		float tileWidth = tileSize, tileHeight = tileSize * 0.5f;
 		map.x = tileSize * (screen.x / tileWidth + screen.y / tileHeight) /2;
 		map.y = tileSize * (screen.y / tileHeight - (screen.x / tileWidth)) /2;
-		return map.scl(1f / 3f);//FIXME save 1/3 as a constant
+		return map.scl(1f / 3f); //FIXME save 1/3 as a constant
 	}
 	
 	public static Vector2 mapToScreen(Vector2 map, float tileSize) {
@@ -100,7 +100,7 @@ public class MathUtils {
 		float tileWidth = tileSize, tileHeight = tileSize * 0.5f;
 		screen.x = (map.x - map.y) * tileWidth / tileSize;
 		screen.y = (map.x + map.y) * tileHeight / tileSize;
-		return screen;
+		return screen.scl(4);//FIXME TODO MOVETHIS
 	}
 
 }

@@ -86,7 +86,7 @@ public class GdxIntegration {
 		    PolygonShape polygonShape = new PolygonShape();
 		    polygonShape.setAsBox(32/2, 32/2);
 			Fixture fixture = body.createFixture(polygonShape, 1);
-			fixture.setFriction(0.1f); 
+			fixture.setFriction(0);//0.1f); 
 			linearVelocity = new Vector2();
 			position = new Vector2();
 		}

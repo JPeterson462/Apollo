@@ -1,12 +1,12 @@
 package net.digiturtle.apollo;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.physics.box2d.World;
 
 import net.digiturtle.apollo.GdxIntegration.GdxWorld;
 import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
@@ -22,8 +22,6 @@ import net.digiturtle.apollo.match.event.MatchSimulator;
 import net.digiturtle.apollo.match.event.MatchStartEvent;
 import net.digiturtle.apollo.match.event.PlayerEvent;
 import net.digiturtle.apollo.networking.UdpClient;
-import net.digiturtle.apollo.packets.BackpackPacket;
-import net.digiturtle.apollo.packets.MatchStartPacket;
 import net.digiturtle.apollo.packets.MatchStatePacket;
 import net.digiturtle.apollo.packets.PlayerStatePacket;
 
@@ -46,9 +44,12 @@ public class Apollo extends ApplicationAdapter {
 	@Override
 	public void create () {
 		Match.eventForwarder = Apollo::send;
+		Match.isClient = (uuid) -> uuid != null && uuid.equals(Apollo.userId);
 		client = new UdpClient("localhost", 4560);
 		client.listen(this::onPacket);
 		fiberPool = new FiberPool(2);
+		
+		World.setVelocityThreshold(2);
 		
 		match = new Match(new GdxIntegration.GdxTiledMapLoader(), new GdxIntegration.GdxIntersector(), new ApolloVisualFXEngine());
 		matchRenderer = new MatchRenderer(match, new ApolloVisualFXEngine());
@@ -87,24 +88,6 @@ public class Apollo extends ApplicationAdapter {
 				match.respawnAllPlayers();
 				
 				matchSimulator = new MatchSimulator(match, new ApolloVisualFXEngine());
-				
-				fiberPool.scheduleTask(25, () -> {
-					PlayerStatePacket playerState = new PlayerStatePacket();
-					Player player = match.getPlayer(Apollo.userId);
-					playerState.uuid = Apollo.userId;
-					playerState.x = player.getPosition().x;
-					playerState.y = player.getPosition().y;
-					playerState.orientation = player.getDirection().name();
-					playerState.vx = player.getVelocity().x;
-					playerState.vy = player.getVelocity().y;
-					playerState.state = player.getState().name();
-					playerState.backpack = new BackpackPacket();
-					playerState.backpack.contents = new HashMap<>();
-					for (Map.Entry<Resource, Integer> item : player.getBackpack().getContents().entrySet()) {
-						playerState.backpack.contents.put(item.getKey().name(), item.getValue());
-					}
-					client.send(playerState);
-				});
 			});
 		}
 		if (object instanceof PlayerEvent) {
@@ -113,51 +96,6 @@ public class Apollo extends ApplicationAdapter {
 			match.onEvent(event);
 		}
 		//System.out.println(object);
-		if (object instanceof MatchStartPacket) {
-			Gdx.app.postRunnable(() -> {
-				// Initialize on UI thread, FIXME to avoid race conditions
-				MatchStartPacket matchStart = (MatchStartPacket)object;
-				
-				match.load(matchStart.matchDefinition, new GdxIntegration.GdxTiledMapLoader(), new GdxIntegration.GdxIntersector(), new ApolloVisualFXEngine());
-				
-				for (PlayerStatePacket playerState : matchStart.playerStates) {
-					Player player = new Player(playerState.uuid, new VisualFX(), new RenderablePlayer(playerState.team)); //match.getPlayer(playerState.uuid);
-					player.setTeam(playerState.team);
-					match.addPlayer(player, playerState.uuid.equals(Apollo.userId) ? new GdxIntegration.GdxBody((GdxWorld) match.getWorld()) : null);
-					if (player.getBody() != null) {
-						player.getBody().setTransform(new net.digiturtle.apollo.Vector2(playerState.x, playerState.y), playerState.theta);
-						player.getBody().setAngularVelocity(playerState.vtheta);
-						player.getBody().setLinearVelocity(playerState.vx, playerState.vy);
-					} else {
-						player.relocate(new net.digiturtle.apollo.Vector2(playerState.x, playerState.y), 
-								new net.digiturtle.apollo.Vector2(playerState.vx, playerState.vy));
-						// FIXME set player orientation
-					}
-				}
-				
-				match.respawnAllPlayers();
-				
-				matchSimulator = new MatchSimulator(match, new ApolloVisualFXEngine());
-				
-				fiberPool.scheduleTask(25, () -> {
-					PlayerStatePacket playerState = new PlayerStatePacket();
-					Player player = match.getPlayer(Apollo.userId);
-					playerState.uuid = Apollo.userId;
-					playerState.x = player.getPosition().x;
-					playerState.y = player.getPosition().y;
-					playerState.orientation = player.getDirection().name();
-					playerState.vx = player.getVelocity().x;
-					playerState.vy = player.getVelocity().y;
-					playerState.state = player.getState().name();
-					playerState.backpack = new BackpackPacket();
-					playerState.backpack.contents = new HashMap<>();
-					for (Map.Entry<Resource, Integer> item : player.getBackpack().getContents().entrySet()) {
-						playerState.backpack.contents.put(item.getKey().name(), item.getValue());
-					}
-					client.send(playerState);
-				});
-			});
-		}
 		if (object instanceof MatchStatePacket) {
 			MatchStatePacket matchState = (MatchStatePacket)object;
 			for (PlayerStatePacket playerState : matchState.playerStates) {
@@ -191,6 +129,7 @@ public class Apollo extends ApplicationAdapter {
 	
 	@Override
 	public void render () {
+		//if (matchSimulator != null) System.out.println(Math.sqrt(match.getPlayer(Apollo.userId).getVelocity().len2()) + " versus " + ApolloSettings.PLAYER_SPEED);
 		{
 			if (!_sentConnect) {
 				_sentConnect = true;

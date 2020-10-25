@@ -2,7 +2,7 @@ package net.digiturtle.apollo.match.event;
 
 import java.util.UUID;
 
-public class PlayerDamageEvent extends PlayerEvent {
+public class PlayerDamageEvent extends PlayerEvent implements ILocalEvent {
 	
 	public enum DamageType {
 		BULLET,

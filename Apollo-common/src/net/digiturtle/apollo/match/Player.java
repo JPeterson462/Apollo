@@ -237,8 +237,8 @@ public class Player {
 		return cache;
 	}
 	
-	public void changeOrientation(int orientation) {
-		if (orientation != this.orientation) {
+	public float restoreSpeed () {
+		if (state == Player.State.WALKING) {
 			Vector2 movement = new Vector2();
 			if ((orientation & ORIENTATION_LEFT) != 0) {
 				movement.add(1, -1);
@@ -260,18 +260,20 @@ public class Player {
 			} else {
 				velocity = movement.scl(ApolloSettings.PLAYER_SPEED);
 			}
-			this.orientation = orientation;
-			orientRenderablePlayer(getDirection(orientation));
-			if (movement.len2() == 0) {
-				if (state != Player.State.STANDING) {
-					setState(Player.State.STANDING);
-				}
+			return movement.len2();
+		} else {
+			if (body != null) {
+				body.setLinearVelocity(0, 0);
 			} else {
-				if (state != Player.State.WALKING) {
-					setState(Player.State.WALKING);
-				}
+				velocity = new Vector2();
 			}
+			return 0;
 		}
+	}
+	
+	public void changeOrientation (int orientation) {
+		this.orientation = orientation;
+		orientRenderablePlayer(getDirection(orientation));
 	}
 	
 	public State getState () {

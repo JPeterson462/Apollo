@@ -14,8 +14,8 @@ public class DebugStuff {
 		for (int i = 0; i < 1; i++) {
 			ResourceRegionDefinition resourceDefinition = new ResourceRegionDefinition();
 			resourceDefinition.resource = "COAL";
-			resourceDefinition.position = new float[] { 128, -128 };
-			resourceDefinition.size = new float[] { 128, 128 };
+			resourceDefinition.position = new float[] { 32, -32 };
+			resourceDefinition.size = new float[] { 32, 32 };
 			resourceDefinition.capacity = 1000;
 			resourceDefinition.collectionRate = 0.01f;
 			resourceDefinition.regenerationRate = 0.05f;
@@ -25,7 +25,7 @@ public class DebugStuff {
 		definition.teams = new TeamDefinition[teams];
 		for (int i = 0; i < teams; i++) {
 			TeamDefinition teamDefinition = new TeamDefinition();
-			teamDefinition.respawnRegion = new float[] { 128 + i*128, -128 + -i*128, 256, 256 };
+			teamDefinition.respawnRegion = new float[] { 96 + i*32, -96 + -i*32, 64, 64 };
 			teamDefinition.color = i;
 			definition.teams[i] = teamDefinition;
 		}

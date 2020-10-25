@@ -5,16 +5,18 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Circle;
-import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.definitions.MatchDefinition;
 import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
 import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.IEventListener;
+import net.digiturtle.apollo.match.event.ILocalEvent;
 import net.digiturtle.apollo.match.event.MatchSimulator;
+import net.digiturtle.apollo.match.event.PlayerEvent;
 
 public class Match {
 	
@@ -33,6 +35,7 @@ public class Match {
 	private IEventListener eventListener;
 	
 	public static Consumer<Event> eventForwarder;
+	public static Function<UUID, Boolean> isClient = (uuid) -> false;
 	
 	public Match () {
 		
@@ -96,11 +99,14 @@ public class Match {
 	}
 	
 	public void onEvent(Event event) {//FIXME send event across network and timestamp it
-		if (!event.isRemote()) {
+		if (!event.isRemote() && !(event instanceof ILocalEvent)) {
 			if (eventForwarder != null)
 				eventForwarder.accept(event);
 		}
-		eventListener.onEvent(event);
+		boolean localPlayerEventFromRemote = event.isRemote() && event instanceof PlayerEvent && isClient.apply(((PlayerEvent) event).getPlayer());
+		if (!localPlayerEventFromRemote) {
+			eventListener.onEvent(event);
+		}
 	}
 	
 	public IIntersector getIntersector () {
@@ -142,7 +148,9 @@ public class Match {
 		circle.set(player.getPosition(), ApolloSettings.CHARACTER_SIZE/2);
 		for (ResourceRegion resourceRegion : resourceRegions) {
 			//FIXME should probably not iterate through EVERY spot
-			if (MathUtils.overlaps(resourceRegion.getBounds(), circle)) {
+			
+			//if (MathUtils.overlaps(resourceRegion.getBounds(), circle)) {
+			if (resourceRegion.getBounds().contains(player.getPosition())) {
 				return resourceRegion;
 			}
 		}
