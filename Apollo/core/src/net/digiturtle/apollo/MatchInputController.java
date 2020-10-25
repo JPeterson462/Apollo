@@ -12,7 +12,6 @@ import net.digiturtle.apollo.match.ResourceRegion;
 import net.digiturtle.apollo.match.event.PlayerExplosiveEvent;
 import net.digiturtle.apollo.match.event.PlayerShootEvent;
 import net.digiturtle.apollo.match.event.PlayerStateChangeEvent;
-import net.digiturtle.apollo.packets.BulletPacket;
 
 public class MatchInputController implements InputProcessor {
 	
@@ -70,21 +69,15 @@ public class MatchInputController implements InputProcessor {
         			new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         	Vector2 velocity = new Vector2(direction).scl(ApolloSettings.MAX_BULLET_DISTANCE);
         	System.out.println(velocity);
-        	BulletPacket bullet = new BulletPacket();
-        	bullet.shooter = Apollo.userId;
-        	bullet.x = player.getPosition().x;
-        	bullet.y = player.getPosition().y;
-        	bullet.vx = velocity.x;
-        	bullet.vy = velocity.y;
-        	match.onEvent(new PlayerShootEvent(Apollo.userId, new Vector2(bullet.x, bullet.y), new Vector2(bullet.vx, bullet.vy)));
+        	match.onEvent(new PlayerShootEvent(Apollo.userId, new Vector2(player.getPosition()), new Vector2(velocity)));
         	
-        	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
-        			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
+        	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(player.getPosition()), ApolloSettings.TILE_SIZE),
+        			MathUtils.mapToScreen(new Vector2(player.getPosition()).add(velocity), ApolloSettings.TILE_SIZE));
 
-        	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(bullet.x, bullet.y), ApolloSettings.TILE_SIZE),
-        			MathUtils.mapToScreen(new Vector2(bullet.x + bullet.vx, bullet.y + bullet.vy), ApolloSettings.TILE_SIZE));
+        	DebugRenderer.addLine(MathUtils.mapToScreen(new Vector2(player.getPosition()), ApolloSettings.TILE_SIZE),
+        			MathUtils.mapToScreen(new Vector2(player.getPosition()).add(velocity), ApolloSettings.TILE_SIZE));
         	
-        	Apollo.send(bullet);
+        	//Apollo.send(bullet);
         }
         if (keycode == Input.Keys.NUM_1) {
         	Vector2 direction = MathUtils.getMouseDirection(new Vector2(Gdx.input.getX(), Gdx.input.getY()),

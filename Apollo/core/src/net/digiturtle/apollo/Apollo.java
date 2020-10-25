@@ -17,12 +17,12 @@ import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.Resource;
 import net.digiturtle.apollo.match.event.Event;
+import net.digiturtle.apollo.match.event.MatchConnectEvent;
 import net.digiturtle.apollo.match.event.MatchSimulator;
-import net.digiturtle.apollo.match.event.PlayerShootEvent;
+import net.digiturtle.apollo.match.event.MatchStartEvent;
+import net.digiturtle.apollo.match.event.PlayerEvent;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.packets.BackpackPacket;
-import net.digiturtle.apollo.packets.BulletPacket;
-import net.digiturtle.apollo.packets.ClientConnectPacket;
 import net.digiturtle.apollo.packets.MatchStartPacket;
 import net.digiturtle.apollo.packets.MatchStatePacket;
 import net.digiturtle.apollo.packets.PlayerStatePacket;
@@ -65,7 +65,49 @@ public class Apollo extends ApplicationAdapter {
 	}
 	
 	public void onPacket(Object object) {
-		if (object instanceof Event) {
+		if (object instanceof MatchStartEvent) {
+			MatchStartEvent matchStartEvent = (MatchStartEvent)object;
+			Gdx.app.postRunnable(() -> {
+				match.load(matchStartEvent.getMatchDefinition(), new GdxIntegration.GdxTiledMapLoader(), new GdxIntegration.GdxIntersector(), new ApolloVisualFXEngine());
+	
+				for (Player basePlayer : matchStartEvent.getPlayers()) {
+					Player player = new Player(basePlayer.getId(), new VisualFX(), new RenderablePlayer(basePlayer.getTeam())); //match.getPlayer(playerState.uuid);
+					player.setTeam(basePlayer.getTeam());
+					match.addPlayer(player, basePlayer.getId().equals(Apollo.userId) ? new GdxIntegration.GdxBody((GdxWorld) match.getWorld()) : null);
+					if (player.getBody() != null) {
+						player.getBody().setTransform(basePlayer.getPosition(), player.getAngle());
+						player.getBody().setAngularVelocity(0);
+						player.getBody().setLinearVelocity(basePlayer.getVelocity());
+					} else {
+						player.relocate(basePlayer.getPosition(), basePlayer.getVelocity());
+						// FIXME set player orientation
+					}
+				}
+				
+				match.respawnAllPlayers();
+				
+				matchSimulator = new MatchSimulator(match, new ApolloVisualFXEngine());
+				
+				fiberPool.scheduleTask(25, () -> {
+					PlayerStatePacket playerState = new PlayerStatePacket();
+					Player player = match.getPlayer(Apollo.userId);
+					playerState.uuid = Apollo.userId;
+					playerState.x = player.getPosition().x;
+					playerState.y = player.getPosition().y;
+					playerState.orientation = player.getDirection().name();
+					playerState.vx = player.getVelocity().x;
+					playerState.vy = player.getVelocity().y;
+					playerState.state = player.getState().name();
+					playerState.backpack = new BackpackPacket();
+					playerState.backpack.contents = new HashMap<>();
+					for (Map.Entry<Resource, Integer> item : player.getBackpack().getContents().entrySet()) {
+						playerState.backpack.contents.put(item.getKey().name(), item.getValue());
+					}
+					client.send(playerState);
+				});
+			});
+		}
+		if (object instanceof PlayerEvent) {
 			Event event = (Event) object;
 			event.setRemote(true);
 			match.onEvent(event);
@@ -143,14 +185,6 @@ public class Apollo extends ApplicationAdapter {
 				}
 			}
 		}
-		if (object instanceof BulletPacket) {
-			System.out.println("Received a bullet packet.");
-			BulletPacket bullet = (BulletPacket)object;//FIXME need to correct for latency by including time stamp
-			if (!Apollo.userId.equals(bullet.shooter)) {
-				match.onEvent(new PlayerShootEvent(bullet.shooter, new net.digiturtle.apollo.Vector2(bullet.x, bullet.y), 
-						new net.digiturtle.apollo.Vector2(bullet.vx, bullet.vy)));
-			}
-		}
 	}
 
 	private boolean _sentConnect = false;
@@ -160,9 +194,7 @@ public class Apollo extends ApplicationAdapter {
 		{
 			if (!_sentConnect) {
 				_sentConnect = true;
-				ClientConnectPacket packet = new ClientConnectPacket();
-				packet.clientId = userId;
-				client.send(packet);
+				client.send(new MatchConnectEvent(Apollo.userId));
 			}
 		}
         Gdx.gl.glClearColor(1, 0, 0, 1);

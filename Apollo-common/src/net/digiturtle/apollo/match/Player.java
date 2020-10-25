@@ -106,6 +106,10 @@ public class Player {
 		this.backpack = backpack;
 	}
 	
+	public float getAngle () {
+		return body != null ? body.getAngle() : getDirection().angle;
+	}
+	
 	public void update (float dt) {
 		if (body == null) {
 			// Not simulated with Box2D

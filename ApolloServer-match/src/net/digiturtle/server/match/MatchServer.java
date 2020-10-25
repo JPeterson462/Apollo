@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 import net.digiturtle.apollo.FiberPool;
 import net.digiturtle.apollo.SharedUtils;
 import net.digiturtle.apollo.match.event.Event;
+import net.digiturtle.apollo.match.event.MatchEvent;
+import net.digiturtle.apollo.match.event.MatchManager;
+import net.digiturtle.apollo.match.event.PlayerEvent;
 import net.digiturtle.apollo.networking.UdpServer;
-import net.digiturtle.apollo.packets.BulletPacket;
 import net.digiturtle.apollo.packets.ClientConnectPacket;
 import net.digiturtle.apollo.packets.MatchStartPacket;
 import net.digiturtle.apollo.packets.MatchStatePacket;
@@ -21,25 +23,35 @@ public class MatchServer {
 	private static UdpServer server;
 	private static FiberPool fiberPool;
 	
-	private static Random random;
-	private static float[] teamBins;
+	//private static Random random;
+	//private static float[] teamBins;
 	
-	private static HashMap<UUID, PlayerStatePacket> playerStates;
+	//private static HashMap<UUID, PlayerStatePacket> playerStates;
+	
+	private static MatchManager matchManager;
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		random = new Random();
+		MatchManager.eventDispatcher = (event) -> server.broadcast(event);
+
+		int numPlayers = Integer.parseInt(args[0]);
 		
-		teamBins = SharedUtils.generateBins(2);
+		matchManager = new MatchManager(numPlayers, 1, DebugStuff.newMatchDefinition(numPlayers), 
+				new TiledMapLoaderStub(), new IntersectorStub(), new VisualFXEngineStub());
+		
+		//random = new Random();
+		
+		//teamBins = SharedUtils.generateBins(2);
 		
 		//System.setErr(new PrintStream(new FileOutputStream("debug.txt")));
 		
-		int numPlayers = Integer.parseInt(args[0]);
-		
 		fiberPool = new FiberPool(2);
 		server = new UdpServer(4560);
-		playerStates = new HashMap<>();
+		//playerStates = new HashMap<>();
 		server.listen((object, sender) -> {
-			if (object instanceof ClientConnectPacket) {
+			if (object instanceof MatchEvent) {
+				matchManager.onEvent((Event) object);
+			}
+			/*if (object instanceof ClientConnectPacket) {
 				ClientConnectPacket packet = (ClientConnectPacket)object;
 				PlayerStatePacket playerState = new PlayerStatePacket();
 				playerState.uuid = packet.clientId;
@@ -89,17 +101,13 @@ public class MatchServer {
 						server.broadcast(matchState);
 					});
 				}
-			}
-			if (object instanceof BulletPacket) {
-				System.out.println("Received a bullet packet.");
-				server.broadcast(object);
-			}
+			}*/
 			if (object instanceof PlayerStatePacket) {
 				// TODO FIXME this needs security so you can't update other players
-				PlayerStatePacket playerState = (PlayerStatePacket)object;
-				playerStates.put(playerState.uuid, playerState);
+				//PlayerStatePacket playerState = (PlayerStatePacket)object;
+				//playerStates.put(playerState.uuid, playerState);
 			}
-			if (object instanceof Event) {
+			if (object instanceof PlayerEvent) {
 				server.forward(object, sender);
 			}
 		});

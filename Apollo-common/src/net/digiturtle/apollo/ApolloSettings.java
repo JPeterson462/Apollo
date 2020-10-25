@@ -64,7 +64,6 @@ public interface ApolloSettings {
 		367, 17, 420-367, 4
 	};
 	
-	@SuppressWarnings("exports")
 	public static int getResourceValue(HashMap<Resource, Integer> items) {
 		int value = 0;
 		for (Map.Entry<Resource, Integer> item : items.entrySet()) {

@@ -5,9 +5,7 @@ import java.util.UUID;
 import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.match.Explosion;
 
-public class PlayerExplosiveEvent extends Event {
-	
-	private UUID player;
+public class PlayerExplosiveEvent extends PlayerEvent {
 	
 	private Explosion explosion;
 	
@@ -18,32 +16,24 @@ public class PlayerExplosiveEvent extends Event {
 	}
 	
 	public PlayerExplosiveEvent (UUID player, Explosion explosion, Vector2 position) {
-		this.player = player;
+		super(player);
 		this.explosion = explosion;
 		this.position = position;
 	}
 
-	public UUID getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(UUID player) {
-		this.player = player;
-	}
-
-	public Explosion getExplosion() {
+	public Explosion getExplosion () {
 		return explosion;
 	}
 
-	public void setExplosion(Explosion explosion) {
+	public void setExplosion (Explosion explosion) {
 		this.explosion = explosion;
 	}
 
-	public Vector2 getPosition() {
+	public Vector2 getPosition () {
 		return position;
 	}
 
-	public void setPosition(Vector2 position) {
+	public void setPosition (Vector2 position) {
 		this.position = position;
 	}
 

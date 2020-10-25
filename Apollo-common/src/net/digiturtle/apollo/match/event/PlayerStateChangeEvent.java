@@ -4,9 +4,7 @@ import java.util.UUID;
 
 import net.digiturtle.apollo.match.Player;
 
-public class PlayerStateChangeEvent extends Event {
-	
-	private UUID player;
+public class PlayerStateChangeEvent extends PlayerEvent {
 	
 	private Player.State state;
 	
@@ -19,41 +17,33 @@ public class PlayerStateChangeEvent extends Event {
 	}
 	
 	public PlayerStateChangeEvent (UUID player, Player.State state, boolean popState, int orientation) {
-		this.player = player;
+		super(player);
 		this.state = state;
 		this.popState = popState;
 		this.orientation = orientation;
 	}
 
-	public UUID getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(UUID player) {
-		this.player = player;
-	}
-
-	public Player.State getState() {
+	public Player.State getState () {
 		return state;
 	}
 
-	public void setState(Player.State state) {
+	public void setState (Player.State state) {
 		this.state = state;
 	}
 
-	public boolean isPopState() {
+	public boolean isPopState () {
 		return popState;
 	}
 
-	public void setPopState(boolean popState) {
+	public void setPopState (boolean popState) {
 		this.popState = popState;
 	}
 
-	public int getOrientation() {
+	public int getOrientation () {
 		return orientation;
 	}
 
-	public void setOrientation(int orientation) {
+	public void setOrientation (int orientation) {
 		this.orientation = orientation;
 	}
 
