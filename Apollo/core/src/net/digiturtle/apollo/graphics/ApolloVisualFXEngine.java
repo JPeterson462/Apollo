@@ -12,10 +12,14 @@ public class ApolloVisualFXEngine implements VisualFXEngine {
 
 	@Override
 	public void addTintedDamage(Player player) {
-		TintEffect effect = new TintEffect(Color.RED);
-		effect.setLength(.25f);
+		TimedEffect effect = new TimedTextureEffect("PlayerDamage.png", 
+				() -> {
+					net.digiturtle.apollo.Vector2 pos = MathUtils.mapToScreen(player.getPosition(), ApolloSettings.TILE_SIZE);
+					return new Vector2(pos.x, pos.y);
+				}, 
+				32, 32, ((RenderablePlayer) player.getRenderablePlayer()).getFrame());
+		effect.setLength(3 * 4f / 60f);
 		((VisualFX) player.getVisualFX()).addEffect(effect);
-		System.out.println("Adding " + effect + " to " + player.getId());
 	}
 
 	@Override
