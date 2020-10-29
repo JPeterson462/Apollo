@@ -7,7 +7,7 @@ import net.digiturtle.apollo.match.Resource;
 
 public interface ApolloSettings {
 	
-	public static final String VERSION = "v0.5.0a";
+	public static final String VERSION = "v0.6.0a";
 	
 	public static final String FONT_FACE = "PixelParty";
 	//public static final String FONT_FACE = "arial-15";
