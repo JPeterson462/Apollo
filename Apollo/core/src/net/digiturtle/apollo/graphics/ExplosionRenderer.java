@@ -39,18 +39,20 @@ public class ExplosionRenderer {
 	public void render (Explosion explosion) {
 		net.digiturtle.apollo.Vector2 position = MathUtils.mapToScreen(explosion.getPosition(), ApolloSettings.TILE_SIZE);
 		if (explosion.getPower() == ApolloSettings.EXPLOSION_POWER) {
-			if (explosion.getTime() < explosion.getDelay()) {
+			if (explosion.getTime() < ApolloSettings.EXPLOSIVE_THROW_DELAY) {
+				// wait for the player throwing animation
+			}
+			else if (explosion.getTime() < explosion.getDelay()+ApolloSettings.EXPLOSIVE_THROW_DELAY) {
 				RenderPath renderPath = new RenderPath(explosion.getPath());
-				position = MathUtils.mapToScreen(renderPath.getPointAt(explosion.getTime()/explosion.getDelay()), ApolloSettings.TILE_SIZE);
+				position = MathUtils.mapToScreen(renderPath.getPointAt(((explosion.getTime()-ApolloSettings.EXPLOSIVE_THROW_DELAY))/explosion.getDelay()), ApolloSettings.TILE_SIZE);
 				position.x += ApolloSettings.TILE_SIZE/2;
 				position.y += ApolloSettings.TILE_SIZE/4;
 				
-				//FIXME magic numbers \/
 				position.y += ApolloSettings.CHARACTER_SIZE/2;
 				
 				spriteBatch.draw(explosion1projectile, position.x, position.y);
 			} else {
-				spriteBatch.draw(explosion1regions[(int) (8 * (explosion.getTime()-explosion.getDelay()) / explosion.getLength())], position.x, position.y);
+				spriteBatch.draw(explosion1regions[(int) (8 * (explosion.getTime()-explosion.getDelay()-ApolloSettings.EXPLOSIVE_THROW_DELAY) / explosion.getLength())], position.x, position.y);
 			}
 		}
 	}

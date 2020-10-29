@@ -30,6 +30,8 @@ public interface ApolloSettings {
 	
 	public static final int DROPPED_BACKPACK_SIZE = 16;
 	
+	public static final float EXPLOSIVE_THROW_DELAY = 0.3f;
+	
 	public static final Rectangle HEALTH_BAR_BOUNDS = new Rectangle(30, 17, 69, 4);
 	
 	public static final int PLAYER_FRAME_DOWN = 0, PLAYER_FRAME_DOWN_RIGHT = 1, PLAYER_FRAME_RIGHT = 2,
@@ -37,6 +39,7 @@ public interface ApolloSettings {
 							PLAYER_FRAME_LEFT = 6, PLAYER_FRAME_DOWN_LEFT = 7;
 	public static final int PLAYER_STANDING_FRAME = 0;
 	public static final int PLAYER_WALKING_FRAME = 1, PLAYER_WALKING_FRAME_COUNT = 4;
+	public static final int PLAYER_THROWING_FRAME = 0, PLAYER_THROWING_FRAME_COUNT = 8;
 	public static final int[][] PLAYER_FRAMES = new int[][] {
 		// Standing
 		{ 0,0,32,32, 32,0,32,32, 64,0,32,32, 96,0,32,32, 128,0,32,32, 160,0,32,32, 192,0,32,32, 224,0,32,32 },
@@ -46,6 +49,16 @@ public interface ApolloSettings {
 		{ 0,96,32,32, 32,96,32,32, 64,96,32,32, 96,96,32,32, 128,96,32,32, 160,96,32,32, 192,96,32,32, 224,96,32,32 },
 		{ 0,128,32,32, 32,128,32,32, 64,128,32,32, 96,128,32,32, 128,128,32,32, 160,128,32,32, 192,128,32,32, 224,128,32,32 },
 		
+	};
+	public static final int[][] PLAYER_THROWING_FRAMES = new int[][] {
+		{ 0,0,32,32, 32,0,32,32, 64,0,32,32, 96,0,32,32, 128,0,32,32, 160,0,32,32, 192,0,32,32, 224,0,32,32 },
+		{ 0,32,32,32, 32,32,32,32, 64,32,32,32, 96,32,32,32, 128,32,32,32, 160,32,32,32, 192,32,32,32, 224,32,32,32 },
+		{ 0,64,32,32, 32,64,32,32, 64,64,32,32, 96,64,32,32, 128,64,32,32, 160,64,32,32, 192,64,32,32, 224,64,32,32 },
+		{ 0,96,32,32, 32,96,32,32, 64,96,32,32, 96,96,32,32, 128,96,32,32, 160,96,32,32, 192,96,32,32, 224,96,32,32 },
+		{ 0,128,32,32, 32,128,32,32, 64,128,32,32, 96,128,32,32, 128,128,32,32, 160,128,32,32, 192,128,32,32, 224,128,32,32 },
+		{ 0,160,32,32, 32,160,32,32, 64,160,32,32, 96,160,32,32, 128,160,32,32, 160,160,32,32, 192,160,32,32, 224,160,32,32 },
+		{ 0,192,32,32, 32,192,32,32, 64,192,32,32, 96,192,32,32, 128,192,32,32, 160,192,32,32, 192,192,32,32, 224,192,32,32 },
+		{ 0,224,32,32, 32,224,32,32, 64,224,32,32, 96,224,32,32, 128,224,32,32, 160,224,32,32, 192,224,32,32, 224,224,32,32 },
 	};
 	
 	public static int[] getFrame (int direction, int frameNumber, int[][] frames) {

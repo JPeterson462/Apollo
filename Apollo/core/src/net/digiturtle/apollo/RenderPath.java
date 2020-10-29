@@ -39,7 +39,7 @@ public class RenderPath {
 		int segments = points.length - 1;
 		int index = (int)(t * segments);
 		t = (t - (index * 1f/segments)) * segments;
-		Vector2 a = points[index], b = points[index + 1];
+		Vector2 a = points[index < points.length ? index : (points.length - 1)], b = points[(index+1) < points.length ? (index + 1) : (points.length - 1)];
 		return new Vector2(a.x + t * (b.x - a.x), a.y + t * (b.y - a.y));
 	}
 

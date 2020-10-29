@@ -1,5 +1,6 @@
 package net.digiturtle.apollo.match;
 
+import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Vector2;
 
 public class Explosion {
@@ -49,7 +50,7 @@ public class Explosion {
 	}
 	
 	public void update (float dt) {
-		t = Math.min(length + delay, t + dt);
+		t = Math.min(length + delay + ApolloSettings.EXPLOSIVE_THROW_DELAY, t + dt);
 	}
 
 }

@@ -14,6 +14,8 @@ public class RenderablePlayer implements IRenderablePlayer {
 	private Texture playerTexture;
 	private TextureRegion[] playerBase;
 	private TextureRegion[][] playerWalking;
+	private Texture playerThrowingTexture;
+	private TextureRegion[][] playerThrowing;
 	private int frame;
 	
 	private float t;
@@ -48,7 +50,16 @@ public class RenderablePlayer implements IRenderablePlayer {
             	int[] region = ApolloSettings.getFrame(j, Player.State.WALKING.frame + i, ApolloSettings.PLAYER_FRAMES);
         		playerWalking[i][j] = new TextureRegion(playerTexture, region[0], region[1], region[2], region[3]);
         	}
-        }//FIXME walking down right looks weird
+        }
+        playerThrowingTexture = new Texture("PlayerV4_Throwing" + colorText + ".png");
+        playerThrowing = new TextureRegion[Player.State.THROWING.numFrames][8];
+        for (int i = 0; i < Player.State.THROWING.numFrames; i++) {
+        	playerThrowing[i] = new TextureRegion[8];
+        	for (int j = 0; j < 8; j++) {
+            	int[] region = ApolloSettings.getFrame(j, Player.State.THROWING.frame + i, ApolloSettings.PLAYER_THROWING_FRAMES);
+            	playerThrowing[i][j] = new TextureRegion(playerThrowingTexture, region[0], region[1], region[2], region[3]);
+        	}
+        }
 	}
 	
 	public void onStateChange (Player.State state) {
@@ -69,15 +80,21 @@ public class RenderablePlayer implements IRenderablePlayer {
 	}
 	
 	public TextureRegion getCurrentTexture () {
+		float offset;
+		int frameOffset;
 		switch (state) {
 		case COLLECTING:
 			return playerBase[0];//FIXME
 		case STANDING:
 			return playerBase[frame];
 		case WALKING:
-			float offset = MathUtils.floatMod(t, state.timePerFrame * state.numFrames);
-			int frameOffset = (int) (offset / state.timePerFrame);
-			return playerWalking[frameOffset][frame]; //FIXME
+			offset = MathUtils.floatMod(t, state.timePerFrame * state.numFrames);
+			frameOffset = (int) (offset / state.timePerFrame);
+			return playerWalking[frameOffset][frame];
+		case THROWING:
+			offset = MathUtils.floatMod(t, state.timePerFrame * state.numFrames);
+			frameOffset = (int) (offset / state.timePerFrame);
+			return playerThrowing[frameOffset][frame];
 		}
 		return null;
 	}

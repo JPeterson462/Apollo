@@ -170,7 +170,8 @@ public class MatchSimulator implements IEventListener {
 		}
 		if (event instanceof PlayerExplosiveEvent) {
 			PlayerExplosiveEvent playerExplosiveEvent = (PlayerExplosiveEvent) event;
-			match.getExplosions().add(playerExplosiveEvent.getExplosion());//FIXME render path
+			match.getExplosions().add(playerExplosiveEvent.getExplosion());
+			match.getPlayer(playerExplosiveEvent.getPlayer()).setTemporaryState(Player.State.THROWING, Player.State.THROWING.timePerFrame * Player.State.THROWING.numFrames);
 		}
 	}
 

@@ -28,7 +28,9 @@ public class Player {
 	public enum State {
 		STANDING(ApolloSettings.PLAYER_STANDING_FRAME, 1, 1f),
 		WALKING(ApolloSettings.PLAYER_WALKING_FRAME, ApolloSettings.PLAYER_WALKING_FRAME_COUNT, .5f/(float)ApolloSettings.PLAYER_WALKING_FRAME_COUNT),
-		COLLECTING(0,0,1f);
+		COLLECTING(0,0,1f),
+		THROWING(ApolloSettings.PLAYER_THROWING_FRAME, ApolloSettings.PLAYER_THROWING_FRAME_COUNT, .4f/(float)ApolloSettings.PLAYER_THROWING_FRAME_COUNT),
+		;
 		
 		public final int frame, numFrames;
 		public final float timePerFrame;
@@ -50,7 +52,8 @@ public class Player {
 	private int health, team;
 	private IVisualFX visualFx;
 	private Backpack backpack;
-	private State state;
+	private State state, temporaryState = null;
+	private float temporaryStateLen;
 	
 	public Player (UUID uuid, IVisualFX visualFx, IRenderablePlayer renderablePlayer) {
 		this.uuid = uuid;
@@ -111,6 +114,14 @@ public class Player {
 	}
 	
 	public void update (float dt) {
+		if (temporaryStateLen > 0) {
+			temporaryStateLen -= dt;
+			if (temporaryStateLen <= 0) {
+				temporaryState = null;
+				temporaryStateLen = 0;
+				renderablePlayer.onStateChange(state);
+			}
+		}
 		if (body == null) {
 			// Not simulated with Box2D
 			position.add(new Vector2(velocity).scl(dt));
@@ -282,6 +293,14 @@ public class Player {
 		this.orientation = orientation;
 	}
 	
+	public void setTemporaryState (State state, float len) {
+		temporaryState = state;
+		temporaryStateLen = len;
+		if (renderablePlayer != null) {
+			renderablePlayer.onStateChange(state);
+		}
+	}
+	
 	public State getState () {
 		return state;
 	}
@@ -289,7 +308,9 @@ public class Player {
 	public void setState (State state) {
 		this.state = state;
 		if (renderablePlayer != null) {
-			renderablePlayer.onStateChange(state);
+			if (temporaryState == null || state != State.STANDING) { // Don't lose the temporary state if going to STANDING
+				renderablePlayer.onStateChange(state);
+			}
 		}
 	}
 
