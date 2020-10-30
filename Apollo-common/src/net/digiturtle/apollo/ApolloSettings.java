@@ -110,6 +110,17 @@ public interface ApolloSettings {
 		{ 416, 18 }
 	};
 	
+	public static final int SPEED_POWERUP = 0, SPEED_POWERUP_COUNT = 4;
+	public static final int DAMAGE_POWERUP = 1, DAMAGE_POWERUP_COUNT = 4;
+	public static final int RESILIENCE_POWERUP = 2, RESILIENCE_POWERUP_COUNT = 4;
+	public static final int EXPLOSIVE_POWERUP = 3, EXPLOSIVE_POWERUP_COUNT = 3;
+	public static final int[][] POWERUP_BOUNDS = new int[][] {
+		{ 0,0,21,22,  21,0,21,22,  42,0,21,22,  63,0,21,22 },
+		{ 0,22,21,22,  21,22,21,22,  42,22,21,22,  63,22,21,22 },
+		{ 0,44,21,22,  21,44,21,22,  42,44,21,22,  63,44,21,22 },
+		{ 0,66,21,22,  21,66,21,22,  42,66,21,22 },
+	};
+	
 	public static int getResourceValue(HashMap<Resource, Integer> items) {
 		int value = 0;
 		for (Map.Entry<Resource, Integer> item : items.entrySet()) {
