@@ -78,6 +78,38 @@ public interface ApolloSettings {
 		367, 17, 420-367, 4
 	};
 	
+	public static final int[][] ARSENAL_BAR_BOUNDS = new int[][] {
+		{ 0, 0, 4, 20 },
+		{ 4, 0, 2, 10 }
+	};
+	public static final int SPEED_POWERUP_ARSENAL_SLOT = 0;
+	public static final int DAMAGE_POWERUP_ARSENAL_SLOT = 1;
+	public static final int RESILIENCE_POWERUP_ARSENAL_SLOT = 2;
+	public static final int EXPLOSIVE_POWERUP_ARSENAL_SLOT = 3;
+	public static final int SPEED_POWERUP_SLOT = 4;
+	public static final int DAMAGE_POWERUP_SLOT = 5;
+	public static final int RESILIENCE_POWERUP_SLOT = 6;
+	public static final int COAL_BACKPACK_SLOT = 7;
+	public static final int GOLD_BACKPACK_SLOT = 8;
+	public static final int ELECTRONICS_BACKPACK_SLOT = 9;
+	public static final int SHEET_METAL_BACKPACK_SLOT = 10;
+	public static final int[][] ARSENAL_BOUNDS = new int[][] {
+		// Powerup slots
+		{ 6, 17, 27-6, 39-17 },
+		{ 30, 17, 27-6, 39-17 },
+		{ 54, 17, 27-6, 39-17 },
+		{ 78, 17, 27-6, 39-17 },
+		// Powerup status slots
+		{ 202, 28 },
+		{ 220, 28 },
+		{ 238, 28 },
+		// Backpack slots
+		{ 344, 18 },
+		{ 368, 18 },
+		{ 392, 18 },
+		{ 416, 18 }
+	};
+	
 	public static int getResourceValue(HashMap<Resource, Integer> items) {
 		int value = 0;
 		for (Map.Entry<Resource, Integer> item : items.entrySet()) {
