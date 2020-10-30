@@ -110,6 +110,7 @@ public interface ApolloSettings {
 		{ 416, 18 }
 	};
 	
+	// Powerups.png
 	public static final int SPEED_POWERUP = 0, SPEED_POWERUP_COUNT = 4;
 	public static final int DAMAGE_POWERUP = 1, DAMAGE_POWERUP_COUNT = 4;
 	public static final int RESILIENCE_POWERUP = 2, RESILIENCE_POWERUP_COUNT = 4;
@@ -119,6 +120,21 @@ public interface ApolloSettings {
 		{ 0,22,21,22,  21,22,21,22,  42,22,21,22,  63,22,21,22 },
 		{ 0,44,21,22,  21,44,21,22,  42,44,21,22,  63,44,21,22 },
 		{ 0,66,21,22,  21,66,21,22,  42,66,21,22 },
+	};
+	
+	// Buttons1.png
+	public static final int BUTTON_UPGRADE = 0;
+	public static final int BUTTON_JOIN = 1;
+	public static final int[][] BUTTON_BOUNDS = new int[][] {
+		{ 0,0,50,11,  0,11,50,11,  0,22,50,11 },
+		{ 50,0,11,11, 50,11,11,11,  50,22,11,11 }
+	};
+	
+	// ShopBG.png
+	public static final int PANEL4 = 0, PANEL3 = 1;
+	public static final int[][] SHOP_PANEL_BOUNDS = new int[][] {
+		{ 0,0,120,54, 35,36,   7,7,  35,7,  63,7,  91,7 },
+		{ 120,0,120,54, 155,36,   141,7,  169,7,  197,7 }
 	};
 	
 	public static int getResourceValue(HashMap<Resource, Integer> items) {
