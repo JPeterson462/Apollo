@@ -125,7 +125,7 @@ public class MatchSimulator implements IEventListener {
 
 	public void processCollision (Object collider, Object impact) {
 		if (collider instanceof Bullet && impact instanceof Player) {
-			match.onEvent(new PlayerDamageEvent(((Player)impact).getId(), PlayerDamageEvent.DamageType.BULLET));
+			match.onEvent(new PlayerDamageEvent(((Player)impact).getId(), ((Bullet) collider).getShooter(), PlayerDamageEvent.DamageType.BULLET));
 		}
 		if (collider instanceof Player && impact instanceof ResourceRegion) {
 			//System.out.println(impact + " was entered by " + ((Player)collider).getId());
@@ -134,7 +134,7 @@ public class MatchSimulator implements IEventListener {
 			((Player) collider).getBackpack().deposit(((DroppedBackpack) impact).getBackpack());
 		}
 		if (collider instanceof Explosion && impact instanceof Player) {
-			match.onEvent(new PlayerDamageEvent(((Player)impact).getId(), PlayerDamageEvent.DamageType.EXPLOSIVE));
+			match.onEvent(new PlayerDamageEvent(((Player)impact).getId(), ((Explosion) collider).getCause(), PlayerDamageEvent.DamageType.EXPLOSIVE));
 		}
 	}
 	
@@ -142,14 +142,29 @@ public class MatchSimulator implements IEventListener {
 	public void onEvent (Event event) {
 		System.out.println(event.getClass().getName());
 		if (event instanceof PlayerDamageEvent) {
+			PlayerDamageEvent playerDamageEvent = (PlayerDamageEvent) event;
 			Player player = match.getPlayer(((PlayerDamageEvent) event).getPlayer());
 			if (((PlayerDamageEvent) event).getDamageType().equals(PlayerDamageEvent.DamageType.BULLET)) {
-				player.setHealth(player.getHealth() - ApolloSettings.BULLET_DAMAGE);
+				float damageFactor = 1, resilienceFactor = 1;
+				if (match.getPlayer(playerDamageEvent.getCause()).getPowerupTimeLeft(Powerup.DAMAGE) > 0) {
+					damageFactor = Powerup.DAMAGE.boosts[match.getPlayer(playerDamageEvent.getCause()).getArsenal().getStatuses().get(Powerup.DAMAGE).getLevel()];
+				}
+				if (player.getPowerupTimeLeft(Powerup.RESILIENCE) > 0) {
+					damageFactor = Powerup.RESILIENCE.boosts[player.getArsenal().getStatuses().get(Powerup.RESILIENCE).getLevel()];
+				}
+				player.setHealth((int) (player.getHealth() - ApolloSettings.BULLET_DAMAGE * damageFactor / resilienceFactor));
 				checkForDeath(player);
 			}
 			if (((PlayerDamageEvent) event).getDamageType().equals(PlayerDamageEvent.DamageType.EXPLOSIVE)) {
+				float damageFactor = 1, resilienceFactor = 1;
+				if (match.getPlayer(playerDamageEvent.getCause()).getPowerupTimeLeft(Powerup.DAMAGE) > 0) {
+					damageFactor = Powerup.DAMAGE.boosts[match.getPlayer(playerDamageEvent.getCause()).getArsenal().getStatuses().get(Powerup.DAMAGE).getLevel()];
+				}
+				if (player.getPowerupTimeLeft(Powerup.RESILIENCE) > 0) {
+					damageFactor = Powerup.RESILIENCE.boosts[player.getArsenal().getStatuses().get(Powerup.RESILIENCE).getLevel()];
+				}
 				int damage = 60;
-				player.setHealth(player.getHealth() - damage);
+				player.setHealth((int) (player.getHealth() - damage * damageFactor / resilienceFactor));
 				checkForDeath(player);
 			}
 		}
@@ -176,6 +191,12 @@ public class MatchSimulator implements IEventListener {
 			player.setTemporaryState(Player.State.THROWING, Player.State.THROWING.timePerFrame * Player.State.THROWING.numFrames);
 			player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).setRemaining(player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).getRemaining() - 1);
 		}
+		if (event instanceof PlayerPowerupEvent) {
+			PlayerPowerupEvent playerPowerupEvent = (PlayerPowerupEvent) event;
+			Player player = match.getPlayer(playerPowerupEvent.getPlayer());
+			player.engagePowerup(playerPowerupEvent.getPowerup());
+			player.getArsenal().getStatuses().put(playerPowerupEvent.getPowerup(), playerPowerupEvent.getPowerupStatus().cloneAndUse());
+		}
 	}
 
 	private void checkForDeath (Player player) {
@@ -189,6 +210,8 @@ public class MatchSimulator implements IEventListener {
 			match.getDroppedBackpacks().add(droppedBackpack);
 			match.respawnPlayer(player);
 			player.setHealth(ApolloSettings.PLAYER_HEALTH);
+			player.getArsenal().tryReset();
+			player.clearPowerups();
 		} else {
 			fxEngine.addTintedDamage(player);
 		}

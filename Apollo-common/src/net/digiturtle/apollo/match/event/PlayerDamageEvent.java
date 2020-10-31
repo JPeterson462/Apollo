@@ -10,14 +10,24 @@ public class PlayerDamageEvent extends PlayerEvent implements ILocalEvent {
 	}
 	
 	private DamageType damageType;
+	private UUID cause;
 	
 	public PlayerDamageEvent () {
 		
 	}
 	
-	public PlayerDamageEvent (UUID player, DamageType damageType) {
+	public PlayerDamageEvent (UUID player, UUID cause, DamageType damageType) {
 		super(player);
+		this.cause = cause;
 		this.damageType = damageType;
+	}
+	
+	public UUID getCause () {
+		return cause;
+	}
+	
+	public void setCause (UUID cause) {
+		this.cause = cause;
 	}
 
 	public DamageType getDamageType () {

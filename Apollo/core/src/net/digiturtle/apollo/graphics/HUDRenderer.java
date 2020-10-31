@@ -56,6 +56,8 @@ public class HUDRenderer {
 		for (int i = 0; i < 10; i++) {
 			barRegions[0][i] = new TextureRegion(bars, i * 6, 0, 4, 20);
 			barRegions[0][i].flip(false, true);
+			barRegions[1][i] = new TextureRegion(bars, i * 6 + 4, 0, 2, 10);
+			barRegions[1][i].flip(false, true);
 		}
 		powerups = new Texture("Powerups.png");
 		powerupRegions = new TextureRegion[4][4];
@@ -104,6 +106,7 @@ public class HUDRenderer {
 		if (player.getArsenal() != null && player.getArsenal().getStatuses() != null && player.getArsenal().getStatuses().size() == Powerup.values().length) {
 			HashMap<Powerup, PowerupStatus> statuses = player.getArsenal().getStatuses();
 			
+			// Powerup uses
 			if (statuses.get(Powerup.SPEED).getRemaining() > 0) {
 				spriteBatch.draw(powerupRegions[ApolloSettings.SPEED_POWERUP][statuses.get(Powerup.SPEED).getLevel()-1],
 						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][0], 
@@ -126,6 +129,26 @@ public class HUDRenderer {
 				spriteBatch.draw(powerupRegions[ApolloSettings.RESILIENCE_POWERUP][statuses.get(Powerup.RESILIENCE).getLevel()-1],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_ARSENAL_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_ARSENAL_SLOT][1] - 6);
+			}
+			
+			// Powerup timings
+			if (player.getPowerupTimeLeft(Powerup.DAMAGE) > 0) {
+				int level = (int) (10 * (float)player.getPowerupTimeLeft(Powerup.DAMAGE) / Powerup.DAMAGE.time);
+				spriteBatch.draw(barRegions[1][10 - 1 - Math.min(level, 10 - 1)],
+						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.DAMAGE_POWERUP_SLOT][0], 
+						Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.DAMAGE_POWERUP_SLOT][1] + 16);
+			}
+			if (player.getPowerupTimeLeft(Powerup.SPEED) > 0) {
+				int level = (int) (10 * (float)player.getPowerupTimeLeft(Powerup.SPEED) / Powerup.SPEED.time);
+				spriteBatch.draw(barRegions[1][10 - 1 - Math.min(level, 10 - 1)],
+						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_SLOT][0], 
+						Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_SLOT][1] + 16);
+			}
+			if (player.getPowerupTimeLeft(Powerup.RESILIENCE) > 0) {
+				int level = (int) (10 * (float)player.getPowerupTimeLeft(Powerup.RESILIENCE) / Powerup.RESILIENCE.time);
+				spriteBatch.draw(barRegions[1][10 - 1 - Math.min(level, 10 - 1)],
+						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_SLOT][0], 
+						Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_SLOT][1] + 16);
 			}
 		}
 		

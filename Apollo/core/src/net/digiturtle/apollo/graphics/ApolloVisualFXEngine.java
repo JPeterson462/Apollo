@@ -5,7 +5,6 @@ import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.VisualFXEngine;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 public class ApolloVisualFXEngine implements VisualFXEngine {

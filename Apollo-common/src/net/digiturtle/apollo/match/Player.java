@@ -1,9 +1,11 @@
 package net.digiturtle.apollo.match;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Vector2;
+import net.digiturtle.apollo.match.Arsenal.Powerup;
 
 public class Player {
 	
@@ -55,6 +57,7 @@ public class Player {
 	private State state, temporaryState = null;
 	private float temporaryStateLen;
 	private Arsenal arsenal;
+	private HashMap<Powerup, Float> timeLeft;
 	
 	public Player (UUID uuid, IVisualFX visualFx, IRenderablePlayer renderablePlayer) {
 		this.uuid = uuid;
@@ -66,6 +69,19 @@ public class Player {
 		backpack = new Backpack();
 		state = State.STANDING;
 		arsenal = new Arsenal();
+		timeLeft = new HashMap<>();
+	}
+	
+	public void engagePowerup (Powerup powerup) {
+		timeLeft.put(powerup, powerup.time);
+	}
+	
+	public void clearPowerups () {
+		timeLeft.clear();
+	}
+	
+	public float getPowerupTimeLeft (Powerup powerup) {
+		return timeLeft.getOrDefault(powerup, 0f);
 	}
 	
 	public UUID getId () {
@@ -124,6 +140,9 @@ public class Player {
 	}
 	
 	public void update (float dt) {
+		for (Powerup powerup : timeLeft.keySet()) {
+			timeLeft.put(powerup, Math.max(0,timeLeft.get(powerup) - dt));
+		}
 		if (temporaryStateLen > 0) {
 			temporaryStateLen -= dt;
 			if (temporaryStateLen <= 0) {
@@ -280,12 +299,13 @@ public class Player {
 				movement.add(1, 1);
 			}
 			movement.nor();
-			movement.scl(-1);//FIXME
+			movement.scl(-1);
+			float speedBoost = getPowerupTimeLeft(Powerup.SPEED) > 0 ? Powerup.SPEED.boosts[this.getArsenal().getStatuses().get(Powerup.SPEED).getLevel()] : 1;
 			if (body != null) {
 				body.setAngularVelocity(getRotation(orientation) - body.getAngle());
-				body.setLinearVelocity(movement.scl(ApolloSettings.PLAYER_SPEED));
+				body.setLinearVelocity(movement.scl(ApolloSettings.PLAYER_SPEED * speedBoost));
 			} else {
-				velocity = movement.scl(ApolloSettings.PLAYER_SPEED);
+				velocity = movement.scl(ApolloSettings.PLAYER_SPEED * speedBoost);
 			}
 			return movement.len2();
 		} else {

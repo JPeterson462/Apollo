@@ -11,6 +11,7 @@ import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.ResourceRegion;
 import net.digiturtle.apollo.match.event.PlayerExplosiveEvent;
+import net.digiturtle.apollo.match.event.PlayerPowerupEvent;
 import net.digiturtle.apollo.match.event.PlayerShootEvent;
 import net.digiturtle.apollo.match.event.PlayerStateChangeEvent;
 
@@ -80,14 +81,23 @@ public class MatchInputController implements InputProcessor {
         	
         	//Apollo.send(bullet);
         }
-        if (keycode == Input.Keys.NUM_1 && player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).getRemaining() > 0) {
+        if (keycode == Input.Keys.NUM_1 && player.getArsenal().getStatuses().get(Powerup.SPEED).getRemaining() > 0) {
+        	match.onEvent(new PlayerPowerupEvent(player.getId(), Powerup.SPEED, player.getArsenal().getStatuses().get(Powerup.SPEED)));
+        }
+        if (keycode == Input.Keys.NUM_2 && player.getArsenal().getStatuses().get(Powerup.DAMAGE).getRemaining() > 0) {
+        	match.onEvent(new PlayerPowerupEvent(player.getId(), Powerup.DAMAGE, player.getArsenal().getStatuses().get(Powerup.DAMAGE)));
+        }
+        if (keycode == Input.Keys.NUM_3 && player.getArsenal().getStatuses().get(Powerup.RESILIENCE).getRemaining() > 0) {
+        	match.onEvent(new PlayerPowerupEvent(player.getId(), Powerup.RESILIENCE, player.getArsenal().getStatuses().get(Powerup.RESILIENCE)));
+        }
+        if (keycode == Input.Keys.NUM_4 && player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).getRemaining() > 0) {
         	Vector2 direction = MathUtils.getMouseDirection(new Vector2(Gdx.input.getX(), Gdx.input.getY()),
         			new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         	RenderPath renderPath = RenderPath.createdProjectedArc(player.getPosition(), ApolloSettings.EXPLOSION_DISTANCE, 
         			new Vector2(player.getPosition()).add(direction.x * ApolloSettings.EXPLOSION_DISTANCE, direction.y * ApolloSettings.EXPLOSION_DISTANCE), ApolloSettings.EXPLOSION_PATH_INTERVALS);
         	match.onEvent(new PlayerExplosiveEvent(player.getId(), 
         			new Explosion(new Vector2(player.getPosition()).add(direction.x * ApolloSettings.EXPLOSION_DISTANCE, direction.y * ApolloSettings.EXPLOSION_DISTANCE), 
-        					ApolloSettings.EXPLOSION_POWER, ApolloSettings.EXPLOSION_TIME, renderPath.getPoints(), ApolloSettings.EXPLOSION_TIME_TO_HIT), player.getPosition()));
+        					ApolloSettings.EXPLOSION_POWER, ApolloSettings.EXPLOSION_TIME, renderPath.getPoints(), ApolloSettings.EXPLOSION_TIME_TO_HIT, player.getId()), player.getPosition()));
         }
         return true;
 	}
