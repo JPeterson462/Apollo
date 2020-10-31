@@ -17,6 +17,7 @@ import net.digiturtle.apollo.match.Resource;
 import net.digiturtle.apollo.match.ResourceRegion;
 import net.digiturtle.apollo.match.Team;
 import net.digiturtle.apollo.match.VisualFXEngine;
+import net.digiturtle.apollo.match.Arsenal.Powerup;
 
 public class MatchSimulator implements IEventListener {
 	
@@ -171,7 +172,9 @@ public class MatchSimulator implements IEventListener {
 		if (event instanceof PlayerExplosiveEvent) {
 			PlayerExplosiveEvent playerExplosiveEvent = (PlayerExplosiveEvent) event;
 			match.getExplosions().add(playerExplosiveEvent.getExplosion());
-			match.getPlayer(playerExplosiveEvent.getPlayer()).setTemporaryState(Player.State.THROWING, Player.State.THROWING.timePerFrame * Player.State.THROWING.numFrames);
+			Player player = match.getPlayer(playerExplosiveEvent.getPlayer());
+			player.setTemporaryState(Player.State.THROWING, Player.State.THROWING.timePerFrame * Player.State.THROWING.numFrames);
+			player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).setRemaining(player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).getRemaining() - 1);
 		}
 	}
 

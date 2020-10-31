@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 import net.digiturtle.apollo.graphics.DebugRenderer;
+import net.digiturtle.apollo.match.Arsenal.Powerup;
 import net.digiturtle.apollo.match.Explosion;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
@@ -79,7 +80,7 @@ public class MatchInputController implements InputProcessor {
         	
         	//Apollo.send(bullet);
         }
-        if (keycode == Input.Keys.NUM_1) {
+        if (keycode == Input.Keys.NUM_1 && player.getArsenal().getStatuses().get(Powerup.EXPLOSIVES).getRemaining() > 0) {
         	Vector2 direction = MathUtils.getMouseDirection(new Vector2(Gdx.input.getX(), Gdx.input.getY()),
         			new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         	RenderPath renderPath = RenderPath.createdProjectedArc(player.getPosition(), ApolloSettings.EXPLOSION_DISTANCE, 
@@ -87,10 +88,6 @@ public class MatchInputController implements InputProcessor {
         	match.onEvent(new PlayerExplosiveEvent(player.getId(), 
         			new Explosion(new Vector2(player.getPosition()).add(direction.x * ApolloSettings.EXPLOSION_DISTANCE, direction.y * ApolloSettings.EXPLOSION_DISTANCE), 
         					ApolloSettings.EXPLOSION_POWER, ApolloSettings.EXPLOSION_TIME, renderPath.getPoints(), ApolloSettings.EXPLOSION_TIME_TO_HIT), player.getPosition()));
-       /* 	for (int i = 0; i < ApolloSettings.EXPLOSION_PATH_INTERVALS; i++) {
-        		DebugRenderer.addLine(MathUtils.mapToScreen(renderPath.getPoints()[i], ApolloSettings.TILE_SIZE),
-        			MathUtils.mapToScreen(renderPath.getPoints()[i+1], ApolloSettings.TILE_SIZE));
-        	}	*/
         }
         return true;
 	}

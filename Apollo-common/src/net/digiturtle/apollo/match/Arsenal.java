@@ -32,7 +32,7 @@ public class Arsenal {
 		
 		public PowerupStatus (int level, Powerup powerup) {
 			this.level = level;
-			remaining = powerup.uses;
+			remaining = level;
 		}
 
 		public int getLevel () {

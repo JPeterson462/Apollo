@@ -15,7 +15,6 @@ import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.definitions.TeamDefinition;
-import net.digiturtle.apollo.match.Arsenal;
 import net.digiturtle.apollo.match.Arsenal.Powerup;
 import net.digiturtle.apollo.match.Arsenal.PowerupStatus;
 import net.digiturtle.apollo.match.Match;
@@ -56,7 +55,7 @@ public class HUDRenderer {
 		barRegions = new TextureRegion[2][10];
 		for (int i = 0; i < 10; i++) {
 			barRegions[0][i] = new TextureRegion(bars, i * 6, 0, 4, 20);
-			//barRegions[0][i].flip(false, true);
+			barRegions[0][i].flip(false, true);
 		}
 		powerups = new Texture("Powerups.png");
 		powerupRegions = new TextureRegion[4][4];
@@ -105,43 +104,39 @@ public class HUDRenderer {
 		if (player.getArsenal() != null && player.getArsenal().getStatuses() != null && player.getArsenal().getStatuses().size() == Powerup.values().length) {
 			HashMap<Powerup, PowerupStatus> statuses = player.getArsenal().getStatuses();
 			
-			spriteBatch.draw(powerupRegions[ApolloSettings.SPEED_POWERUP][statuses.get(Powerup.SPEED).getLevel()-1],
-					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][0], 
-					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][1] - 6);
+			if (statuses.get(Powerup.SPEED).getRemaining() > 0) {
+				spriteBatch.draw(powerupRegions[ApolloSettings.SPEED_POWERUP][statuses.get(Powerup.SPEED).getLevel()-1],
+						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][0], 
+						Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][1] - 6);
+			}
 			
-			spriteBatch.draw(powerupRegions[ApolloSettings.DAMAGE_POWERUP][statuses.get(Powerup.DAMAGE).getLevel()-1],
+			if (statuses.get(Powerup.DAMAGE).getRemaining() > 0) {
+				spriteBatch.draw(powerupRegions[ApolloSettings.DAMAGE_POWERUP][statuses.get(Powerup.DAMAGE).getLevel()-1],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.DAMAGE_POWERUP_ARSENAL_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.DAMAGE_POWERUP_ARSENAL_SLOT][1] - 6);
+			}
 			
-			spriteBatch.draw(powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP][statuses.get(Powerup.EXPLOSIVES).getLevel()-1],
+			if (statuses.get(Powerup.EXPLOSIVES).getRemaining() > 0) {
+				spriteBatch.draw(powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP][statuses.get(Powerup.EXPLOSIVES).getRemaining()-1],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP_ARSENAL_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP_ARSENAL_SLOT][1] - 6);
+			}
 			
-			spriteBatch.draw(powerupRegions[ApolloSettings.RESILIENCE_POWERUP][statuses.get(Powerup.RESILIENCE).getLevel()-1],
+			if (statuses.get(Powerup.RESILIENCE).getRemaining() > 0) {
+				spriteBatch.draw(powerupRegions[ApolloSettings.RESILIENCE_POWERUP][statuses.get(Powerup.RESILIENCE).getLevel()-1],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_ARSENAL_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_ARSENAL_SLOT][1] - 6);
+			}
 		}
 		
 		if (player.getBackpack() != null) {
 			int coal = player.getBackpack().getContents().get(Resource.COAL);
 			
-			int level = 10;//(int) ((float)coal / (float)1000) * 10;
-			System.out.println(coal + " ==> " + level + " :: " + barRegions[0][10 - 1 - Math.min(level, 10 - 1)].getRegionX() + " " + barRegions[0][10 - 1 - Math.min(level, 10 - 1)].getRegionY());
+			int level = (int) ((float)coal / (float)50);
 			spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][0], 
-					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][1]);
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][1] - 4);
 			
-			int k = 0;
-			while (level > 0) {
-				TextureRegion tex = barRegions[0][10 - 1 - Math.min(level, 10 - 1)];
-				System.out.println(bars.getWidth()+"x"+bars.getHeight());
-				System.out.println(tex.getRegionX() +","+ tex.getRegionY() + "  " + tex.getRegionWidth() +"x"+ tex.getRegionHeight());
-				spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
-						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][0]+k*10, 
-						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][1]);
-				level--;
-				k++;
-			}
 		}
 		
 		spriteBatch.end();
