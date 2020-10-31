@@ -10,8 +10,8 @@ public class DebugStuff {
 		MatchDefinition definition = new MatchDefinition();
 		
 		definition.tiledMapFile = "sample.tmx";
-		definition.resourceRegions = new ResourceRegionDefinition[2];
-		for (int i = 0; i < 2; i += 2) {
+		definition.resourceRegions = new ResourceRegionDefinition[3];
+		for (int i = 0; i < 3; i += 3) {
 			ResourceRegionDefinition resourceDefinition = new ResourceRegionDefinition();
 			resourceDefinition.resource = "COAL";
 			resourceDefinition.position = new float[] { 32, -32 };
@@ -31,6 +31,16 @@ public class DebugStuff {
 			resourceDefinition.regenerationRate = 0.035f;
 			resourceDefinition.quantity = 700;
 			definition.resourceRegions[i+1] = resourceDefinition;
+			
+			resourceDefinition = new ResourceRegionDefinition();
+			resourceDefinition.resource = "ELECTRONICS";
+			resourceDefinition.position = new float[] { 96+64, -96-64 };
+			resourceDefinition.size = new float[] { 16, 16 };
+			resourceDefinition.capacity = 300;
+			resourceDefinition.collectionRate = 0.003f;
+			resourceDefinition.regenerationRate = 0.015f;
+			resourceDefinition.quantity = 300;
+			definition.resourceRegions[i+2] = resourceDefinition;
 		}
 		definition.teams = new TeamDefinition[teams];
 		for (int i = 0; i < teams; i++) {

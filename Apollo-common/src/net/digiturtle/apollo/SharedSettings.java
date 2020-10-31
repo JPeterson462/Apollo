@@ -9,6 +9,9 @@ public class SharedSettings {
 		if (resourceName.equalsIgnoreCase("SHEET_METAL")) {
 			return 3;
 		}
+		if (resourceName.equalsIgnoreCase("ELECTRONICS")) {
+			return 10;
+		}
 		return 0;
 	}
 

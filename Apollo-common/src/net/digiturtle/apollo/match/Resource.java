@@ -5,6 +5,8 @@ public enum Resource {
 	COAL("CoalResourceRegionV2.png", 256, 128, 7),
 	
 	SHEET_METAL("SheetMetalResourceRegionV2.png", 192, 96, 8),
+
+	ELECTRONICS("ElectronicsResourceRegionV2.png", 128, 64, 10),
 	
 	;
 	
