@@ -7,6 +7,7 @@ import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Circle;
 import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.Vector2;
+import net.digiturtle.apollo.definitions.TeamDefinition;
 import net.digiturtle.apollo.match.Backpack;
 import net.digiturtle.apollo.match.Bullet;
 import net.digiturtle.apollo.match.DroppedBackpack;
@@ -109,7 +110,6 @@ public class MatchSimulator implements IEventListener {
 		}
 		for (java.util.Map.Entry<UUID, Player> player : match.getPlayersMap().entrySet()) {
 			if (player.getValue().getState().equals(Player.State.COLLECTING)) {
-				System.out.println("Collecting " + player.getValue().getBackpack().getContents().get(Resource.COAL) + " vs " + match.getResourceRegions().get(0).getQuantity());
 				ResourceRegion resourceRegion = match.getResourceRegion(player.getValue());
 				// FIXME if the time intervals are inexact, should I store the dt - collected*x and handle in the next frame?
 				if (resourceRegion != null) {
@@ -118,8 +118,15 @@ public class MatchSimulator implements IEventListener {
 				}
 			} else {
 				//Apollo.debugMessage = "Not Collecting" + getPlayer(Apollo.userId).getBackpack().getContents().get(Resource.COAL) + " vs " + resourceRegions.get(0).getQuantity();
-				
 			}
+		}
+		
+		if (match.getTimeLeft() <= 0) {
+			int[] points = new int[TeamDefinition.COLOR_COUNT];
+			for (int i = 0; i < points.length && i < match.getTeams().length; i++) {
+				points[i] = ApolloSettings.getResourceValue(match.getTeams()[i].getBank().getContents());
+			}
+			match.onEvent(new MatchOverEvent(points));
 		}
 	}
 

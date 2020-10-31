@@ -109,6 +109,10 @@ public class Match {
 		}
 	}
 	
+	public IEventListener getEventListener () {
+		return eventListener;
+	}
+	
 	public IIntersector getIntersector () {
 		return intersector;
 	}

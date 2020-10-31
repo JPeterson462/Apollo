@@ -22,9 +22,11 @@ public class MatchManager implements IEventListener {
 	private Random random;
 	private int[] teamBinCounts;
 	private MatchDefinition matchDefinition;
+	private Consumer<Match> onStart;
 
 	public MatchManager (int teams, int players, MatchDefinition matchDefinition,
-			ITiledMapLoader tiledMapLoader, IIntersector intersector, VisualFXEngine fxEngine) {
+			ITiledMapLoader tiledMapLoader, IIntersector intersector, VisualFXEngine fxEngine,
+			Consumer<Match> onStart) {
 		this.teams = teams;
 		this.players = players;
 		this.matchDefinition = matchDefinition;
@@ -32,6 +34,7 @@ public class MatchManager implements IEventListener {
 		teamBins = SharedUtils.generateBins(teams);
 		teamBinCounts = new int[teams];
 		random = new Random();
+		this.onStart = onStart;
 	}
 	
 	public Match getMatch () {
@@ -57,6 +60,7 @@ public class MatchManager implements IEventListener {
 	
 	private void onServerReady () {
 		eventDispatcher.accept(new MatchStartEvent(matchDefinition, match.getPlayers().toArray(n -> new Player[n])));
+		onStart.accept(match);
 	}
 	
 	@Override
