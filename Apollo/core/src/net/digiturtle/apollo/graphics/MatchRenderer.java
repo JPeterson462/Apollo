@@ -104,24 +104,25 @@ public class MatchRenderer {
         
         camera.update();
 
-        camera.translate(0, 80);//FIXME magic number
+       // camera.translate(0, 80);//FIXME magic number
         
-        camera.update();
+       // camera.update();
         
         spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
         
         for (ResourceRegion resourceRegion : match.getResourceRegions()) {
         	net.digiturtle.apollo.Vector2 hotspotPosition = MathUtils.mapToScreen(resourceRegion.getPosition(), ApolloSettings.TILE_SIZE);
-        	int state = (int) (((float)resourceRegion.getQuantity()/resourceRegion.getCapacity()) / (1f/resourceRegion .getResource().getNumberOfStates()));
-        	spriteBatch.draw(resourceTextures.get(resourceRegion.getResource())[resourceRegion.getResource().getNumberOfStates() - 1 - state], hotspotPosition.x, hotspotPosition.y);
+        	int state = (int) (((float)resourceRegion.getQuantity()/resourceRegion.getCapacity()) / (1f/resourceRegion.getResource().getNumberOfStates()));
+        	state = Math.min(state, resourceRegion.getResource().getNumberOfStates()-1);
+        	spriteBatch.draw(resourceTextures.get(resourceRegion.getResource())[resourceRegion.getResource().getNumberOfStates() - 1 - state], hotspotPosition.x, hotspotPosition.y - (int) (80f * (float)resourceRegion.getResource().getHeight()/Resource.COAL.getHeight()));
         }
         
         spriteBatch.end();
 
-        camera.translate(0, -80);
+      //  camera.translate(0, -80);
         
-        camera.update();
+      //  camera.update();
         
         camera.translate(32, 32);
 

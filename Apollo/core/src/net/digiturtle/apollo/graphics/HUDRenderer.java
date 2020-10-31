@@ -160,6 +160,13 @@ public class HUDRenderer {
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][1] - 4);
 			
+			int sheetMetal = player.getBackpack().getContents().get(Resource.SHEET_METAL);
+			
+			level = (int) ((float)sheetMetal / (float)50);
+			spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SHEET_METAL_BACKPACK_SLOT][0], 
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SHEET_METAL_BACKPACK_SLOT][1] - 4);
+			
 		}
 		
 		spriteBatch.end();

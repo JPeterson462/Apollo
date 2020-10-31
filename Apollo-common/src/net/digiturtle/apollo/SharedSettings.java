@@ -6,6 +6,9 @@ public class SharedSettings {
 		if (resourceName.equalsIgnoreCase("COAL")) {
 			return 1;
 		}
+		if (resourceName.equalsIgnoreCase("SHEET_METAL")) {
+			return 3;
+		}
 		return 0;
 	}
 
