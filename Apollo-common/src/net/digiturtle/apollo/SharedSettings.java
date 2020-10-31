@@ -12,6 +12,9 @@ public class SharedSettings {
 		if (resourceName.equalsIgnoreCase("ELECTRONICS")) {
 			return 10;
 		}
+		if (resourceName.equalsIgnoreCase("GOLD")) {
+			return 50;
+		}
 		return 0;
 	}
 

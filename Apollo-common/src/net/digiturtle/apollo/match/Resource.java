@@ -8,6 +8,8 @@ public enum Resource {
 
 	ELECTRONICS("ElectronicsResourceRegionV2.png", 128, 64, 10),
 	
+	GOLD("GoldResourceRegionV2.png", 64, 32, 6),
+	
 	;
 	
 	private String regionTextureSrc;

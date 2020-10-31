@@ -162,17 +162,24 @@ public class HUDRenderer {
 			
 			int sheetMetal = player.getBackpack().getContents().get(Resource.SHEET_METAL);
 			
-			level = (int) ((float)sheetMetal / (float)50);
+			level = (int) ((float)sheetMetal / (float)40);
 			spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SHEET_METAL_BACKPACK_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SHEET_METAL_BACKPACK_SLOT][1] - 4);
 			
 			int electronics = player.getBackpack().getContents().get(Resource.ELECTRONICS);
 
-			level = (int) ((float)electronics / (float)50);
+			level = (int) ((float)electronics / (float)30);
 			spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
 					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.ELECTRONICS_BACKPACK_SLOT][0], 
 					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.ELECTRONICS_BACKPACK_SLOT][1] - 4);
+
+			int gold = player.getBackpack().getContents().get(Resource.GOLD);
+
+			level = (int) ((float)gold / (float)20);
+			spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.GOLD_BACKPACK_SLOT][0], 
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.GOLD_BACKPACK_SLOT][1] - 4);
 			
 		}
 		

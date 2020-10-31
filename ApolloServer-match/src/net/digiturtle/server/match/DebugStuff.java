@@ -10,8 +10,8 @@ public class DebugStuff {
 		MatchDefinition definition = new MatchDefinition();
 		
 		definition.tiledMapFile = "sample.tmx";
-		definition.resourceRegions = new ResourceRegionDefinition[3];
-		for (int i = 0; i < 3; i += 3) {
+		definition.resourceRegions = new ResourceRegionDefinition[4];
+		for (int i = 0; i < 4; i += 4) {
 			ResourceRegionDefinition resourceDefinition = new ResourceRegionDefinition();
 			resourceDefinition.resource = "COAL";
 			resourceDefinition.position = new float[] { 32, -32 };
@@ -27,8 +27,8 @@ public class DebugStuff {
 			resourceDefinition.position = new float[] { 96, -96 };
 			resourceDefinition.size = new float[] { 24, 24 };
 			resourceDefinition.capacity = 700;
-			resourceDefinition.collectionRate = 0.007f;
-			resourceDefinition.regenerationRate = 0.035f;
+			resourceDefinition.collectionRate = 0.01f;
+			resourceDefinition.regenerationRate = 0.05f;
 			resourceDefinition.quantity = 700;
 			definition.resourceRegions[i+1] = resourceDefinition;
 			
@@ -37,10 +37,20 @@ public class DebugStuff {
 			resourceDefinition.position = new float[] { 96+64, -96-64 };
 			resourceDefinition.size = new float[] { 16, 16 };
 			resourceDefinition.capacity = 300;
-			resourceDefinition.collectionRate = 0.003f;
-			resourceDefinition.regenerationRate = 0.015f;
+			resourceDefinition.collectionRate = 0.01f;
+			resourceDefinition.regenerationRate = 0.05f;
 			resourceDefinition.quantity = 300;
 			definition.resourceRegions[i+2] = resourceDefinition;
+			
+			resourceDefinition = new ResourceRegionDefinition();
+			resourceDefinition.resource = "GOLD";
+			resourceDefinition.position = new float[] { 96+64+64, -96-64-64 };
+			resourceDefinition.size = new float[] { 8, 8 };
+			resourceDefinition.capacity = 80;
+			resourceDefinition.collectionRate = 0.01f;
+			resourceDefinition.regenerationRate = 0.05f;
+			resourceDefinition.quantity = 80;
+			definition.resourceRegions[i+3] = resourceDefinition;
 		}
 		definition.teams = new TeamDefinition[teams];
 		for (int i = 0; i < teams; i++) {
