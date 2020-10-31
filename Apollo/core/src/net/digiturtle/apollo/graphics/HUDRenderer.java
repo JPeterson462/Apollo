@@ -1,5 +1,7 @@
 package net.digiturtle.apollo.graphics;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,8 +15,12 @@ import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.definitions.TeamDefinition;
+import net.digiturtle.apollo.match.Arsenal;
+import net.digiturtle.apollo.match.Arsenal.Powerup;
+import net.digiturtle.apollo.match.Arsenal.PowerupStatus;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
+import net.digiturtle.apollo.match.Resource;
 
 public class HUDRenderer {
 	
@@ -25,6 +31,8 @@ public class HUDRenderer {
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
 	private OrthographicCamera camera;
+	private Texture powerups, bars;
+	private TextureRegion[][] powerupRegions, barRegions;
 	
 	public HUDRenderer (Match match) {
 		this.match = match;
@@ -44,6 +52,47 @@ public class HUDRenderer {
 		bottomHud = new TextureRegion(new Texture("HudFooterV1.png"));
 		topHud.flip(false, true);
 		bottomHud.flip(false, true);
+		bars = new Texture("ArsenalBars.png");
+		barRegions = new TextureRegion[2][10];
+		for (int i = 0; i < 10; i++) {
+			barRegions[0][i] = new TextureRegion(bars, i * 6, 0, 4, 20);
+			//barRegions[0][i].flip(false, true);
+		}
+		powerups = new Texture("Powerups.png");
+		powerupRegions = new TextureRegion[4][4];
+		powerupRegions[ApolloSettings.SPEED_POWERUP] = new TextureRegion[ApolloSettings.SPEED_POWERUP_COUNT];
+		for (int i = 0; i < ApolloSettings.SPEED_POWERUP_COUNT; i++) {
+			powerupRegions[ApolloSettings.SPEED_POWERUP][i] = new TextureRegion(powerups, ApolloSettings.POWERUP_BOUNDS[ApolloSettings.SPEED_POWERUP][i * 4 + 0],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.SPEED_POWERUP][i * 4 + 1],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.SPEED_POWERUP][i * 4 + 2],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.SPEED_POWERUP][i * 4 + 3]);
+			powerupRegions[ApolloSettings.SPEED_POWERUP][i].flip(false, true);
+		}
+		powerupRegions[ApolloSettings.DAMAGE_POWERUP] = new TextureRegion[ApolloSettings.DAMAGE_POWERUP_COUNT];
+		for (int i = 0; i < ApolloSettings.DAMAGE_POWERUP_COUNT; i++) {
+			powerupRegions[ApolloSettings.DAMAGE_POWERUP][i] = new TextureRegion(powerups, ApolloSettings.POWERUP_BOUNDS[ApolloSettings.DAMAGE_POWERUP][i * 4 + 0],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.DAMAGE_POWERUP][i * 4 + 1],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.DAMAGE_POWERUP][i * 4 + 2],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.DAMAGE_POWERUP][i * 4 + 3]);
+			powerupRegions[ApolloSettings.DAMAGE_POWERUP][i].flip(false, true);
+		}
+		powerupRegions[ApolloSettings.RESILIENCE_POWERUP] = new TextureRegion[ApolloSettings.RESILIENCE_POWERUP_COUNT];
+		for (int i = 0; i < ApolloSettings.RESILIENCE_POWERUP_COUNT; i++) {
+			powerupRegions[ApolloSettings.RESILIENCE_POWERUP][i] = new TextureRegion(powerups, ApolloSettings.POWERUP_BOUNDS[ApolloSettings.RESILIENCE_POWERUP][i * 4 + 0],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.RESILIENCE_POWERUP][i * 4 + 1],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.RESILIENCE_POWERUP][i * 4 + 2],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.RESILIENCE_POWERUP][i * 4 + 3]);
+			powerupRegions[ApolloSettings.RESILIENCE_POWERUP][i].flip(false, true);
+		}
+		powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP] = new TextureRegion[ApolloSettings.EXPLOSIVE_POWERUP_COUNT];
+		for (int i = 0; i < ApolloSettings.EXPLOSIVE_POWERUP_COUNT; i++) {
+			powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP][i] = new TextureRegion(powerups, ApolloSettings.POWERUP_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP][i * 4 + 0],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP][i * 4 + 1],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP][i * 4 + 2],
+					ApolloSettings.POWERUP_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP][i * 4 + 3]);
+			powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP][i].flip(false, true);
+		}
+		
 	}
 	
 	public void render () {
@@ -52,6 +101,49 @@ public class HUDRenderer {
 		spriteBatch.begin();
 		spriteBatch.draw(topHud, 0, 0);
 		spriteBatch.draw(bottomHud, 0, Gdx.graphics.getHeight()/3 - bottomHud.getRegionHeight());
+		
+		if (player.getArsenal() != null && player.getArsenal().getStatuses() != null && player.getArsenal().getStatuses().size() == Powerup.values().length) {
+			HashMap<Powerup, PowerupStatus> statuses = player.getArsenal().getStatuses();
+			
+			spriteBatch.draw(powerupRegions[ApolloSettings.SPEED_POWERUP][statuses.get(Powerup.SPEED).getLevel()-1],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][0], 
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.SPEED_POWERUP_ARSENAL_SLOT][1] - 6);
+			
+			spriteBatch.draw(powerupRegions[ApolloSettings.DAMAGE_POWERUP][statuses.get(Powerup.DAMAGE).getLevel()-1],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.DAMAGE_POWERUP_ARSENAL_SLOT][0], 
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.DAMAGE_POWERUP_ARSENAL_SLOT][1] - 6);
+			
+			spriteBatch.draw(powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP][statuses.get(Powerup.EXPLOSIVES).getLevel()-1],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP_ARSENAL_SLOT][0], 
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.EXPLOSIVE_POWERUP_ARSENAL_SLOT][1] - 6);
+			
+			spriteBatch.draw(powerupRegions[ApolloSettings.RESILIENCE_POWERUP][statuses.get(Powerup.RESILIENCE).getLevel()-1],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_ARSENAL_SLOT][0], 
+					Gdx.graphics.getHeight()/3 - ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.RESILIENCE_POWERUP_ARSENAL_SLOT][1] - 6);
+		}
+		
+		if (player.getBackpack() != null) {
+			int coal = player.getBackpack().getContents().get(Resource.COAL);
+			
+			int level = 10;//(int) ((float)coal / (float)1000) * 10;
+			System.out.println(coal + " ==> " + level + " :: " + barRegions[0][10 - 1 - Math.min(level, 10 - 1)].getRegionX() + " " + barRegions[0][10 - 1 - Math.min(level, 10 - 1)].getRegionY());
+			spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][0], 
+					ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][1]);
+			
+			int k = 0;
+			while (level > 0) {
+				TextureRegion tex = barRegions[0][10 - 1 - Math.min(level, 10 - 1)];
+				System.out.println(bars.getWidth()+"x"+bars.getHeight());
+				System.out.println(tex.getRegionX() +","+ tex.getRegionY() + "  " + tex.getRegionWidth() +"x"+ tex.getRegionHeight());
+				spriteBatch.draw(barRegions[0][10 - 1 - Math.min(level, 10 - 1)],
+						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][0]+k*10, 
+						ApolloSettings.ARSENAL_BOUNDS[ApolloSettings.COAL_BACKPACK_SLOT][1]);
+				level--;
+				k++;
+			}
+		}
+		
 		spriteBatch.end();
 		
 		shapeRenderer.begin(ShapeType.Filled);

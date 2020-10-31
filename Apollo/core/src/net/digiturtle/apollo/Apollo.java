@@ -13,6 +13,9 @@ import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
 import net.digiturtle.apollo.graphics.MatchRenderer;
 import net.digiturtle.apollo.graphics.RenderablePlayer;
 import net.digiturtle.apollo.graphics.VisualFX;
+import net.digiturtle.apollo.match.Arsenal;
+import net.digiturtle.apollo.match.Arsenal.Powerup;
+import net.digiturtle.apollo.match.Arsenal.PowerupStatus;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.event.Event;
@@ -71,6 +74,15 @@ public class Apollo extends ApplicationAdapter {
 				for (Player basePlayer : matchStartEvent.getPlayers()) {
 					Player player = new Player(basePlayer.getId(), new VisualFX(), new RenderablePlayer(basePlayer.getTeam())); //match.getPlayer(playerState.uuid);
 					player.setTeam(basePlayer.getTeam());
+					
+					//FIXME
+					Arsenal arsenal = new Arsenal();
+					arsenal.getStatuses().put(Powerup.DAMAGE, new PowerupStatus(3, Powerup.DAMAGE));
+					arsenal.getStatuses().put(Powerup.RESILIENCE, new PowerupStatus(4, Powerup.RESILIENCE));
+					arsenal.getStatuses().put(Powerup.SPEED, new PowerupStatus(1, Powerup.SPEED));
+					arsenal.getStatuses().put(Powerup.EXPLOSIVES, new PowerupStatus(2, Powerup.EXPLOSIVES));
+					player.setArsenal(arsenal);
+					
 					match.addPlayer(player, basePlayer.getId().equals(Apollo.userId) ? new GdxIntegration.GdxBody((GdxWorld) match.getWorld()) : null);
 					if (player.getBody() != null) {
 						player.getBody().setTransform(basePlayer.getPosition(), player.getAngle());
@@ -92,34 +104,6 @@ public class Apollo extends ApplicationAdapter {
 			event.setRemote(true);
 			match.onEvent(event);
 		}
-		//System.out.println(object);
-		/*if (object instanceof MatchStatePacket) {
-			MatchStatePacket matchState = (MatchStatePacket)object;
-			for (PlayerStatePacket playerState : matchState.playerStates) {
-				if (playerState.uuid.equals(Apollo.userId)) {
-					continue;
-				}
-				Player player = match.getPlayer(playerState.uuid);
-				if (player == null) {
-					continue;//FIXME shouldn't need
-				}
-				if (player.getBody() == null) {
-					player.relocate(new net.digiturtle.apollo.Vector2(playerState.x, playerState.y), 
-							new net.digiturtle.apollo.Vector2(playerState.vx, playerState.vy));
-					if (playerState.orientation == null) { //FIXME
-						playerState.orientation = Player.Direction.UP.name();
-					}
-					player.setDirection(Player.Direction.valueOf(playerState.orientation));
-					player.setState(playerState.state != null ? Player.State.valueOf(playerState.state) : Player.State.STANDING);
-					player.getBackpack().reset();
-					if (playerState.backpack != null && playerState.backpack.contents != null) {
-						for (Map.Entry<String, Integer> item : playerState.backpack.contents.entrySet()) {
-							player.getBackpack().changeQuantity(Resource.valueOf(item.getKey()), item.getValue());
-						}
-					}
-				}
-			}
-		}*/
 	}
 
 	private boolean _sentConnect = false;

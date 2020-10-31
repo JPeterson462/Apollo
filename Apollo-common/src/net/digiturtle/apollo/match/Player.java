@@ -54,6 +54,7 @@ public class Player {
 	private Backpack backpack;
 	private State state, temporaryState = null;
 	private float temporaryStateLen;
+	private Arsenal arsenal;
 	
 	public Player (UUID uuid, IVisualFX visualFx, IRenderablePlayer renderablePlayer) {
 		this.uuid = uuid;
@@ -64,6 +65,7 @@ public class Player {
 		this.visualFx = visualFx;
 		backpack = new Backpack();
 		state = State.STANDING;
+		arsenal = new Arsenal();
 	}
 	
 	public UUID getId () {
@@ -107,6 +109,14 @@ public class Player {
 	
 	public void setBackpack (Backpack backpack) {
 		this.backpack = backpack;
+	}
+	
+	public Arsenal getArsenal () {
+		return arsenal;
+	}
+	
+	public void setArsenal (Arsenal arsenal) {
+		this.arsenal = arsenal;
 	}
 	
 	public float getAngle () {
