@@ -4,7 +4,10 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import net.digiturtle.apollo.IntersectorStub;
 import net.digiturtle.apollo.SharedUtils;
+import net.digiturtle.apollo.TiledMapLoaderStub;
+import net.digiturtle.apollo.VisualFXEngineStub;
 import net.digiturtle.apollo.definitions.MatchDefinition;
 import net.digiturtle.apollo.match.IIntersector;
 import net.digiturtle.apollo.match.ITiledMapLoader;
@@ -60,6 +63,7 @@ public class MatchManager implements IEventListener {
 	
 	private void onServerReady () {
 		eventDispatcher.accept(new MatchStartEvent(matchDefinition, match.getPlayers().toArray(n -> new Player[n])));
+		match.load(matchDefinition, new TiledMapLoaderStub(), new IntersectorStub(), new VisualFXEngineStub());
 		onStart.accept(match);
 	}
 	

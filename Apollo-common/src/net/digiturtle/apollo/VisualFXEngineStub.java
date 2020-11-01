@@ -1,4 +1,4 @@
-package net.digiturtle.server.match;
+package net.digiturtle.apollo;
 
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.VisualFXEngine;

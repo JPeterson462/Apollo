@@ -1,6 +1,5 @@
-package net.digiturtle.server.match;
+package net.digiturtle.apollo;
 
-import net.digiturtle.apollo.Vector2;
 import net.digiturtle.apollo.match.ITiledMap;
 import net.digiturtle.apollo.match.ITiledMapLoader;
 import net.digiturtle.apollo.match.IWorld;

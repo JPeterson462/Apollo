@@ -14,7 +14,6 @@ import net.digiturtle.apollo.match.DroppedBackpack;
 import net.digiturtle.apollo.match.Explosion;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
-import net.digiturtle.apollo.match.Resource;
 import net.digiturtle.apollo.match.ResourceRegion;
 import net.digiturtle.apollo.match.Team;
 import net.digiturtle.apollo.match.VisualFXEngine;
@@ -91,7 +90,9 @@ public class MatchSimulator implements IEventListener {
 				match.getExplosions().remove(i);
 			}
 		}
-		match.getWorld().step(dt, 8, 3);
+		if (match.getWorld() != null) {
+			match.getWorld().step(dt, 8, 3);
+		}
 		for (java.util.Map.Entry<UUID, Player> player : match.getPlayersMap().entrySet()) {
 			Team team = match.getTeams()[player.getValue().getTeam()];
 			if (team.containsPoint(player.getValue().getPosition())) {

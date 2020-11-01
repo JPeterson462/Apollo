@@ -2,6 +2,9 @@ package net.digiturtle.server.match;
 
 import java.io.FileNotFoundException;
 import net.digiturtle.apollo.FiberPool;
+import net.digiturtle.apollo.IntersectorStub;
+import net.digiturtle.apollo.TiledMapLoaderStub;
+import net.digiturtle.apollo.VisualFXEngineStub;
 import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.MatchEvent;
 import net.digiturtle.apollo.match.event.MatchManager;
