@@ -10,6 +10,8 @@ public class LoginScreen extends Screen {
 	@Override
 	public void render () {
 		Screen.set(ScreenId.LOBBY);
+		
+		System.out.println("LoginScreen");
 	}
 
 	@Override

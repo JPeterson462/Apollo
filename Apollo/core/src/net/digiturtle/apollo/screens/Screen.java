@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import net.digiturtle.apollo.StubInputController;
 
@@ -55,6 +56,15 @@ public abstract class Screen {
 	
 	public void send (Object object) {
 		
+	}
+	
+	protected OrthographicCamera createCamera () {
+		float w = Gdx.graphics.getWidth()/3;
+        float h = Gdx.graphics.getHeight()/3;
+        OrthographicCamera camera = new OrthographicCamera();
+        camera.setToOrtho(false, w, h);
+        camera.update();
+        return camera;
 	}
 	
 	public abstract void onPacket (Object object);

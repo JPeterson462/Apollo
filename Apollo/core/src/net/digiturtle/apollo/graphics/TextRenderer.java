@@ -23,7 +23,7 @@ public class TextRenderer {
 		//camera = new OrthographicCamera();
         //camera.setToOrtho(true, Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
         //camera.update();
-        bitmapFont = new BitmapFont(Gdx.files.internal(ApolloSettings.FONT_FACE + ".fnt"), Gdx.files.internal(ApolloSettings.FONT_FACE + ".png"), true);
+        bitmapFont = new BitmapFont(Gdx.files.internal(ApolloSettings.FONT_FACE + ".fnt"), Gdx.files.internal(ApolloSettings.FONT_FACE + ".png"), false);
         spriteBatch = new SpriteBatch();
     }
 	

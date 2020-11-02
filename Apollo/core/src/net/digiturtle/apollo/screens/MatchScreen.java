@@ -71,6 +71,7 @@ public class MatchScreen extends Screen {
 	
 	@Override
 	public void render () {
+		System.out.println("MatchScreen");
 		//if (matchSimulator != null) System.out.println(Math.sqrt(match.getPlayer(Apollo.userId).getVelocity().len2()) + " versus " + ApolloSettings.PLAYER_SPEED);
 		{
 			if (!_sentConnect) {
@@ -78,9 +79,6 @@ public class MatchScreen extends Screen {
 				client.send(new MatchConnectEvent(Apollo.userId));
 			}
 		}
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         matchRenderer.render();
         if (matchSimulator != null) {
         	matchSimulator.update(Gdx.graphics.getDeltaTime());

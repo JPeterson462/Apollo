@@ -9,7 +9,7 @@ public class MatchOverScreen extends Screen {
 
 	@Override
 	public void render () {
-		
+		System.out.println("MatchOverScreen");
 	}
 
 	@Override
