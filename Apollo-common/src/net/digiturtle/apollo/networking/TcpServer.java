@@ -3,8 +3,6 @@ package net.digiturtle.apollo.networking;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
-
-import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
