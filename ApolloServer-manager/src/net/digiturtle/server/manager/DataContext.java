@@ -70,7 +70,10 @@ public class DataContext {
 	}
 
 	public boolean updateUser (User user) throws SQLException {
-		PreparedStatement stmt = c.prepareStatement("UPDATE Users SET Coins = _, PowerupSpeed = _, ");
+		PreparedStatement stmt = c.prepareStatement("UPDATE Users SET Coins = " + Integer.toString(user.getCoins()) + 
+				", PowerupSpeed = " + Integer.toString(user.getSpeedPowerup()) + ", PowerupDamage = " + Integer.toString(user.getDamagePowerup()) + 
+				", PowerupResilience = " + Integer.toString(user.getResiliencePowerup()) + ", PowerupExplosives = " + Integer.toString(user.getExplosivesPowerup()) + 
+				" WHERE ProductKey = ?");
 		stmt.setString(1, user.getProductKey());
 		return stmt.executeUpdate() > 0;
 	}

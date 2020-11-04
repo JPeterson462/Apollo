@@ -12,5 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="sqlite-jdbc-3.7.2.jar"/>
+	<classpathentry kind="lib" path="/Users/jpeterson/game-workspace/Apollo-common/lib/netty-all-4.1.52.Final.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
