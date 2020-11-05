@@ -45,7 +45,7 @@ public class Match {
 		eventListener = new MatchSimulator(this, fxEngine);
 		this.intersector = intersector;
 		//random = new Random();
-        tiledMap = loader.load("sample.tmx");
+        tiledMap = loader.load("AlphaMap.tmx");
         world = loader.createWorld(new Vector2(0, 0), true);
         //float tileSize = tiledMap.getProperties().get("tilewidth", Integer.class); 
         players = new HashMap<>();

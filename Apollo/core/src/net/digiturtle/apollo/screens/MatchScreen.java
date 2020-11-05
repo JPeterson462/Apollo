@@ -71,7 +71,6 @@ public class MatchScreen extends Screen {
 	
 	@Override
 	public void render () {
-		System.out.println("MatchScreen");
 		//if (matchSimulator != null) System.out.println(Math.sqrt(match.getPlayer(Apollo.userId).getVelocity().len2()) + " versus " + ApolloSettings.PLAYER_SPEED);
 		{
 			if (!_sentConnect) {

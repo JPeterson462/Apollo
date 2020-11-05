@@ -26,7 +26,7 @@ public interface ApolloSettings {
 	public static final int PLAYER_HEALTH = 100;
 	public static final int BULLET_DAMAGE = 20;
 	public static final int MAX_PLAYER_SPEED = 110;
-	public static final int PLAYER_SPEED = 30;
+	public static final int PLAYER_SPEED = 60;
 	
 	public static final int DROPPED_BACKPACK_SIZE = 16;
 	
