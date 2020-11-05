@@ -18,12 +18,18 @@ public class Apollo extends ApplicationAdapter {
 	public static User user;
 	public static Lobby[] lobbies;
 	
+	private static FiberPool mainPool;
+	
 	public static void send(Object object) {
 		Screen.get().send(object);
 	}
 	
 	@Override
 	public void create () {
+		mainPool = new FiberPool(1);
+		mainPool.scheduleTask(1000, () -> {
+			System.out.println("RAM (MB): " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
+		});
 		user = new User();
 		user.setCoins(1000);
 		user.setDamagePowerup(3);

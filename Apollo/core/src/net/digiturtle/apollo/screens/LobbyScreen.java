@@ -68,7 +68,7 @@ public class LobbyScreen extends Screen {
 		}
 		spriteBatch = new SpriteBatch();
 		camera = createCamera();
-		textRenderer = new TextRenderer(camera);
+		textRenderer = new TextRenderer(camera, false);
 		textRenderer.create();
 		
 		powerups = new Texture("Powerups.png");
@@ -121,7 +121,11 @@ public class LobbyScreen extends Screen {
 
 	@Override
 	public void render () {
-		//Screen.set(ScreenId.MATCH);
+		
+		//TODO FIXME
+		Screen.set(ScreenId.MATCH);
+		//TODO FIXME
+		
 		spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);
         

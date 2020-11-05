@@ -41,7 +41,7 @@ public class HUDRenderer {
 		camera = new OrthographicCamera();
         camera.setToOrtho(true, Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
         camera.update();
-		textRenderer = new TextRenderer(camera);
+		textRenderer = new TextRenderer(camera, true);
 		textRenderer.create();
 		spriteBatch = new SpriteBatch();
 		spriteBatch.setProjectionMatrix(camera.combined);
