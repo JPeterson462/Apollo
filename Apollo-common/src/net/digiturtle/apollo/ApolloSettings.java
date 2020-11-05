@@ -120,6 +120,12 @@ public interface ApolloSettings {
 		{ 0,22,21,22,  21,22,21,22,  42,22,21,22,  63,22,21,22 },
 		{ 0,44,21,22,  21,44,21,22,  42,44,21,22,  63,44,21,22 },
 		{ 0,66,21,22,  21,66,21,22,  42,66,21,22 },
+	};	
+	public static final int[][] POWERUP_COSTS = new int[][] {
+		{ 1200, 3000, 7500 },
+		{ 1200, 3000, 7500 },
+		{ 1200, 3000, 7500 },
+		{ 2500, 6000 }
 	};
 	
 	// Buttons1.png
@@ -144,5 +150,5 @@ public interface ApolloSettings {
 		}
 		return value;
 	}
-
+	
 }

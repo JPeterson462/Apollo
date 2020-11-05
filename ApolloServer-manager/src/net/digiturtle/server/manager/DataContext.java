@@ -32,6 +32,26 @@ public class DataContext {
 		String sql = "CREATE TABLE Users (Id CHAR(36), ProductKey CHAR(36), Coins INTEGER, PowerupSpeed INTEGER, PowerupDamage INTEGER, PowerupResilience INTEGER, PowerupExplosives INTEGER)"; 
 		stmt.executeUpdate(sql);
 	}
+	
+	public User getUser (UUID id) throws SQLException {
+		PreparedStatement stmt = c.prepareStatement("SELECT * FROM Users WHERE Id = ?;");
+		stmt.setString(1, id.toString());
+		ResultSet rs = stmt.executeQuery();
+		boolean record = rs.next();
+		if (record) {
+			User user = new User();
+			user.setCoins(rs.getInt("Coins"));
+			user.setDamagePowerup(rs.getInt("PowerupDamage"));
+			user.setExplosivesPowerup(rs.getInt("PowerupExplosives"));
+			user.setId(UUID.fromString(rs.getString("Id")));
+			user.setProductKey(rs.getString("ProductKey"));
+			user.setResiliencePowerup(rs.getInt("PowerupResilience"));
+			user.setSpeedPowerup(rs.getInt("PowerupSpeed"));
+			return user;
+		} else {
+			return null;
+		}
+	}
 
 	private User getUser (String productKey) throws SQLException {
 		PreparedStatement stmt = c.prepareStatement("SELECT * FROM Users WHERE ProductKey = ?;");
