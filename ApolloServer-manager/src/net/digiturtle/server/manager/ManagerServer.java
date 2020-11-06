@@ -68,9 +68,9 @@ public class ManagerServer {
 						if (cost <= user.getCoins() && user.getSpeedPowerup() < ApolloSettings.SPEED_POWERUP_COUNT) {
 							user.setSpeedPowerup(user.getSpeedPowerup() + 1);
 							user.setCoins(user.getCoins() - cost);
-							server.send(new UserUpgradeResponse(true), ip);
+							server.send(new UserUpgradeResponse(true, userUpgradeEvent.getPowerup()), ip);
 						} else {
-							server.send(new UserUpgradeResponse(false), ip);
+							server.send(new UserUpgradeResponse(false, userUpgradeEvent.getPowerup()), ip);
 						}
 						break;
 					case ApolloSettings.DAMAGE_POWERUP:
@@ -78,9 +78,9 @@ public class ManagerServer {
 						if (cost <= user.getCoins() && user.getDamagePowerup() < ApolloSettings.DAMAGE_POWERUP_COUNT) {
 							user.setDamagePowerup(user.getDamagePowerup() + 1);
 							user.setCoins(user.getCoins() - cost);
-							server.send(new UserUpgradeResponse(true), ip);
+							server.send(new UserUpgradeResponse(true, userUpgradeEvent.getPowerup()), ip);
 						} else {
-							server.send(new UserUpgradeResponse(false), ip);
+							server.send(new UserUpgradeResponse(false, userUpgradeEvent.getPowerup()), ip);
 						}
 						break;
 					case ApolloSettings.RESILIENCE_POWERUP:
@@ -88,9 +88,9 @@ public class ManagerServer {
 						if (cost <= user.getCoins() && user.getResiliencePowerup() < ApolloSettings.RESILIENCE_POWERUP_COUNT) {
 							user.setResiliencePowerup(user.getResiliencePowerup() + 1);
 							user.setCoins(user.getCoins() - cost);
-							server.send(new UserUpgradeResponse(true), ip);
+							server.send(new UserUpgradeResponse(true, userUpgradeEvent.getPowerup()), ip);
 						} else {
-							server.send(new UserUpgradeResponse(false), ip);
+							server.send(new UserUpgradeResponse(false, userUpgradeEvent.getPowerup()), ip);
 						}
 						break;
 					case ApolloSettings.EXPLOSIVE_POWERUP:
@@ -98,12 +98,13 @@ public class ManagerServer {
 						if (cost <= user.getCoins() && user.getExplosivesPowerup() < ApolloSettings.EXPLOSIVE_POWERUP_COUNT) {
 							user.setExplosivesPowerup(user.getExplosivesPowerup() + 1);
 							user.setCoins(user.getCoins() - cost);
-							server.send(new UserUpgradeResponse(true), ip);
+							server.send(new UserUpgradeResponse(true, userUpgradeEvent.getPowerup()), ip);
 						} else {
-							server.send(new UserUpgradeResponse(false), ip);
+							server.send(new UserUpgradeResponse(false, userUpgradeEvent.getPowerup()), ip);
 						}
 						break;
 					}
+					ctx.updateUser(user);
 				}
 				if (event instanceof MatchResultEvent) {
 					MatchResultEvent matchResult = (MatchResultEvent) event;

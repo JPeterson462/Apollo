@@ -14,7 +14,10 @@ import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Button;
 import net.digiturtle.apollo.ButtonInputController;
 import net.digiturtle.apollo.Rectangle;
+import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.graphics.TextRenderer;
+import net.digiturtle.apollo.match.event.UserUpgradeEvent;
+import net.digiturtle.apollo.match.event.UserUpgradeResponse;
 
 public class LobbyScreen extends Screen {
 
@@ -36,12 +39,20 @@ public class LobbyScreen extends Screen {
 		if (action.equalsIgnoreCase("Upgrade")) {
 			switch (data) {
 			case "Speed":
+				if (Apollo.user.getSpeedPowerup() < ApolloSettings.SPEED_POWERUP_COUNT)
+					Apollo.sendToMain(new UserUpgradeEvent(Apollo.user, ApolloSettings.SPEED_POWERUP));
 				break;
 			case "Damage":
+				if (Apollo.user.getDamagePowerup() < ApolloSettings.DAMAGE_POWERUP_COUNT)
+					Apollo.sendToMain(new UserUpgradeEvent(Apollo.user, ApolloSettings.DAMAGE_POWERUP));
 				break;
 			case "Resilience":
+				if (Apollo.user.getResiliencePowerup() < ApolloSettings.RESILIENCE_POWERUP_COUNT)
+					Apollo.sendToMain(new UserUpgradeEvent(Apollo.user, ApolloSettings.RESILIENCE_POWERUP));
 				break;
 			case "Explosive":
+				if (Apollo.user.getExplosivesPowerup() < ApolloSettings.EXPLOSIVE_POWERUP_COUNT)
+					Apollo.sendToMain(new UserUpgradeEvent(Apollo.user, ApolloSettings.EXPLOSIVE_POWERUP));
 				break;
 			}
 			
@@ -52,6 +63,38 @@ public class LobbyScreen extends Screen {
 		}
 	}
 
+	public void onManagerPacket (Object object) {
+		if (object instanceof UserUpgradeResponse) {
+			UserUpgradeResponse upgradeResponse = (UserUpgradeResponse) object;
+			if (upgradeResponse.success) {
+				User user = Apollo.user;
+				int cost;
+				switch (upgradeResponse.powerup) {
+				case ApolloSettings.SPEED_POWERUP:
+					cost = ApolloSettings.POWERUP_COSTS[upgradeResponse.powerup][user.getSpeedPowerup()-1];
+					user.setSpeedPowerup(user.getSpeedPowerup() + 1);
+					user.setCoins(user.getCoins() - cost);
+				break;
+				case ApolloSettings.DAMAGE_POWERUP:
+					cost = ApolloSettings.POWERUP_COSTS[upgradeResponse.powerup][user.getDamagePowerup()-1];
+					user.setDamagePowerup(user.getDamagePowerup() + 1);
+					user.setCoins(user.getCoins() - cost);
+					break;
+				case ApolloSettings.RESILIENCE_POWERUP:
+					cost = ApolloSettings.POWERUP_COSTS[upgradeResponse.powerup][user.getResiliencePowerup()-1];
+					user.setResiliencePowerup(user.getResiliencePowerup() + 1);
+					user.setCoins(user.getCoins() - cost);
+					break;
+				case ApolloSettings.EXPLOSIVE_POWERUP:
+					cost = ApolloSettings.POWERUP_COSTS[upgradeResponse.powerup][user.getExplosivesPowerup()-1];
+					user.setExplosivesPowerup(user.getExplosivesPowerup() + 1);
+					user.setCoins(user.getCoins() - cost);
+					break;
+				}
+			}
+		}
+	}
+	
 	@Override
 	public void create () {
 		hud = new Texture("LobbyHud.png");
@@ -121,10 +164,15 @@ public class LobbyScreen extends Screen {
 
 	@Override
 	public void render () {
-		
-		//TODO FIXME
-	//	Screen.set(ScreenId.MATCH);
-		//TODO FIXME
+		User user = Apollo.user;
+		states[0] = (user.getExplosivesPowerup() == ApolloSettings.EXPLOSIVE_POWERUP_COUNT || 
+				user.getCoins() < ApolloSettings.POWERUP_COSTS[ApolloSettings.EXPLOSIVE_POWERUP][user.getExplosivesPowerup()-1]) ? Button.STATE_DOWN : states[0];
+		states[1] = (user.getResiliencePowerup() == ApolloSettings.RESILIENCE_POWERUP_COUNT || 
+				user.getCoins() < ApolloSettings.POWERUP_COSTS[ApolloSettings.RESILIENCE_POWERUP][user.getResiliencePowerup()-1]) ? Button.STATE_DOWN : states[1];
+		states[2] = (user.getDamagePowerup() == ApolloSettings.DAMAGE_POWERUP_COUNT || 
+				user.getCoins() < ApolloSettings.POWERUP_COSTS[ApolloSettings.DAMAGE_POWERUP][user.getDamagePowerup()-1]) ? Button.STATE_DOWN : states[2];
+		states[3] = (user.getSpeedPowerup() == ApolloSettings.SPEED_POWERUP_COUNT || 
+				user.getCoins() < ApolloSettings.POWERUP_COSTS[ApolloSettings.SPEED_POWERUP][user.getSpeedPowerup()-1]) ? Button.STATE_DOWN : states[3];
 		
 		spriteBatch.begin();
         spriteBatch.setProjectionMatrix(camera.combined);

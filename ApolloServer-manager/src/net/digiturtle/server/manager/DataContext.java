@@ -85,6 +85,8 @@ public class DataContext {
 			stmt.setString(1, productKey);
 			stmt.executeUpdate();
 			user = getUser(productKey);
+			stmt.close();
+			c.commit();
 		}
 		return user;
 	}
@@ -95,7 +97,10 @@ public class DataContext {
 				", PowerupResilience = " + Integer.toString(user.getResiliencePowerup()) + ", PowerupExplosives = " + Integer.toString(user.getExplosivesPowerup()) + 
 				" WHERE ProductKey = ?");
 		stmt.setString(1, user.getProductKey());
-		return stmt.executeUpdate() > 0;
+		boolean result = stmt.executeUpdate() > 0;
+		stmt.close();
+		c.commit();
+		return result;
 	}
 
 }
