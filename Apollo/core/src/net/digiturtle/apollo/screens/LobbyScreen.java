@@ -123,7 +123,7 @@ public class LobbyScreen extends Screen {
 	public void render () {
 		
 		//TODO FIXME
-		Screen.set(ScreenId.MATCH);
+	//	Screen.set(ScreenId.MATCH);
 		//TODO FIXME
 		
 		spriteBatch.begin();

@@ -9,6 +9,7 @@ module ApolloCommon {
 	exports net.digiturtle.apollo.match.event;
 	exports net.digiturtle.apollo.networking;
 	
+	opens net.digiturtle.apollo;
 	opens net.digiturtle.apollo.match;
 	opens net.digiturtle.apollo.match.event;
 }

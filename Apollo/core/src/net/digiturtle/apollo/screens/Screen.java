@@ -58,6 +58,10 @@ public abstract class Screen {
 		
 	}
 	
+	public void onManagerPacket (Object object) {
+		
+	}
+	
 	protected OrthographicCamera createCamera () {
 		float w = Gdx.graphics.getWidth()/3;
         float h = Gdx.graphics.getHeight()/3;

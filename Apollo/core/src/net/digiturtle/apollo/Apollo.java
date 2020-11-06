@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import net.digiturtle.apollo.Lobby.LobbyStatus;
+import net.digiturtle.apollo.networking.TcpClient;
 import net.digiturtle.apollo.screens.Screen;
 import net.digiturtle.apollo.screens.Screen.ScreenId;
 
@@ -20,13 +21,30 @@ public class Apollo extends ApplicationAdapter {
 	
 	private static FiberPool mainPool;
 	
-	public static void send(Object object) {
+	private static TcpClient managerClient;
+	
+	public static void send (Object object) {
 		Screen.get().send(object);
+	}
+	
+	public static void sendToMain (Object object) {
+		managerClient.send(object);
 	}
 	
 	@Override
 	public void create () {
-		mainPool = new FiberPool(1);
+		managerClient = new TcpClient("localhost", 4720);
+		managerClient.listen((object) -> {
+			Screen.get().onManagerPacket(object);
+		});
+		mainPool = new FiberPool(2);
+		mainPool.scheduleTask(() -> {
+			try {
+				managerClient.connect();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		});
 		mainPool.scheduleTask(1000, () -> {
 			System.out.println("RAM (MB): " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 		});
