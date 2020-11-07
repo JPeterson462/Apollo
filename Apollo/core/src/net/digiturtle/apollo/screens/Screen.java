@@ -21,7 +21,7 @@ public abstract class Screen {
 	}
 	
 	private static HashMap<ScreenId, Screen> screens;
-	private static ScreenId current;
+	public static ScreenId current;
 	private static InputProcessor stubInputProcessor = new StubInputController();
 	
 	public static void createAll () {

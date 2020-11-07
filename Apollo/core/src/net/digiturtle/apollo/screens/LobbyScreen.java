@@ -60,6 +60,7 @@ public class LobbyScreen extends Screen {
 		if (action.equalsIgnoreCase("Match")) {
 			int slot = Integer.parseInt(data);
 			//FIXME
+			Apollo.readyToJoin = true;
 			Screen.set(ScreenId.MATCH_LOBBY);
 		}
 	}

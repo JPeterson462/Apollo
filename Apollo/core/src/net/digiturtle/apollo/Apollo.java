@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 
 import net.digiturtle.apollo.Lobby.LobbyStatus;
 import net.digiturtle.apollo.networking.TcpClient;
+import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.screens.Screen;
 import net.digiturtle.apollo.screens.Screen.ScreenId;
 
@@ -21,11 +22,13 @@ public class Apollo extends ApplicationAdapter {
 	
 	public static int[] teamCounts;
 	public static int numberOfTeams;
-	public static boolean weWon;
+	public static boolean weWon, readyToJoin;
 	
 	private static FiberPool mainPool;
+	public static FiberPool matchPool;
 	
 	private static TcpClient managerClient;
+	public static UdpClient client;
 	
 	public static void send (Object object) {
 		Screen.get().send(object);
@@ -37,6 +40,7 @@ public class Apollo extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		matchPool = new FiberPool(1);
 		managerClient = new TcpClient("localhost", 4720);
 		managerClient.listen((object) -> {
 			Screen.get().onManagerPacket(object);
@@ -83,6 +87,7 @@ public class Apollo extends ApplicationAdapter {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Screen screen = Screen.get();
+		System.out.println("Now: " + screen);
 		screen.render();
 	}
 	
