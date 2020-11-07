@@ -204,6 +204,7 @@ public class Player {
 	}
 	
 	private void orientRenderablePlayer (Direction direction) {
+		if (renderablePlayer == null) return;
 		switch (direction) {
 		case DOWN:
 			renderablePlayer.setFrame(ApolloSettings.PLAYER_FRAME_DOWN);

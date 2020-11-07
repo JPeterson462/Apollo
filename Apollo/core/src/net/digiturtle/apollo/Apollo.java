@@ -15,9 +15,11 @@ public class Apollo extends ApplicationAdapter {
 	
 	public static String debugMessage = "";
 	
-	public static final UUID userId = UUID.randomUUID();
+	public static UUID userId;
 	public static User user;
 	public static Lobby[] lobbies;
+	
+	public static int[] teamCounts;
 	
 	private static FiberPool mainPool;
 	

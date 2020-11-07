@@ -101,7 +101,9 @@ public class MatchSimulator implements IEventListener {
 					player.getValue().setBackpack(new Backpack());
 				}
 			}
-			player.getValue().getVisualFX().update(dt);
+			if (player.getValue().getVisualFX() != null) {
+				player.getValue().getVisualFX().update(dt);
+			}
 		}
 		for (ResourceRegion resourceRegion : match.getResourceRegions()) {
 			resourceRegion.update(dt);
@@ -148,7 +150,15 @@ public class MatchSimulator implements IEventListener {
 	
 	@Override
 	public void onEvent (Event event) {
+		if (event instanceof MatchConnectEvent) {
+			MatchConnectEvent matchConnectEvent = (MatchConnectEvent) event;
+			Player player = new Player(matchConnectEvent.getUniqueIdentifier(), null, null);
+			player.setState(Player.State.STANDING);
+			player.setTeam(0);//FIXME FIXME FIXME
+			match.addPlayer(player, null);
+		}
 		System.out.println(event.getClass().getName());
+		System.out.println(match + " " + match.getPlayersMap());
 		if (event instanceof PlayerDamageEvent) {
 			PlayerDamageEvent playerDamageEvent = (PlayerDamageEvent) event;
 			Player player = match.getPlayer(((PlayerDamageEvent) event).getPlayer());

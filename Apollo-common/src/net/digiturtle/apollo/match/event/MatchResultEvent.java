@@ -7,6 +7,8 @@ public class MatchResultEvent extends Event {
 	
 	private HashMap<UUID, Integer> points;
 	
+	public int[] teamCounts;
+	
 	public MatchResultEvent () {
 		
 	}

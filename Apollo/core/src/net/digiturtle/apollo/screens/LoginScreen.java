@@ -26,6 +26,7 @@ public class LoginScreen extends Screen {
 	public void onManagerPacket (Object object) {
 		if (object instanceof UserConnectedEvent) {
 			Apollo.user = ((UserConnectedEvent) object).getUser();
+			Apollo.userId = Apollo.user.getId();
 			Screen.set(ScreenId.LOBBY);
 		}
 	}

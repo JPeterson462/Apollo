@@ -110,6 +110,7 @@ public class ManagerServer {
 					MatchResultEvent matchResult = (MatchResultEvent) event;
 					for (Map.Entry<UUID, Integer> pointCount : matchResult.getPoints().entrySet()) {
 						User user = ctx.getUser(pointCount.getKey());
+						System.out.println(pointCount.getKey() + " " + user);
 						user.setCoins(user.getCoins() + pointCount.getValue()/25);
 						ctx.updateUser(user);
 					}

@@ -35,18 +35,22 @@ public class MatchServer {
 	
 	public static void main(String[] args) throws FileNotFoundException {
 		MatchManager.eventDispatcher = (event) -> {
+			server.broadcast(event);
 			if (event instanceof MatchOverEvent) {
+				System.out.println("Sending MatchOverEvent to clients (" + event.isRemote() + ") " + matchManager.getMatch());
 				MatchOverEvent matchOver = (MatchOverEvent) event;
 				MatchResultEvent matchResult = new MatchResultEvent();
 				HashMap<UUID, Integer> pointsPerPlayer = new HashMap<>(); 
 				Match match = matchManager.getMatch();
+				System.out.println(match.getPlayers() + " " + java.util.Arrays.toString(matchOver.getScores()) + " " + match.getPlayersMap());
 				for (Player player : match.getPlayers()) {
 					pointsPerPlayer.put(player.getId(), matchOver.getScores()[player.getTeam()]);
 				}
+				matchResult.teamCounts = matchOver.getScores();
 				matchResult.setPoints(pointsPerPlayer);
 				managementClient.send(matchResult);
+				server.broadcast(matchResult);
 			}
-			server.broadcast(event);
 		};
 
 		int numPlayers = Integer.parseInt(args[0]);
@@ -69,10 +73,14 @@ public class MatchServer {
 		server = new UdpServer(4560);
 		//playerStates = new HashMap<>();
 		server.listen((object, sender) -> {
+			if (object instanceof Event) {
+				((Event) object).setRemote(true);
+			}
 			if (object instanceof MatchEvent) {
 				matchManager.onEvent((Event) object);
 			}
 			if (object instanceof PlayerEvent) {
+				matchManager.getMatch().onEvent((Event) object);
 				server.forward(object, sender);
 			}
 		});

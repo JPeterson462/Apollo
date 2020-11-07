@@ -49,6 +49,7 @@ public class MatchManager implements IEventListener {
 		player.setState(Player.State.STANDING);
 		player.setTeam(findAvailableTeam());
 		match.addPlayer(player, null);
+		System.out.println("onPlayerConnect: " + player + " " + match.getPlayersMap() + " " + match);
 	}
 	
 	private int findAvailableTeam () {
@@ -76,8 +77,11 @@ public class MatchManager implements IEventListener {
 				onServerReady();
 			}
 		}
-		if (event instanceof PlayerEvent) {
+		//if (event instanceof PlayerEvent) {
 			match.onEvent(event);
+		//}
+		if (event instanceof MatchOverEvent) {
+			eventDispatcher.accept(event);
 		}
 	}
 

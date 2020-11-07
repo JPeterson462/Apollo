@@ -11,7 +11,7 @@ public class MatchLobbyScreen extends Screen {
 
 	@Override
 	public void render () {
-		//Screen.set(ScreenId.MATCH);
+		Screen.set(ScreenId.MATCH);
 
 	}
 

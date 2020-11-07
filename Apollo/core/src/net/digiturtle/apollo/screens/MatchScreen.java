@@ -9,6 +9,7 @@ import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.FiberPool;
 import net.digiturtle.apollo.GdxIntegration;
 import net.digiturtle.apollo.MatchInputController;
+import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.GdxIntegration.GdxWorld;
 import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
 import net.digiturtle.apollo.graphics.MatchRenderer;
@@ -21,6 +22,7 @@ import net.digiturtle.apollo.match.Arsenal.Powerup;
 import net.digiturtle.apollo.match.Arsenal.PowerupStatus;
 import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.MatchConnectEvent;
+import net.digiturtle.apollo.match.event.MatchResultEvent;
 import net.digiturtle.apollo.match.event.MatchSimulator;
 import net.digiturtle.apollo.match.event.MatchStartEvent;
 import net.digiturtle.apollo.match.event.PlayerEvent;
@@ -71,7 +73,6 @@ public class MatchScreen extends Screen {
 	
 	@Override
 	public void render () {
-		//if (matchSimulator != null) System.out.println(Math.sqrt(match.getPlayer(Apollo.userId).getVelocity().len2()) + " versus " + ApolloSettings.PLAYER_SPEED);
 		{
 			if (!_sentConnect) {
 				_sentConnect = true;
@@ -119,10 +120,20 @@ public class MatchScreen extends Screen {
 				matchSimulator = new MatchSimulator(match, new ApolloVisualFXEngine());
 			});
 		}
-		if (object instanceof PlayerEvent) {
+		else if (object instanceof PlayerEvent) {
 			Event event = (Event) object;
 			event.setRemote(true);
 			match.onEvent(event);
+		}
+		else if (object instanceof MatchResultEvent) {
+			MatchResultEvent matchResult = (MatchResultEvent) object;
+			User user = Apollo.user;
+			user.setCoins(user.getCoins() + matchResult.getPoints().get(Apollo.userId));
+			Apollo.teamCounts = matchResult.teamCounts;
+			Screen.set(ScreenId.MATCH_OVER);
+		}
+		else {
+			System.out.println("****  Unhandled: " + object + "  ****");
 		}
 	}
 
