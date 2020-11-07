@@ -46,6 +46,7 @@ public class MatchServer {
 				for (Player player : match.getPlayers()) {
 					pointsPerPlayer.put(player.getId(), matchOver.getScores()[player.getTeam()]);
 				}
+				matchResult.teams = match.getTeams().length;
 				matchResult.teamCounts = matchOver.getScores();
 				matchResult.setPoints(pointsPerPlayer);
 				managementClient.send(matchResult);

@@ -6,6 +6,14 @@ import java.util.function.Function;
 
 public class MathUtils {
 	
+	public static int max(int[] array) {
+		int max = array[0];
+		for (int i = 1; i < array.length; i++) {
+			max = Math.max(max, array[i]);
+		}
+		return max;
+	}
+	
 	public static Vector2 getMouseDirection(Vector2 mousePosition, Vector2 screenSize) {
 		Vector2 mouse = new Vector2(mousePosition.x - screenSize.x/2, -(mousePosition.y - screenSize.y/2));
     	Vector2 mouseOnMap = MathUtils.screenToMap(mouse, ApolloSettings.TILE_SIZE);

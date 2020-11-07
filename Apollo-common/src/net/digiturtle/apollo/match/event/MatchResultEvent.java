@@ -9,6 +9,8 @@ public class MatchResultEvent extends Event {
 	
 	public int[] teamCounts;
 	
+	public int teams;
+	
 	public MatchResultEvent () {
 		
 	}

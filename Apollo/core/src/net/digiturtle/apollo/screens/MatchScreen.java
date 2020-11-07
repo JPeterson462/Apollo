@@ -9,6 +9,7 @@ import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.FiberPool;
 import net.digiturtle.apollo.GdxIntegration;
 import net.digiturtle.apollo.MatchInputController;
+import net.digiturtle.apollo.MathUtils;
 import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.GdxIntegration.GdxWorld;
 import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
@@ -130,6 +131,8 @@ public class MatchScreen extends Screen {
 			User user = Apollo.user;
 			user.setCoins(user.getCoins() + matchResult.getPoints().get(Apollo.userId));
 			Apollo.teamCounts = matchResult.teamCounts;
+			Apollo.numberOfTeams = matchResult.teams;
+			Apollo.weWon = matchResult.teamCounts[match.getPlayer(Apollo.userId).getTeam()] == MathUtils.max(matchResult.teamCounts);
 			Screen.set(ScreenId.MATCH_OVER);
 		}
 		else {
