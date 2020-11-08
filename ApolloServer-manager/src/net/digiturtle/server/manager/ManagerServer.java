@@ -1,11 +1,16 @@
 package net.digiturtle.server.manager;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.User;
+import net.digiturtle.apollo.match.Arsenal;
+import net.digiturtle.apollo.match.Arsenal.Powerup;
+import net.digiturtle.apollo.match.Arsenal.PowerupStatus;
+import net.digiturtle.apollo.match.event.BatchArsenalQuery;
 import net.digiturtle.apollo.match.event.MatchResultEvent;
 import net.digiturtle.apollo.match.event.UserConnectedEvent;
 import net.digiturtle.apollo.match.event.UserJoinEvent;
@@ -132,6 +137,21 @@ public class ManagerServer {
 						lobbyResult.teams = lobbies[i].getTeams();
 						response.lobbies[i] = lobbyResult;
 					}
+					server.send(response, ip);
+				}
+				if (event instanceof BatchArsenalQuery.Request) {
+					HashMap<UUID, Arsenal> result = new HashMap<>();
+					for (UUID player : ((BatchArsenalQuery.Request)event).ids) {
+						User user = ctx.getUser(player);
+						Arsenal arsenal = new Arsenal();
+						arsenal.getStatuses().put(Powerup.DAMAGE, new PowerupStatus(user.getDamagePowerup(), Powerup.DAMAGE));
+						arsenal.getStatuses().put(Powerup.SPEED, new PowerupStatus(user.getSpeedPowerup(), Powerup.SPEED));
+						arsenal.getStatuses().put(Powerup.RESILIENCE, new PowerupStatus(user.getResiliencePowerup(), Powerup.RESILIENCE));
+						arsenal.getStatuses().put(Powerup.EXPLOSIVES, new PowerupStatus(user.getExplosivesPowerup(), Powerup.EXPLOSIVES));
+						result.put(player, arsenal);
+					}
+					BatchArsenalQuery.Response response = new BatchArsenalQuery.Response();
+					response.arsenals = result;
 					server.send(response, ip);
 				}
 			} catch (SQLException ex) {

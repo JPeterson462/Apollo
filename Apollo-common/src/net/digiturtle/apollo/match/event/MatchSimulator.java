@@ -150,14 +150,15 @@ public class MatchSimulator implements IEventListener {
 	
 	@Override
 	public void onEvent (Event event) {
-		if (event instanceof MatchConnectEvent) {
+		System.out.println("(" + Thread.currentThread().getId() + ") MatchSimulator onEvent: " + event);
+		/*if (event instanceof MatchConnectEvent) {
 			MatchConnectEvent matchConnectEvent = (MatchConnectEvent) event;
 			Player player = new Player(matchConnectEvent.getUniqueIdentifier(), null, null);
 			player.setState(Player.State.STANDING);
-			player.setTeam(0);//FIXME FIXME FIXME
+			player.setTeam(0);//
 			match.addPlayer(player, null);
-		}
-		System.out.println(event.getClass().getName());
+			System.out.println("NOW -- " + match.getPlayersMap());
+		}*/
 		System.out.println(match + " " + match.getPlayersMap());
 		if (event instanceof PlayerDamageEvent) {
 			PlayerDamageEvent playerDamageEvent = (PlayerDamageEvent) event;

@@ -15,6 +15,7 @@ import net.digiturtle.apollo.definitions.ResourceRegionDefinition;
 import net.digiturtle.apollo.match.event.Event;
 import net.digiturtle.apollo.match.event.IEventListener;
 import net.digiturtle.apollo.match.event.ILocalEvent;
+import net.digiturtle.apollo.match.event.MatchEvent;
 import net.digiturtle.apollo.match.event.MatchSimulator;
 import net.digiturtle.apollo.match.event.PlayerEvent;
 
@@ -74,7 +75,9 @@ public class Match {
 		//random = new Random();
         tiledMap = loader.load(definition.tiledMapFile);
         world = loader.createWorld(new Vector2(0, 0), true);
-        players = new HashMap<>();
+        if (players == null) {
+        	players = new HashMap<>();
+        }
         bullets = new ArrayList<Bullet>();
         resourceRegions = new ArrayList<>();
         droppedBackpacks = new ArrayList<>();
@@ -99,12 +102,13 @@ public class Match {
 	}
 	
 	public void onEvent(Event event) {//FIXME send event across network and timestamp it
+		System.out.println("(" + this + ") Match onEvent: " + event);
 		if (!event.isRemote() && !(event instanceof ILocalEvent)) {
 			if (eventForwarder != null)
 				eventForwarder.accept(event);
 		}
 		boolean localPlayerEventFromRemote = event.isRemote() && event instanceof PlayerEvent && isClient.apply(((PlayerEvent) event).getPlayer());
-		if (!localPlayerEventFromRemote) {
+		if (!localPlayerEventFromRemote || event instanceof MatchEvent) {
 			eventListener.onEvent(event);
 		}
 	}
@@ -133,7 +137,7 @@ public class Match {
 		return Math.max(0, lengthSeconds);
 	}
 	
-	public HashMap<UUID, Player> getPlayersMap () {
+	public synchronized HashMap<UUID, Player> getPlayersMap () {
 		return players;
 	}
 	
@@ -185,8 +189,10 @@ public class Match {
 	}
 
 	public void addPlayer (Player player, IBody body) {
-		player.setBody(body);
-		players.put(player.getId(), player);
+		synchronized (players) {
+			player.setBody(body);
+			players.put(player.getId(), player);
+		}
 	}
 	
 	public Collection<Player> getPlayers () {

@@ -10,7 +10,9 @@ import net.digiturtle.apollo.TiledMapLoaderStub;
 import net.digiturtle.apollo.VisualFXEngineStub;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
+import net.digiturtle.apollo.match.event.BatchArsenalQuery;
 import net.digiturtle.apollo.match.event.Event;
+import net.digiturtle.apollo.match.event.MatchConnectEvent;
 import net.digiturtle.apollo.match.event.MatchEvent;
 import net.digiturtle.apollo.match.event.MatchManager;
 import net.digiturtle.apollo.match.event.MatchOverEvent;
@@ -37,7 +39,7 @@ public class MatchServer {
 		MatchManager.eventDispatcher = (event) -> {
 			server.broadcast(event);
 			if (event instanceof MatchOverEvent) {
-				System.out.println("Sending MatchOverEvent to clients (" + event.isRemote() + ") " + matchManager.getMatch());
+				System.out.println("Sending MatchOverEvent to clients (" + ((Event) event).isRemote() + ") " + matchManager.getMatch());
 				MatchOverEvent matchOver = (MatchOverEvent) event;
 				MatchResultEvent matchResult = new MatchResultEvent();
 				HashMap<UUID, Integer> pointsPerPlayer = new HashMap<>(); 
@@ -53,15 +55,18 @@ public class MatchServer {
 				server.broadcast(matchResult);
 			}
 		};
+		MatchManager.managerDispatcher = (object) -> {
+			managementClient.send(object);
+		};
 
 		int numPlayers = Integer.parseInt(args[0]);
 		
 		matchManager = new MatchManager(numPlayers, 1, DebugStuff.newMatchDefinition(numPlayers), 
 				new TiledMapLoaderStub(), new IntersectorStub(), new VisualFXEngineStub(),
 				(match) -> {
-					fiberPool.scheduleTask(20, () -> {
+					/*fiberPool.scheduleTask(20, () -> {
 						((MatchSimulator) match.getEventListener()).update(20f / 1000f);
-					});
+					});*/
 				});
 		
 		//random = new Random();
@@ -74,6 +79,7 @@ public class MatchServer {
 		server = new UdpServer(4560);
 		//playerStates = new HashMap<>();
 		server.listen((object, sender) -> {
+			System.out.println("[NEW PACKET]\nMatchServer server.listen: " + object);
 			if (object instanceof Event) {
 				((Event) object).setRemote(true);
 			}
@@ -81,13 +87,15 @@ public class MatchServer {
 				matchManager.onEvent((Event) object);
 			}
 			if (object instanceof PlayerEvent) {
-				matchManager.getMatch().onEvent((Event) object);
+				matchManager.onEvent((Event) object);
 				server.forward(object, sender);
 			}
 		});
 		managementClient = new TcpClient("localhost", 4720);
 		managementClient.listen((object) -> {
-			
+			if (object instanceof BatchArsenalQuery.Response) {
+				matchManager.onArsenalResult((BatchArsenalQuery.Response) object);
+			}
 		});
 		
 		fiberPool.scheduleTask(() -> {
