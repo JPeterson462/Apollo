@@ -33,9 +33,13 @@ public class UdpServer {
 
 	public void send (Object object, InetSocketAddress address) {
 		DatagramPacket packet = NetworkUtils.serialize(object, address.getHostName(), address.getPort());
-		channel.writeAndFlush(packet);
+		sendOrRetry(packet);
 	}
 
+	private void sendOrRetry (DatagramPacket packet) {
+		channel.writeAndFlush(packet);
+	}
+	
 	public void broadcast (Object object) {
 		for (InetSocketAddress client : clients) {
 			send(object, client);
@@ -61,8 +65,14 @@ public class UdpServer {
 				@Override
 				protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
 					Object object = NetworkUtils.deserialize(packet);
-					clients.add(packet.sender()); //NOTE: If I'm going to update for EVERY packet, must use a Set NOT a List
-					packetConsumer.accept(object, packet.sender());
+					if (object instanceof AckPacket) {
+						// Would be good to do packet retries for non-ACKed packets
+					}
+					else {
+						clients.add(packet.sender()); //NOTE: If I'm going to update for EVERY packet, must use a Set NOT a List
+						send(NetworkUtils.ack(packet), packet.sender());
+						packetConsumer.accept(object, packet.sender());
+					}
 				}
 			});
 			channel = b.bind(port).sync().channel();

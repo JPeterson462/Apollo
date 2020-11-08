@@ -13,6 +13,14 @@ public class NetworkUtils {
 	
 	private static Gson gson = new Gson();
 
+	public static AckPacket ack (DatagramPacket packet) {
+		String input = packet.content().toString(CharsetUtil.UTF_8);
+		int messageHash = input.hashCode();
+		AckPacket ack = new AckPacket();
+		ack.messageHash = messageHash;
+		return ack;
+	}
+	
 	public static DatagramPacket serialize (Object object, String ip, int port) {
 		ByteBuf buf = serialize(object);
 		return new DatagramPacket(buf, SocketUtils.socketAddress(ip, port));

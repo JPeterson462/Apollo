@@ -38,10 +38,14 @@ public class UdpClient {
 		}
 		DatagramPacket packet = NetworkUtils.serialize(object, ip, port);
 		if (channel != null) {
-			channel.writeAndFlush(packet);
+			sendOrRetry(packet);
 		} else {
 			preConnectBuffer.add(packet);
 		}
+	}
+	
+	private void sendOrRetry (DatagramPacket packet) {
+		channel.writeAndFlush(packet);
 	}
 	
 	public void connect () throws InterruptedException {
@@ -55,13 +59,19 @@ public class UdpClient {
 				@Override
 				protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
 					Object object = NetworkUtils.deserialize(packet);
-					packetConsumer.accept(object);
+					if (object instanceof AckPacket) {
+						// Would be good to do packet retries for non-ACKed packets
+					}
+					else {
+						send(NetworkUtils.ack(packet));
+						packetConsumer.accept(object);
+					}
 				}
 			});
 
 			channel = b.bind(0).sync().channel();
 			for (DatagramPacket packet : preConnectBuffer) {
-				channel.writeAndFlush(packet);
+				sendOrRetry(packet);
 			}
 			preConnectBuffer.clear();
 			channel.closeFuture().sync();
