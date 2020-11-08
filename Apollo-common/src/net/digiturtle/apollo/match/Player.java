@@ -148,7 +148,9 @@ public class Player {
 			if (temporaryStateLen <= 0) {
 				temporaryState = null;
 				temporaryStateLen = 0;
-				renderablePlayer.onStateChange(state);
+				if (renderablePlayer != null) {
+					renderablePlayer.onStateChange(state);
+				}
 			}
 		}
 		if (body == null) {

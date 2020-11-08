@@ -1,0 +1,9 @@
+The audio files used are from:
+
+(grenade.ogg) https://opengameart.org/content/q009s-weapon-sounds
+
+(pistol.ogg) https://opengameart.org/content/q009s-weapon-sounds
+
+(end_level.wav) https://opengameart.org/content/success-trumpets-and-claps-yo-frankie
+
+All three were licensed under the CC-BY 3.0 license (https://creativecommons.org/licenses/by-sa/3.0/)

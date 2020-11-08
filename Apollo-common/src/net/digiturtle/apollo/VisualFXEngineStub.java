@@ -14,5 +14,10 @@ public class VisualFXEngineStub implements VisualFXEngine {
 	public void addMuzzleFlash(Player player) {
 		
 	}
+	
+	@Override
+	public void onExplosion () {
+		
+	}
 
 }

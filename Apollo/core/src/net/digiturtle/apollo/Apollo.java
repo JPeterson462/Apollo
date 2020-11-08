@@ -44,6 +44,7 @@ public class Apollo extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		Sounds.create();
 		matchPool = new FiberPool(1);
 		managerClient = new TcpClient("localhost", 4720);
 		managerClient.listen((object) -> {

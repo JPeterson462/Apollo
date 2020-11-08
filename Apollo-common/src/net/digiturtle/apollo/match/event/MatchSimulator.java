@@ -88,6 +88,7 @@ public class MatchSimulator implements IEventListener {
 					}
 				}
 				match.getExplosions().remove(i);
+				fxEngine.onExplosion();
 			}
 		}
 		if (match.getWorld() != null) {

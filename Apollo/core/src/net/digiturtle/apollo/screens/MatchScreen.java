@@ -5,9 +5,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.physics.box2d.World;
 
 import net.digiturtle.apollo.Apollo;
+import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.GdxIntegration;
 import net.digiturtle.apollo.MatchInputController;
 import net.digiturtle.apollo.MathUtils;
+import net.digiturtle.apollo.Sounds;
 import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.GdxIntegration.GdxWorld;
 import net.digiturtle.apollo.graphics.ApolloVisualFXEngine;
@@ -107,6 +109,7 @@ public class MatchScreen extends Screen {
 			Apollo.numberOfTeams = matchResult.teams;
 			Apollo.weWon = matchResult.teamCounts[match.getPlayer(Apollo.userId).getTeam()] == MathUtils.max(matchResult.teamCounts);
 			Screen.set(ScreenId.MATCH_OVER);
+			Sounds.end_level.play(ApolloSettings.VOLUME);
 		}
 		else {
 			System.out.println("****  Unhandled: " + object + "  ****");
