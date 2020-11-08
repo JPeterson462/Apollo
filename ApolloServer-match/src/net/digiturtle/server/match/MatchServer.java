@@ -64,9 +64,9 @@ public class MatchServer {
 		matchManager = new MatchManager(numPlayers, 1, DebugStuff.newMatchDefinition(numPlayers), 
 				new TiledMapLoaderStub(), new IntersectorStub(), new VisualFXEngineStub(),
 				(match) -> {
-					/*fiberPool.scheduleTask(20, () -> {
+					fiberPool.scheduleTask(20, () -> {
 						((MatchSimulator) match.getEventListener()).update(20f / 1000f);
-					});*/
+					});
 				});
 		
 		//random = new Random();
