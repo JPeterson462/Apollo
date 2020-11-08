@@ -126,6 +126,8 @@ public class ManagerServer {
 					MatchLobby lobby = lobbies[userLobby.getLobby()-1];
 					lobby.getConnections().put(userLobby.getUser().getId(), ip);
 					server.send(new UserLobbiedEvent(lobby.getIP(), lobby.getPort()), ip);
+					// TODO handle lobby statuses with match server
+					// MatchServer:MatchStartEvent = Active, MatchServer:MatchResultEvent = Resetting, JAR spun up = In_Lobby
 				}
 				if (event instanceof UserLobbyQuery.Request) {
 					UserLobbyQuery.Response response = new UserLobbyQuery.Response();

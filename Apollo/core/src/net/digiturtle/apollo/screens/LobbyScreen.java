@@ -18,6 +18,8 @@ import net.digiturtle.apollo.Lobby;
 import net.digiturtle.apollo.Rectangle;
 import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.graphics.TextRenderer;
+import net.digiturtle.apollo.match.event.UserLobbiedEvent;
+import net.digiturtle.apollo.match.event.UserLobbyEvent;
 import net.digiturtle.apollo.match.event.UserLobbyQuery;
 import net.digiturtle.apollo.match.event.UserLobbyQuery.LobbyResult;
 import net.digiturtle.apollo.match.event.UserUpgradeEvent;
@@ -64,13 +66,18 @@ public class LobbyScreen extends Screen {
 		}
 		if (action.equalsIgnoreCase("Match")) {
 			int slot = Integer.parseInt(data);
-			//FIXME
-			Apollo.readyToJoin = true;
-			Screen.set(ScreenId.MATCH_LOBBY);
+			Apollo.sendToMain(new UserLobbyEvent(Apollo.user, slot));
 		}
 	}
 
 	public void onManagerPacket (Object object) {
+		if (object instanceof UserLobbiedEvent) {
+			UserLobbiedEvent userLobbied = (UserLobbiedEvent) object;
+			Apollo.matchIp = userLobbied.getIP();
+			Apollo.matchPort = userLobbied.getPort();
+			Apollo.readyToJoin = true;
+			Screen.set(ScreenId.MATCH_LOBBY);
+		}
 		if (object instanceof UserLobbyQuery.Response) {
 			UserLobbyQuery.Response queryResponse = (UserLobbyQuery.Response) object;
 			Lobby[] lobbies = new Lobby[queryResponse.lobbies.length];

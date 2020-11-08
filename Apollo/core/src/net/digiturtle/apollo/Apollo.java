@@ -6,7 +6,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
-import net.digiturtle.apollo.Lobby.LobbyStatus;
 import net.digiturtle.apollo.networking.TcpClient;
 import net.digiturtle.apollo.networking.UdpClient;
 import net.digiturtle.apollo.screens.Screen;
@@ -23,6 +22,9 @@ public class Apollo extends ApplicationAdapter {
 	public static int[] teamCounts;
 	public static int numberOfTeams;
 	public static boolean weWon, readyToJoin;
+	
+	public static String matchIp;
+	public static int matchPort;
 	
 	private static FiberPool mainPool;
 	public static FiberPool matchPool;

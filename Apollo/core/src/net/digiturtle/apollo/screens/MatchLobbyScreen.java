@@ -27,7 +27,7 @@ public class MatchLobbyScreen extends Screen {
 	public void render () {
 		if (Apollo.readyToJoin) {
 			_sentConnect = false;
-			Apollo.client = new UdpClient("localhost", 4560);
+			Apollo.client = new UdpClient(Apollo.matchIp, Apollo.matchPort);
 			Apollo.client.listen(this::onPacket);
 			
 			Apollo.matchPool.scheduleTask(() -> {
