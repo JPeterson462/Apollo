@@ -1,6 +1,5 @@
 package net.digiturtle.server.manager;
 
-import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
