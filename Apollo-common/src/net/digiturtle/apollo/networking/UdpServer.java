@@ -9,10 +9,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.FixedRecvByteBufAllocator;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramPacket;
 import io.netty.channel.socket.nio.NioDatagramChannel;
+import net.digiturtle.apollo.ApolloSettings;
 
 public class UdpServer {
 
@@ -74,7 +76,8 @@ public class UdpServer {
 						packetConsumer.accept(object, packet.sender());
 					}
 				}
-			});
+			})
+			.option(ChannelOption.RCVBUF_ALLOCATOR, new FixedRecvByteBufAllocator(ApolloSettings.MAX_UDP_PACKET));
 			channel = b.bind(port).sync().channel();
 			channel.closeFuture().await();
 		} finally {

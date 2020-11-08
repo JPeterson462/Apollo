@@ -89,6 +89,7 @@ public class MatchManager implements IEventListener {
 			MatchConnectEvent matchConnectEvent = (MatchConnectEvent) event;
 			onPlayerConnect(matchConnectEvent.getUniqueIdentifier());
 			//match.onEvent(event);
+			System.out.println("PlayerConnect: " + matchConnectEvent.getUniqueIdentifier() + " for " + match.getPlayersMap());
 			if (match.getPlayersMap().size() == players*teams) {
 				onServerReady();
 			}

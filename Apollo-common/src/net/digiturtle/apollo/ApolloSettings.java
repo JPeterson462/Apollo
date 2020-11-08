@@ -7,6 +7,8 @@ import net.digiturtle.apollo.match.Resource;
 
 public interface ApolloSettings {
 	
+	public static final int MAX_UDP_PACKET = 16 * 1024;
+	
 	public static final String VERSION = "v0.6.0a";
 	
 	public static final String FONT_FACE = "PixelParty";

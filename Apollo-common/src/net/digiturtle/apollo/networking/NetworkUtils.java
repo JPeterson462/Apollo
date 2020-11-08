@@ -38,6 +38,7 @@ public class NetworkUtils {
 	
 	public static Object deserialize (ByteBuf buf) {
 		String input = buf.toString(CharsetUtil.UTF_8);
+		System.out.println(input);
 		String typeName = input.substring(0, input.indexOf('|')), json = input.substring(input.indexOf('|') + 1, input.indexOf('^'));
 		try {
 			return gson.fromJson(json, Class.forName(typeName));

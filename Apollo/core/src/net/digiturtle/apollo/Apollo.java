@@ -32,6 +32,8 @@ public class Apollo extends ApplicationAdapter {
 	private static TcpClient managerClient;
 	public static UdpClient client;
 	
+	public static String productKey;
+	
 	public static void send (Object object) {
 		Screen.get().send(object);
 	}

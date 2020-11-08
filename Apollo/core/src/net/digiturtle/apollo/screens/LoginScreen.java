@@ -19,7 +19,7 @@ public class LoginScreen extends Screen {
 		//System.out.println("LoginScreen");
 		
 		User user = new User();
-		user.setProductKey("ABCD");
+		user.setProductKey(Apollo.productKey);
 		Apollo.sendToMain(new UserJoinEvent(user));
 	}
 	
