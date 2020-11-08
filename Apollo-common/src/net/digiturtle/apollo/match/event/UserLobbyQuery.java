@@ -12,7 +12,13 @@ public class UserLobbyQuery {
 		
 		public int playersPerTeam, teams, playersConnected;
 		
+		public String worldName;
+		
 		public LobbyStatus lobbyStatus;
+		
+		public String toString () {
+			return "Lobby[" + worldName + ", " + lobbyStatus.name() + ": " + teams + "]";
+		}
 		
 	}
 	

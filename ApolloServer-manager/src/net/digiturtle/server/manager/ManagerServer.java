@@ -1,6 +1,7 @@
 package net.digiturtle.server.manager;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -135,8 +136,10 @@ public class ManagerServer {
 						lobbyResult.playersConnected = lobbies[i].getConnections().size();
 						lobbyResult.playersPerTeam = lobbies[i].getPlayers();
 						lobbyResult.teams = lobbies[i].getTeams();
+						lobbyResult.worldName = "Alpha Planet";
 						response.lobbies[i] = lobbyResult;
 					}
+					System.out.println("Lobbies: " + Arrays.toString(response.lobbies));
 					server.send(response, ip);
 				}
 				if (event instanceof BatchArsenalQuery.Request) {

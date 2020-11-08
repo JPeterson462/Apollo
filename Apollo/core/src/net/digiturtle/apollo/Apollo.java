@@ -57,21 +57,7 @@ public class Apollo extends ApplicationAdapter {
 			System.out.println("RAM (MB): " + (double) (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024));
 		});
 		user = new User();
-		/*user.setCoins(1000);
-		user.setDamagePowerup(3);
-		user.setExplosivesPowerup(2);
-		user.setSpeedPowerup(4);
-		user.setResiliencePowerup(1);*/
-		lobbies = new Lobby[7];
-		for (int i = 0; i < 7; i++) {
-			Lobby lobby = new Lobby();
-			lobby.setPlayerCount((i%2==0) ? "1/2" : "1/4");
-			lobby.setPlayerTotal((i%2==0) ? "1v1" : "2v2");
-			lobby.setStatus((i%2==0) ? LobbyStatus.In_Lobby : (i==6)?LobbyStatus.Resetting : LobbyStatus.Active);
-			lobby.setWorldName((i%2==0) ? "Alpha Planet" : "Beta Planet");
-			lobbies[i] = lobby;
-		}
-		//FIXME use real values for User,Lobby
+		lobbies = new Lobby[0];
 		Screen.createAll();
 		Screen.set(ScreenId.LOGIN);
 	}

@@ -93,6 +93,7 @@ public class MatchServer {
 		});
 		managementClient = new TcpClient("localhost", 4720);
 		managementClient.listen((object) -> {
+			System.out.println("Incoming: " + object);
 			if (object instanceof BatchArsenalQuery.Response) {
 				matchManager.onArsenalResult((BatchArsenalQuery.Response) object);
 			}

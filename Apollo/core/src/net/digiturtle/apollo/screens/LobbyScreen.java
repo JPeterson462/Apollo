@@ -13,9 +13,13 @@ import net.digiturtle.apollo.Apollo;
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Button;
 import net.digiturtle.apollo.ButtonInputController;
+import net.digiturtle.apollo.FiberPool;
+import net.digiturtle.apollo.Lobby;
 import net.digiturtle.apollo.Rectangle;
 import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.graphics.TextRenderer;
+import net.digiturtle.apollo.match.event.UserLobbyQuery;
+import net.digiturtle.apollo.match.event.UserLobbyQuery.LobbyResult;
 import net.digiturtle.apollo.match.event.UserUpgradeEvent;
 import net.digiturtle.apollo.match.event.UserUpgradeResponse;
 
@@ -28,6 +32,7 @@ public class LobbyScreen extends Screen {
 	private SpriteBatch spriteBatch;
 	private TextRenderer textRenderer;
 	private TextureRegion[][] powerupRegions;
+	private FiberPool threads;
 	
 	private int[] states;
 	private Button[] allButtons;
@@ -66,6 +71,20 @@ public class LobbyScreen extends Screen {
 	}
 
 	public void onManagerPacket (Object object) {
+		if (object instanceof UserLobbyQuery.Response) {
+			UserLobbyQuery.Response queryResponse = (UserLobbyQuery.Response) object;
+			Lobby[] lobbies = new Lobby[queryResponse.lobbies.length];
+			for (int i = 0; i < lobbies.length; i++) {
+				LobbyResult src = queryResponse.lobbies[i];
+				Lobby dst = new Lobby();
+				dst.setPlayerCount(Integer.toString(src.playersConnected) + "/" + Integer.toString(src.playersPerTeam * src.teams));
+				dst.setPlayerTotal(src.playersPerTeam + "v" + src.playersPerTeam + (src.teams > 2 ? ("v" + src.playersPerTeam) : ""));
+				dst.setStatus(src.lobbyStatus);
+				dst.setWorldName(src.worldName);
+				lobbies[i] = dst;
+			}
+			Apollo.lobbies = lobbies;
+		}
 		if (object instanceof UserUpgradeResponse) {
 			UserUpgradeResponse upgradeResponse = (UserUpgradeResponse) object;
 			if (upgradeResponse.success) {
@@ -99,6 +118,12 @@ public class LobbyScreen extends Screen {
 	
 	@Override
 	public void create () {
+		threads = new FiberPool(1);
+		threads.scheduleTask(1000, () -> {
+			if (Screen.current == ScreenId.LOBBY) {
+				Apollo.sendToMain(new UserLobbyQuery.Request());
+			}
+		});
 		hud = new Texture("LobbyHud.png");
 		shopBgAll = new Texture("ShopBG.png");
 		matchBg = new Texture("MatchSlot.png");
@@ -205,7 +230,7 @@ public class LobbyScreen extends Screen {
 			spriteBatch.draw(powerupRegions[ApolloSettings.EXPLOSIVE_POWERUP][i], 8+14 + i*28 + camera.viewportWidth - 120 - 5, 25 + camera.viewportHeight - 54 - 5 - 54 - 5 - 54 - 5 - 54 - 5);
 		}
 		
-		for (int i = 1; i <= 7; i++) {
+		for (int i = 1; i <= Apollo.lobbies.length; i++) {
 			spriteBatch.draw(matchBg, 5, camera.viewportHeight - i * (28 + 5));
 			spriteBatch.draw(buttonJoin[states[i + 3]], 5 + 160 - 14, 3 + camera.viewportHeight - i * (28 + 5));
 		}
@@ -224,6 +249,10 @@ public class LobbyScreen extends Screen {
 			
 			String X_Y = Apollo.lobbies[i-1].getPlayerCount();
 			textRenderer.text(X_Y, 5 + 160-35 - (int)textRenderer.getTextWidth(X_Y) - 3, (int) camera.viewportHeight - i * (28 + 5) + 28-3 - 12, Color.BLUE);
+		}
+		
+		if (Apollo.lobbies.length == 0) {
+			textRenderer.text("Fetching lobby statuses...", 10, (int) camera.viewportHeight - 10 - 8, Color.YELLOW);
 		}
 
         String coins = Integer.toString(Apollo.user.getCoins());
