@@ -38,10 +38,12 @@ public class MatchServer {
 	private static MatchManager matchManager;
 	
 	public static void main(String[] args) throws FileNotFoundException {
+		String matchIp = "127.0.0.1", managerIp = "127.0.0.1";
+		int matchPort = 4560, managerPort = 4720;
 		MatchManager.eventDispatcher = (event) -> {
 			server.broadcast(event);
 			if (event instanceof MatchStartEvent) {
-				managementClient.send(new MatchStatusEvent(Lobby.LobbyStatus.Active, "127.0.0.1", 4560));
+				managementClient.send(new MatchStatusEvent(Lobby.LobbyStatus.Active, matchIp, matchPort));
 			}
 			if (event instanceof MatchOverEvent) {
 				System.out.println("Sending MatchOverEvent to clients (" + ((Event) event).isRemote() + ") " + matchManager.getMatch());
@@ -58,7 +60,7 @@ public class MatchServer {
 				matchResult.setPoints(pointsPerPlayer);
 				managementClient.send(matchResult);
 				server.broadcast(matchResult);
-				managementClient.send(new MatchStatusEvent(Lobby.LobbyStatus.Resetting, "127.0.0.1", 4560));
+				managementClient.send(new MatchStatusEvent(Lobby.LobbyStatus.Resetting, matchIp, matchPort));
 			}
 		};
 		MatchManager.managerDispatcher = (object) -> {
@@ -82,7 +84,7 @@ public class MatchServer {
 		//System.setErr(new PrintStream(new FileOutputStream("debug.txt")));
 		
 		fiberPool = new FiberPool(4);
-		server = new UdpServer(4560);
+		server = new UdpServer(matchPort);
 		//playerStates = new HashMap<>();
 		server.listen((object, sender) -> {
 			System.out.println("[NEW PACKET]\nMatchServer server.listen: " + object);
@@ -97,7 +99,7 @@ public class MatchServer {
 				server.forward(object, sender);
 			}
 		});
-		managementClient = new TcpClient("localhost", 4720);
+		managementClient = new TcpClient(managerIp, managerPort);
 		managementClient.listen((object) -> {
 			System.out.println("Incoming: " + object);
 			if (object instanceof BatchArsenalQuery.Response) {

@@ -37,12 +37,12 @@ public class DebugRenderer {
 	}
 	
 	public static void render (Camera camera) {
-		shapeRenderer.begin();
+	/*	shapeRenderer.begin();
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		for (Line line : lines) {
 			shapeRenderer.line(line.start.x, line.start.y, line.end.x, line.end.y);
 		}
-		shapeRenderer.end();
+		shapeRenderer.end();*/
 	}
 
 }
