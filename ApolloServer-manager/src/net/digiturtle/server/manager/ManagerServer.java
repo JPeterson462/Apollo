@@ -1,5 +1,6 @@
 package net.digiturtle.server.manager;
 
+import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,17 +8,20 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.digiturtle.apollo.ApolloSettings;
+import net.digiturtle.apollo.Lobby;
 import net.digiturtle.apollo.User;
 import net.digiturtle.apollo.match.Arsenal;
 import net.digiturtle.apollo.match.Arsenal.Powerup;
 import net.digiturtle.apollo.match.Arsenal.PowerupStatus;
 import net.digiturtle.apollo.match.event.BatchArsenalQuery;
 import net.digiturtle.apollo.match.event.MatchResultEvent;
+import net.digiturtle.apollo.match.event.MatchStatusEvent;
 import net.digiturtle.apollo.match.event.UserConnectedEvent;
 import net.digiturtle.apollo.match.event.UserJoinEvent;
 import net.digiturtle.apollo.match.event.UserLobbiedEvent;
 import net.digiturtle.apollo.match.event.UserLobbyEvent;
 import net.digiturtle.apollo.match.event.UserLobbyQuery;
+import net.digiturtle.apollo.match.event.UserNotLobbiedEvent;
 import net.digiturtle.apollo.match.event.UserUpgradeEvent;
 import net.digiturtle.apollo.match.event.UserUpgradeResponse;
 import net.digiturtle.apollo.networking.TcpServer;
@@ -45,18 +49,45 @@ public class ManagerServer {
 	
 	private static MatchLobby[] lobbies;
 	
+	private static MatchLobby findMatchLobbyFromIp(String ip, int port) {
+		for (int i = 0; i < lobbies.length; i++) {
+			MatchLobby lobby = lobbies[i];
+			if (lobby.getIP().equals(ip) && lobby.getPort() == port) {
+				return lobby;
+			}
+		}
+		System.out.println("Lobby " + ip + ":" + port + " not found");
+		return null;
+	}
+	
 	public static void main (String[] args) throws SQLException, InterruptedException {
 		// ABCD is the test product key
 		ctx = new DataContext("test1.db");
 	//	ctx.setupTables();
 		
 		lobbies = new MatchLobby[] {
-			new MatchLobby("localhost", 4560, 2, 1)
+			new MatchLobby("127.0.0.1", 4560, 2, 1),
+			
+			new MatchLobby("", -1, 2, 2).to(Lobby.LobbyStatus.Resetting),//Testing for other statuses
 		};
+		
+		// TODO spin up match servers
 		
 		TcpServer server = new TcpServer(4720);
 		server.listen((event, ip) -> {
 			try {
+				if (event instanceof MatchStatusEvent) {
+					MatchStatusEvent matchStatus = (MatchStatusEvent) event;
+					MatchLobby lobby = findMatchLobbyFromIp(matchStatus.ip, matchStatus.port);
+					lobby.setStatus(matchStatus.status);
+					if (matchStatus.status.equals(Lobby.LobbyStatus.Resetting)) {
+						lobby.clear();
+						// TODO
+						// Stop the Match server JAR
+						// Start the Match server JAR
+						// Status = In_Lobby
+					}
+				}
 				if (event instanceof UserJoinEvent) {
 					User user = ((UserJoinEvent) event).getRequestedUser();
 					User existing = ctx.findUser(user.getProductKey());
@@ -124,9 +155,12 @@ public class ManagerServer {
 				if (event instanceof UserLobbyEvent) {
 					UserLobbyEvent userLobby = (UserLobbyEvent) event;
 					MatchLobby lobby = lobbies[userLobby.getLobby()-1];
-					lobby.getConnections().put(userLobby.getUser().getId(), ip);
-					server.send(new UserLobbiedEvent(lobby.getIP(), lobby.getPort()), ip);
-					// TODO handle lobby statuses with match server
+					if (lobby.getStatus().equals(Lobby.LobbyStatus.In_Lobby)) {
+						lobby.getConnections().put(userLobby.getUser().getId(), ip);
+						server.send(new UserLobbiedEvent(lobby.getIP(), lobby.getPort()), ip);
+					} else {
+						server.send(new UserNotLobbiedEvent(), ip);
+					}
 					// MatchServer:MatchStartEvent = Active, MatchServer:MatchResultEvent = Resetting, JAR spun up = In_Lobby
 				}
 				if (event instanceof UserLobbyQuery.Request) {

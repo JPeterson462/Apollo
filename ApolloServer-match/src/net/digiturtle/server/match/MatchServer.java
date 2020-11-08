@@ -6,18 +6,20 @@ import java.util.UUID;
 
 import net.digiturtle.apollo.FiberPool;
 import net.digiturtle.apollo.IntersectorStub;
+import net.digiturtle.apollo.Lobby;
 import net.digiturtle.apollo.TiledMapLoaderStub;
 import net.digiturtle.apollo.VisualFXEngineStub;
 import net.digiturtle.apollo.match.Match;
 import net.digiturtle.apollo.match.Player;
 import net.digiturtle.apollo.match.event.BatchArsenalQuery;
 import net.digiturtle.apollo.match.event.Event;
-import net.digiturtle.apollo.match.event.MatchConnectEvent;
 import net.digiturtle.apollo.match.event.MatchEvent;
 import net.digiturtle.apollo.match.event.MatchManager;
 import net.digiturtle.apollo.match.event.MatchOverEvent;
 import net.digiturtle.apollo.match.event.MatchResultEvent;
 import net.digiturtle.apollo.match.event.MatchSimulator;
+import net.digiturtle.apollo.match.event.MatchStartEvent;
+import net.digiturtle.apollo.match.event.MatchStatusEvent;
 import net.digiturtle.apollo.match.event.PlayerEvent;
 import net.digiturtle.apollo.networking.TcpClient;
 import net.digiturtle.apollo.networking.UdpServer;
@@ -38,6 +40,9 @@ public class MatchServer {
 	public static void main(String[] args) throws FileNotFoundException {
 		MatchManager.eventDispatcher = (event) -> {
 			server.broadcast(event);
+			if (event instanceof MatchStartEvent) {
+				managementClient.send(new MatchStatusEvent(Lobby.LobbyStatus.Active, "127.0.0.1", 4560));
+			}
 			if (event instanceof MatchOverEvent) {
 				System.out.println("Sending MatchOverEvent to clients (" + ((Event) event).isRemote() + ") " + matchManager.getMatch());
 				MatchOverEvent matchOver = (MatchOverEvent) event;
@@ -53,6 +58,7 @@ public class MatchServer {
 				matchResult.setPoints(pointsPerPlayer);
 				managementClient.send(matchResult);
 				server.broadcast(matchResult);
+				managementClient.send(new MatchStatusEvent(Lobby.LobbyStatus.Resetting, "127.0.0.1", 4560));
 			}
 		};
 		MatchManager.managerDispatcher = (object) -> {

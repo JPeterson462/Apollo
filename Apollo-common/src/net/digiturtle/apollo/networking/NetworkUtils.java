@@ -1,5 +1,7 @@
 package net.digiturtle.apollo.networking;
 
+import java.util.ArrayList;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -34,6 +36,22 @@ public class NetworkUtils {
 	
 	public static Object deserialize (DatagramPacket packet) {
 		return deserialize(packet.content());
+	}
+	
+	public static ArrayList<Object> deserializeOneOrMore (ByteBuf buf) {
+		String input = buf.toString(CharsetUtil.UTF_8);
+		ArrayList<Object> objects = new ArrayList<>();
+		while (input.length() > 0) {
+			String pkt = input.substring(0, input.indexOf('^'));
+			String typeName = input.substring(0, input.indexOf('|')), json = input.substring(input.indexOf('|') + 1, input.indexOf('^'));
+			try {
+				objects.add(gson.fromJson(json, Class.forName(typeName)));
+			} catch (JsonSyntaxException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			input = input.substring(pkt.length() + 1);
+		}
+		return objects;
 	}
 	
 	public static Object deserialize (ByteBuf buf) {

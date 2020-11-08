@@ -21,6 +21,15 @@ public class MatchLobby {
 		this.players = players;
 		status = LobbyStatus.In_Lobby;
 	}
+	
+	public MatchLobby to (LobbyStatus status) {
+		this.status = status;
+		return this;
+	}
+	
+	public void clear () {
+		connections.clear();
+	}
 
 	public HashMap<UUID, InetSocketAddress> getConnections () {
 		return connections;

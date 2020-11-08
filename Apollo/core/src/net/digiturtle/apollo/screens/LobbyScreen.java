@@ -66,7 +66,9 @@ public class LobbyScreen extends Screen {
 		}
 		if (action.equalsIgnoreCase("Match")) {
 			int slot = Integer.parseInt(data);
-			Apollo.sendToMain(new UserLobbyEvent(Apollo.user, slot));
+			if (Apollo.lobbies[slot-1].getStatus().equals(Lobby.LobbyStatus.In_Lobby)) {
+				Apollo.sendToMain(new UserLobbyEvent(Apollo.user, slot));
+			}
 		}
 	}
 

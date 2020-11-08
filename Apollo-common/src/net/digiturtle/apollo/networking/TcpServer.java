@@ -1,6 +1,7 @@
 package net.digiturtle.apollo.networking;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import io.netty.bootstrap.ServerBootstrap;
@@ -63,8 +64,10 @@ public class TcpServer {
 		            socketChannel.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
 		            	@Override
 						protected void channelRead0(ChannelHandlerContext ctx, ByteBuf packet) throws Exception {
-							Object object = NetworkUtils.deserialize(packet);
-							packetConsumer.accept(object, socketChannel.remoteAddress());
+							//Object object = NetworkUtils.deserialize(packet);
+		            		ArrayList<Object> objects = NetworkUtils.deserializeOneOrMore(packet);
+		            		for (Object object : objects)
+		            				packetConsumer.accept(object, socketChannel.remoteAddress());
 						}
 		            });
 		        }
