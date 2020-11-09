@@ -38,8 +38,16 @@ public class MatchServer {
 	private static MatchManager matchManager;
 	
 	public static void main(String[] args) throws FileNotFoundException {
-		String matchIp = "127.0.0.1", managerIp = "127.0.0.1";
-		int matchPort = 4560, managerPort = 4720;
+		if (args.length < 6) {
+			System.out.println("Usage: MatchServer <match-ip> <match-port> <manager-ip> <manager-port> <num-teams> <num-players>");
+			System.exit(-1);
+		}
+		String matchIp = args[0]; //"127.0.0.1";
+		int matchPort = Integer.parseInt(args[1]); //4560;
+		String managerIp = args[2]; //"127.0.0.1";
+		int managerPort = Integer.parseInt(args[3]); //4720;
+		int numTeams = Integer.parseInt(args[4]); //2;
+		int numPlayers = Integer.parseInt(args[5]); //1;
 		MatchManager.eventDispatcher = (event) -> {
 			server.broadcast(event);
 			if (event instanceof MatchStartEvent) {
@@ -67,9 +75,7 @@ public class MatchServer {
 			managementClient.send(object);
 		};
 
-		int numPlayers = Integer.parseInt(args[0]);
-		
-		matchManager = new MatchManager(numPlayers, 1, DebugStuff.newMatchDefinition(numPlayers), 
+		matchManager = new MatchManager(numTeams, numPlayers, DebugStuff.newMatchDefinition(numTeams), 
 				new TiledMapLoaderStub(), new IntersectorStub(), new VisualFXEngineStub(),
 				(match) -> {
 					fiberPool.scheduleTask(20, () -> {
