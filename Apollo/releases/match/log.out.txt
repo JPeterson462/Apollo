@@ -1,0 +1,128 @@
+Match Server: 127.0.0.1:4560
+Manager Server: 127.0.0.1:4720
+2 teams, each with 1 player(s)
+Setting up Match Server...
+net.digiturtle.apollo.match.event.MatchConnectEvent|{"uniqueIdentifier":"72644b0c-8693-4dab-a959-f7ad97cb64ea","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.MatchConnectEvent@1ecb9f08
+MatchManager onEvent: net.digiturtle.apollo.match.event.MatchConnectEvent@1ecb9f08
+MatchManager onPlayerConnect: net.digiturtle.apollo.match.Player@23b568cd {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd} net.digiturtle.apollo.match.Match@29724810
+PlayerConnect: 72644b0c-8693-4dab-a959-f7ad97cb64ea for {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd}
+net.digiturtle.apollo.match.event.MatchConnectEvent|{"uniqueIdentifier":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.MatchConnectEvent@80dea9b
+MatchManager onEvent: net.digiturtle.apollo.match.event.MatchConnectEvent@80dea9b
+MatchManager onPlayerConnect: net.digiturtle.apollo.match.Player@5effa6b2 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2} net.digiturtle.apollo.match.Match@29724810
+PlayerConnect: 094cac41-1065-43d1-8208-30d5b7a95cf8 for {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.match.event.BatchArsenalQuery$Response|{"arsenals":{"72644b0c-8693-4dab-a959-f7ad97cb64ea":{"statuses":{"SPEED":{"level":1,"remaining":1,"regenerates":true,"powerup":"SPEED"},"RESILIENCE":{"level":1,"remaining":1,"regenerates":true,"powerup":"RESILIENCE"},"EXPLOSIVES":{"level":1,"remaining":3,"regenerates":false,"powerup":"EXPLOSIVES"},"DAMAGE":{"level":1,"remaining":1,"regenerates":true,"powerup":"DAMAGE"}}},"094cac41-1065-43d1-8208-30d5b7a95cf8":{"statuses":{"SPEED":{"level":1,"remaining":1,"regenerates":true,"powerup":"SPEED"},"RESILIENCE":{"level":1,"remaining":1,"regenerates":true,"powerup":"RESILIENCE"},"EXPLOSIVES":{"level":1,"remaining":3,"regenerates":false,"powerup":"EXPLOSIVES"},"DAMAGE":{"level":1,"remaining":1,"regenerates":true,"powerup":"DAMAGE"}}}}}^
+Incoming: net.digiturtle.apollo.match.event.BatchArsenalQuery$Response@16ac760f
+Broadcasting net.digiturtle.apollo.match.event.MatchStartEvent@1c9acf0e
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.MatchStartEvent@1c9acf0e
+(16) MatchSimulator onEvent: net.digiturtle.apollo.match.event.MatchStartEvent@1c9acf0e
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1063428362}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1063428362}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"WALKING","popState":false,"orientation":1,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@736ea20
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@736ea20
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@736ea20
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@736ea20
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1723145215}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1723145215}^
+net.digiturtle.apollo.match.event.PlayerExplosiveEvent|{"explosion":{"position":{"x":175.70767,"y":-172.07841},"power":60,"length":0.4,"path":[{"x":159.9032,"y":-199.9032},{"x":175.10806,"y":-182.69495},{"x":185.28462,"y":-170.515},{"x":190.43285,"y":-163.3634},{"x":190.55278,"y":-161.24008},{"x":185.64438,"y":-164.1451},{"x":175.70767,"y":-172.07841}],"delay":1.0,"cause":"094cac41-1065-43d1-8208-30d5b7a95cf8","t":0.0},"position":{"x":159.9032,"y":-199.9032},"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@5220e66c
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@5220e66c
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@5220e66c
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@5220e66c
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-474874494}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-474874494}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"STANDING","popState":false,"orientation":0,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@41305fe3
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@41305fe3
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@41305fe3
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@41305fe3
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-246676175}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-246676175}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"WALKING","popState":false,"orientation":8,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@5e21f257
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@5e21f257
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@5e21f257
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@5e21f257
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-2031000570}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-2031000570}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"WALKING","popState":false,"orientation":9,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@1cfdd818
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@1cfdd818
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@1cfdd818
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@1cfdd818
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-726606841}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-726606841}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"STANDING","popState":false,"orientation":1,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@49bb5e6d
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@49bb5e6d
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@49bb5e6d
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@49bb5e6d
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1057717554}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1057717554}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"WALKING","popState":false,"orientation":3,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@a37cffe
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@a37cffe
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@a37cffe
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@a37cffe
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":36965377}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":36965377}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"STANDING","popState":false,"orientation":2,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@ebd122e
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@ebd122e
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@ebd122e
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@ebd122e
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-1932856013}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-1932856013}^
+net.digiturtle.apollo.match.event.PlayerStateChangeEvent|{"state":"STANDING","popState":false,"orientation":0,"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@7c27e453
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@7c27e453
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@7c27e453
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerStateChangeEvent@7c27e453
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-246676175}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-246676175}^
+net.digiturtle.apollo.match.event.PlayerExplosiveEvent|{"explosion":{"position":{"x":100.59893,"y":-160.09726},"power":60,"length":0.4,"path":[{"x":99.20894,"y":-192.06706},{"x":112.011444,"y":-174.16792},{"x":119.78559,"y":-161.29715},{"x":122.53135,"y":-153.45474},{"x":120.24892,"y":-150.64055},{"x":112.9381,"y":-152.85472},{"x":100.59893,"y":-160.09726}],"delay":1.0,"cause":"094cac41-1065-43d1-8208-30d5b7a95cf8","t":0.0},"position":{"x":99.20894,"y":-192.06706},"player":"094cac41-1065-43d1-8208-30d5b7a95cf8","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@52a588e4
+MatchManager onEvent: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@52a588e4
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@52a588e4
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerExplosiveEvent@52a588e4
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1806573809}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1806573809}^
+(net.digiturtle.apollo.match.Match@29724810) Match onEvent: net.digiturtle.apollo.match.event.MatchOverEvent@1a8006ce
+(17) MatchSimulator onEvent: net.digiturtle.apollo.match.event.MatchOverEvent@1a8006ce
+net.digiturtle.apollo.match.Match@29724810 {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+MatchManager onEvent: net.digiturtle.apollo.match.event.MatchOverEvent@4320924d
+Broadcasting net.digiturtle.apollo.match.event.MatchOverEvent@4320924d
+Sending MatchOverEvent to clients (false) net.digiturtle.apollo.match.Match@29724810
+[net.digiturtle.apollo.match.Player@23b568cd, net.digiturtle.apollo.match.Player@5effa6b2] [0, 0, 0] {72644b0c-8693-4dab-a959-f7ad97cb64ea=net.digiturtle.apollo.match.Player@23b568cd, 094cac41-1065-43d1-8208-30d5b7a95cf8=net.digiturtle.apollo.match.Player@5effa6b2}
+[Lnet.digiturtle.apollo.match.Team;@459dfd62 << TEAMS
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-509464087}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-509464087}^
+========================= MATCH =========================
+Setting up Match Server...
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-761221527}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-761221527}^
