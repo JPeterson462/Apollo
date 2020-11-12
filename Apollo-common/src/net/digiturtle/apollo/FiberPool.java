@@ -32,7 +32,13 @@ public class FiberPool {
 	}
 	
 	public void stopTask (int index) {
-		fibers[index].dispose();
+		if (fibers[index] != null) {
+			fibers[index].dispose();
+		}
+	}
+	
+	public synchronized void reset () {
+		index = 0;
 	}
 	
 	public synchronized void scheduleTask (Runnable runnable) {

@@ -48,8 +48,8 @@ public class Apollo extends ApplicationAdapter {
 	@Override
 	public void create () {
 		try {
-			System.setOut(new PrintStream(new FileOutputStream("log_" + Apollo.productKey + ".out.txt", true)));
-			System.setErr(new PrintStream(new FileOutputStream("log_" + Apollo.productKey + ".err.txt", true)));
+			System.setOut(new PrintStream(new FileOutputStream("log.out.txt", true)));
+			System.setErr(new PrintStream(new FileOutputStream("log.err.txt", true)));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}

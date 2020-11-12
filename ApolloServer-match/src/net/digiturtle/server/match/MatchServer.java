@@ -47,6 +47,7 @@ public class MatchServer {
 		System.out.println("Setting up Match Server...");
 		if (matchManager != null) {
 			matchFibers.stopTask(0);
+			matchFibers.reset();
 		}
 		matchManager = new MatchManager(numTeams, numPlayers, DebugStuff.newMatchDefinition(numTeams), 
 				new TiledMapLoaderStub(), new IntersectorStub(), new VisualFXEngineStub(),

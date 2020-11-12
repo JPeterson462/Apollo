@@ -1,0 +1,93 @@
+RAM (MB): 20.796875
+RAM (MB): 14.017578125
+net.digiturtle.apollo.match.event.UserConnectedEvent|{"user":{"id":"992195b3-c492-4985-8c5a-8476ff30d64e","productKey":"ABCD4","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"remote":false}^
+RAM (MB): 18.927490234375
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 19.557708740234375
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 19.557708740234375
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 20.015625
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 20.517578125
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 20.877647399902344
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 21.015625
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 21.697586059570312
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 21.697586059570312
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":1,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 21.697586059570312
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":1,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 22.015625
+net.digiturtle.apollo.match.event.UserLobbiedEvent|{"ip":"127.0.0.1","port":4560,"remote":false}^
+Connecting to match server -- 127.0.0.1:4560
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-1804725834}^
+net.digiturtle.apollo.match.event.MatchStartEvent|{"matchDefinition":{"tiledMapFile":"AlphaMap.tmx","resourceRegions":[{"resource":"COAL","position":[120.0,-120.0],"size":[32.0,32.0],"capacity":1000,"quantity":1000,"regenerationRate":0.05,"collectionRate":0.01},{"resource":"SHEET_METAL","position":[160.0,-24.0],"size":[24.0,24.0],"capacity":700,"quantity":700,"regenerationRate":0.05,"collectionRate":0.01},{"resource":"ELECTRONICS","position":[100.0,-200.0],"size":[16.0,16.0],"capacity":300,"quantity":300,"regenerationRate":0.05,"collectionRate":0.01},{"resource":"GOLD","position":[16.0,-180.0],"size":[8.0,8.0],"capacity":80,"quantity":80,"regenerationRate":0.05,"collectionRate":0.01}],"teams":[{"respawnRegion":[-4.0,-52.0,16.0,16.0],"color":0},{"respawnRegion":[188.0,-244.0,16.0,16.0],"color":1}],"lengthSeconds":15.0,"allowFriendlyFire":false},"players":[{"uuid":"992195b3-c492-4985-8c5a-8476ff30d64e","orientation":0,"position":{"x":0.0,"y":0.0},"velocity":{"x":0.0,"y":0.0},"health":100,"team":0,"backpack":{"items":{"GOLD":0,"COAL":0,"ELECTRONICS":0,"SHEET_METAL":0}},"state":"STANDING","temporaryStateLen":0.0,"arsenal":{"statuses":{"SPEED":{"level":1,"remaining":1,"regenerates":true,"powerup":"SPEED"},"RESILIENCE":{"level":1,"remaining":1,"regenerates":true,"powerup":"RESILIENCE"},"EXPLOSIVES":{"level":1,"remaining":3,"regenerates":false,"powerup":"EXPLOSIVES"},"DAMAGE":{"level":1,"remaining":1,"regenerates":true,"powerup":"DAMAGE"}}},"timeLeft":{}},{"uuid":"b2e9bfd9-60ba-4bfb-b216-db30af750c4c","orientation":0,"position":{"x":0.0,"y":0.0},"velocity":{"x":0.0,"y":0.0},"health":100,"team":1,"backpack":{"items":{"GOLD":0,"COAL":0,"ELECTRONICS":0,"SHEET_METAL":0}},"state":"STANDING","temporaryStateLen":0.0,"arsenal":{"statuses":{"SPEED":{"level":1,"remaining":1,"regenerates":true,"powerup":"SPEED"},"RESILIENCE":{"level":1,"remaining":1,"regenerates":true,"powerup":"RESILIENCE"},"EXPLOSIVES":{"level":1,"remaining":3,"regenerates":false,"powerup":"EXPLOSIVES"},"DAMAGE":{"level":1,"remaining":1,"regenerates":true,"powerup":"DAMAGE"}}},"timeLeft":{}}],"remote":false}^
+{RESILIENCE=net.digiturtle.apollo.match.Arsenal$PowerupStatus@1566fc0f, SPEED=net.digiturtle.apollo.match.Arsenal$PowerupStatus@3460336, EXPLOSIVES=net.digiturtle.apollo.match.Arsenal$PowerupStatus@7ca79729, DAMAGE=net.digiturtle.apollo.match.Arsenal$PowerupStatus@74cfa692}
+{RESILIENCE=net.digiturtle.apollo.match.Arsenal$PowerupStatus@1b27b62e, SPEED=net.digiturtle.apollo.match.Arsenal$PowerupStatus@65eb96c1, EXPLOSIVES=net.digiturtle.apollo.match.Arsenal$PowerupStatus@7225ef00, DAMAGE=net.digiturtle.apollo.match.Arsenal$PowerupStatus@50417e9e}
+RAM (MB): 25.015625
+RAM (MB): 25.017578125
+RAM (MB): 25.017578125
+RAM (MB): 25.517578125
+Vector2[-578.58984, -844.8727]
+(net.digiturtle.apollo.match.Match@4b922c56) Match onEvent: net.digiturtle.apollo.match.event.PlayerShootEvent@464561f5
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerShootEvent@464561f5
+net.digiturtle.apollo.match.Match@4b922c56 {992195b3-c492-4985-8c5a-8476ff30d64e=net.digiturtle.apollo.match.Player@49f0f1f1, b2e9bfd9-60ba-4bfb-b216-db30af750c4c=net.digiturtle.apollo.match.Player@1717fc6b}
+Vector2[192.0, -80.0] Vector2[1257.1313, -2926.925]
+Vector2[192.0, -80.0] Vector2[1257.1313, -2926.925]
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-1301919283}^
+net.digiturtle.apollo.match.event.PlayerShootEvent|{"position":{"x":4.0,"y":-44.0},"velocity":{"x":-578.58984,"y":-844.8727},"player":"992195b3-c492-4985-8c5a-8476ff30d64e","remote":true}^
+**** UNHANDLED: net.digiturtle.apollo.match.event.PlayerShootEvent@10f50987
+(net.digiturtle.apollo.match.Match@4b922c56) Match onEvent: net.digiturtle.apollo.match.event.PlayerShootEvent@10f50987
+RAM (MB): 25.517578125
+Vector2[-209.59492, -1002.32025]
+(net.digiturtle.apollo.match.Match@4b922c56) Match onEvent: net.digiturtle.apollo.match.event.PlayerShootEvent@3c63c38b
+(15) MatchSimulator onEvent: net.digiturtle.apollo.match.event.PlayerShootEvent@3c63c38b
+net.digiturtle.apollo.match.Match@4b922c56 {992195b3-c492-4985-8c5a-8476ff30d64e=net.digiturtle.apollo.match.Player@49f0f1f1, b2e9bfd9-60ba-4bfb-b216-db30af750c4c=net.digiturtle.apollo.match.Player@1717fc6b}
+Vector2[192.0, -80.0] Vector2[3362.9016, -2503.8306]
+Vector2[192.0, -80.0] Vector2[3362.9016, -2503.8306]
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-37989738}^
+net.digiturtle.apollo.match.event.PlayerShootEvent|{"position":{"x":4.0,"y":-44.0},"velocity":{"x":-209.59492,"y":-1002.32025},"player":"992195b3-c492-4985-8c5a-8476ff30d64e","remote":true}^
+**** UNHANDLED: net.digiturtle.apollo.match.event.PlayerShootEvent@8da2ad7
+(net.digiturtle.apollo.match.Match@4b922c56) Match onEvent: net.digiturtle.apollo.match.event.PlayerShootEvent@8da2ad7
+RAM (MB): 26.015625
+RAM (MB): 26.017578125
+RAM (MB): 26.017578125
+RAM (MB): 26.517578125
+RAM (MB): 26.517578125
+RAM (MB): 26.517578125
+RAM (MB): 26.517578125
+RAM (MB): 27.015625
+RAM (MB): 27.015625
+RAM (MB): 27.015625
+net.digiturtle.apollo.match.event.MatchOverEvent|{"scores":[0,0,0],"remote":false}^
+**** UNHANDLED: net.digiturtle.apollo.match.event.MatchOverEvent@547c400f
+****  Unhandled: net.digiturtle.apollo.match.event.MatchOverEvent@547c400f  ****
+net.digiturtle.apollo.match.event.MatchResultEvent|{"points":{"992195b3-c492-4985-8c5a-8476ff30d64e":0,"b2e9bfd9-60ba-4bfb-b216-db30af750c4c":0},"teamCounts":[0,0,0],"teams":2,"remote":false}^
+**** UNHANDLED: net.digiturtle.apollo.match.event.MatchResultEvent@761b0c63
+RAM (MB): 27.697593688964844
+RAM (MB): 27.697593688964844
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 27.697593688964844
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 27.877601623535156
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 28.517578125
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":1,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 28.517578125
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":1,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 28.517578125
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":1,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 28.517578125
+net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":1,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":2,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+net.digiturtle.apollo.match.event.UserLobbiedEvent|{"ip":"127.0.0.1","port":4560,"remote":false}^
+Connecting to match server -- 127.0.0.1:4560
+RAM (MB): 29.015625
+RAM (MB): 29.015625
+RAM (MB): 29.015625
+RAM (MB): 29.015625
+RAM (MB): 29.015625
+RAM (MB): 29.015625

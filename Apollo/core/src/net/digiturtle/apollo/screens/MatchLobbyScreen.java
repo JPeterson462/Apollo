@@ -26,6 +26,9 @@ public class MatchLobbyScreen extends Screen {
 	@Override
 	public void render () {
 		if (Apollo.readyToJoin) {
+			Apollo.matchPool.stopTask(0);
+			Apollo.matchPool.reset();
+			
 			_sentConnect = false;
 			Apollo.client = new UdpClient(Apollo.matchIp, Apollo.matchPort);
 			System.out.println("Connecting to match server -- " + Apollo.matchIp + ":" + Apollo.matchPort);
@@ -42,7 +45,6 @@ public class MatchLobbyScreen extends Screen {
 			Apollo.readyToJoin = false;
 		}
 		{
-			Apollo.send("What's up??");
 			if (!_sentConnect) {
 				_sentConnect = true;
 				Apollo.client.send(new MatchConnectEvent(Apollo.userId));
