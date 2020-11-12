@@ -1,0 +1,74 @@
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.UserJoinEvent|{"requestedUser":{"productKey":"ABCD5","speedPowerup":0,"damagePowerup":0,"resiliencePowerup":0,"explosivesPowerup":0,"coins":0},"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserJoinEvent|{"requestedUser":{"productKey":"ABCD0","speedPowerup":0,"damagePowerup":0,"resiliencePowerup":0,"explosivesPowerup":0,"coins":0},"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"90735ccb-2615-45bd-a1a6-f271b847f67c","productKey":"ABCD5","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"a18843d0-d6fa-44aa-b75c-ff869a9da848","productKey":"ABCD0","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.BatchArsenalQuery$Request|{"ids":["a18843d0-d6fa-44aa-b75c-ff869a9da848","90735ccb-2615-45bd-a1a6-f271b847f67c"]}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Active","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchResultEvent|{"points":{"a18843d0-d6fa-44aa-b75c-ff869a9da848":0,"90735ccb-2615-45bd-a1a6-f271b847f67c":0},"teamCounts":[0,0,0],"teams":2,"remote":false}^
+a18843d0-d6fa-44aa-b75c-ff869a9da848 User[{a18843d0-d6fa-44aa-b75c-ff869a9da848}, 0, ABCD0][1, 1, 1, 1]
+90735ccb-2615-45bd-a1a6-f271b847f67c User[{90735ccb-2615-45bd-a1a6-f271b847f67c}, 0, ABCD5][1, 1, 1, 1]
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Resetting","ip":"127.0.0.1","port":4560}^net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"90735ccb-2615-45bd-a1a6-f271b847f67c","productKey":"ABCD5","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"a18843d0-d6fa-44aa-b75c-ff869a9da848","productKey":"ABCD0","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.BatchArsenalQuery$Request|{"ids":["a18843d0-d6fa-44aa-b75c-ff869a9da848","90735ccb-2615-45bd-a1a6-f271b847f67c"]}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Active","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchResultEvent|{"points":{"a18843d0-d6fa-44aa-b75c-ff869a9da848":0,"90735ccb-2615-45bd-a1a6-f271b847f67c":0},"teamCounts":[0,0,0],"teams":2,"remote":false}^
+a18843d0-d6fa-44aa-b75c-ff869a9da848 User[{a18843d0-d6fa-44aa-b75c-ff869a9da848}, 0, ABCD0][1, 1, 1, 1]
+90735ccb-2615-45bd-a1a6-f271b847f67c User[{90735ccb-2615-45bd-a1a6-f271b847f67c}, 0, ABCD5][1, 1, 1, 1]
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Resetting","ip":"127.0.0.1","port":4560}^net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]

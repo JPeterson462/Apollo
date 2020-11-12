@@ -1,13 +1,17 @@
 package net.digiturtle.apollo;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.UUID;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.google.gson.Gson;
 
 import net.digiturtle.apollo.networking.TcpClient;
 import net.digiturtle.apollo.networking.UdpClient;
@@ -36,6 +40,8 @@ public class Apollo extends ApplicationAdapter {
 	public static UdpClient client;
 	
 	public static String productKey;
+
+	public static ClientConfig config;
 	
 	public static void send (Object object) {
 		Screen.get().send(object);
@@ -47,6 +53,16 @@ public class Apollo extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		try (BufferedReader reader = new BufferedReader(new FileReader("config.json"))) {
+			String file = "";
+			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+				file += "\n" + line;
+			}
+			config = new Gson().fromJson(file, ClientConfig.class);
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
 		try {
 			System.setOut(new PrintStream(new FileOutputStream("log.out.txt", true)));
 			System.setErr(new PrintStream(new FileOutputStream("log.err.txt", true)));
@@ -55,7 +71,7 @@ public class Apollo extends ApplicationAdapter {
 		}
 		Sounds.create();
 		matchPool = new FiberPool(1);
-		managerClient = new TcpClient("localhost", 4720);
+		managerClient = new TcpClient(config.managerIp, config.managerPort);
 		managerClient.listen((object) -> {
 			Screen.get().onManagerPacket(object);
 		});

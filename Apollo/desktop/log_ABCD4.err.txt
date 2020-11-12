@@ -1,6 +1,0 @@
-Exception in thread "LWJGL Application" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1
-	at net.digiturtle.apollo.FiberPool.scheduleTask(FiberPool.java:43)
-	at net.digiturtle.apollo.screens.MatchLobbyScreen.render(MatchLobbyScreen.java:34)
-	at net.digiturtle.apollo.Apollo.render(Apollo.java:91)
-	at com.badlogic.gdx.backends.lwjgl.LwjglApplication.mainLoop(LwjglApplication.java:232)
-	at com.badlogic.gdx.backends.lwjgl.LwjglApplication$1.run(LwjglApplication.java:127)

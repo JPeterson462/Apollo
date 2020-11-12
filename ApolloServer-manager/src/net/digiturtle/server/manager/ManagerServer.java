@@ -1,7 +1,10 @@
 package net.digiturtle.server.manager;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.SQLException;
@@ -9,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import com.google.gson.Gson;
 
 import net.digiturtle.apollo.ApolloSettings;
 import net.digiturtle.apollo.Lobby;
@@ -52,6 +57,8 @@ public class ManagerServer {
 	
 	private static MatchLobby[] lobbies;
 	
+	private static ManagerConfig managerConfig;
+	
 	private static int findMatchLobbyFromIp(String ip, int port) {
 		for (int i = 0; i < lobbies.length; i++) {
 			MatchLobby lobby = lobbies[i];
@@ -64,15 +71,34 @@ public class ManagerServer {
 	}
 	
 	public static void main (String[] args) throws SQLException, InterruptedException, IOException {
-		int managerPort = 4720;
-		// ABCD is the test product key
-		ctx = new DataContext("test1.db");
-	//	ctx.setupTables();
+		try (BufferedReader reader = new BufferedReader(new FileReader("config.json"))) {
+			String file = "";
+			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+				file += "\n" + line;
+			}
+			managerConfig = new Gson().fromJson(file, ManagerConfig.class);
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
 		
-		lobbies = new MatchLobby[] {
+		int managerPort = managerConfig.port;
+		boolean exists = new File(managerConfig.dbFile).exists();
+		ctx = new DataContext(managerConfig.dbFile);
+		if (!exists) {
+			ctx.setupTables();
+		}
+		
+		/*lobbies = new MatchLobby[] {
 			new MatchLobby("127.0.0.1", 4560, 2, 1).to(Lobby.LobbyStatus.Resetting),
 			new MatchLobby("127.0.0.1", 4580, 2, 2).to(Lobby.LobbyStatus.Resetting),
-		};
+		};*/
+		
+		lobbies = new MatchLobby[managerConfig.lobbies.length];
+		for (int i = 0; i < managerConfig.lobbies.length; i++) {
+			lobbies[i] = new MatchLobby(managerConfig.lobbies[i].ip, managerConfig.lobbies[i].port,
+					managerConfig.lobbies[i].numTeams, managerConfig.lobbies[i].numPlayers)
+					.to(Lobby.LobbyStatus.Resetting);
+		}
 
 		try {
 			System.setOut(new PrintStream(new FileOutputStream("log.out.txt", true)));
