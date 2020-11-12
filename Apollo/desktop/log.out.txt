@@ -440,3 +440,5 @@ RAM (MB): 27.491836547851562
 net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
 RAM (MB): 27.491836547851562
 net.digiturtle.apollo.match.event.UserLobbyQuery$Response|{"lobbies":[{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"In_Lobby"},{"playersPerTeam":1,"teams":2,"playersConnected":0,"worldName":"Alpha Planet","lobbyStatus":"Resetting"}]}^
+RAM (MB): 23.258865356445312
+RAM (MB): 18.481163024902344

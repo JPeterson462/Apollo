@@ -50,3 +50,199 @@ net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
 Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
 net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
 Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.UserJoinEvent|{"requestedUser":{"productKey":"ABCDE","speedPowerup":0,"damagePowerup":0,"resiliencePowerup":0,"explosivesPowerup":0,"coins":0},"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserJoinEvent|{"requestedUser":{"productKey":"ABCDF","speedPowerup":0,"damagePowerup":0,"resiliencePowerup":0,"explosivesPowerup":0,"coins":0},"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"dfe9a306-0e80-458a-b303-7c6dfd0b4243","productKey":"ABCDF","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"
+b77016aa-901f-4b2d-9f47-040e3b10f780","productKey":"ABCDE","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesP
+owerup":1,"coins":0},"lobby":1,"remote":false}^net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"b77016aa-901f-4b2d-9f47-040e3b10f780","productKey":"ABCDE","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.BatchArsenalQuery$Request|{"ids":["b77016aa-901f-4b2d-9f47-040e3b10f780","dfe9a306-0e80-458a-b303-7c6dfd0b4243"]}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Active","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchResultEvent|{"points":{"b77016aa-901f-4b2d-9f47-040e3b10f780":0,"dfe9a306-0e80-458a-b303-7c6dfd0b4243":0},"teamCounts":[0,0,0],"teams":2,"remote":false}^
+b77016aa-901f-4b2d-9f47-040e3b10f780 User[{b77016aa-901f-4b2d-9f47-040e3b10f780}, 0, ABCDE][1, 1, 1, 1]
+dfe9a306-0e80-458a-b303-7c6dfd0b4243 User[{dfe9a306-0e80-458a-b303-7c6dfd0b4243}, 0, ABCDF][1, 1, 1, 1]
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Resetting","ip":"127.0.0.1","port":4560}^net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"In_Lobby","ip":"127.0.0.1","port":4560}^
+net.digiturtle.apollo.match.event.UserJoinEvent|{"requestedUser":{"productKey":"ABCDF","speedPowerup":0,"damagePowerup":0,"resiliencePowerup":0,"explosivesPowerup":0,"coins":0},"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserJoinEvent|{"requestedUser":{"productKey":"ABCDE","speedPowerup":0,"damagePowerup":0,"resiliencePowerup":0,"explosivesPowerup":0,"coins":0},"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"b77016aa-901f-4b2d-9f47-040e3b10f780","productKey":"ABCDE","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyQuery$Request|{}^
+Lobbies: [Lobby[Alpha Planet, In_Lobby: 2], Lobby[Alpha Planet, Resetting: 2]]
+net.digiturtle.apollo.match.event.UserLobbyEvent|{"user":{"id":"dfe9a306-0e80-458a-b303-7c6dfd0b4243","productKey":"ABCDF","speedPowerup":1,"damagePowerup":1,"resiliencePowerup":1,"explosivesPowerup":1,"coins":0},"lobby":1,"remote":false}^
+net.digiturtle.apollo.match.event.BatchArsenalQuery$Request|{"ids":["b77016aa-901f-4b2d-9f47-040e3b10f780","dfe9a306-0e80-458a-b303-7c6dfd0b4243"]}^
+net.digiturtle.apollo.match.event.MatchStatusEvent|{"status":"Active","ip":"127.0.0.1","port":4560}^

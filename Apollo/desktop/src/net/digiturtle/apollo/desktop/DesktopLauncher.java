@@ -30,9 +30,6 @@ public class DesktopLauncher {
 	public static void main (String[] arg) throws InterruptedException {
 		Apollo.productKey = findProductKey();
 		
-		// For testing
-		Apollo.productKey = "ABCD" + (int) (Math.random() * 10);
-		
 		if (Apollo.productKey == null) {
 			getProductKey();
 		}

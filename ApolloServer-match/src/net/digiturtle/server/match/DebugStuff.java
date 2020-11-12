@@ -64,7 +64,7 @@ public class DebugStuff {
 			teamDefinition.color = i;
 			definition.teams[i] = teamDefinition;
 		}
-		definition.lengthSeconds = 15;//5*60;
+		definition.lengthSeconds = 5*60;
 		definition.allowFriendlyFire = false;
 		
 		return definition;
