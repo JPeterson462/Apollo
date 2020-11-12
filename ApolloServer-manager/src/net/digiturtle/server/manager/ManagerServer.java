@@ -1,5 +1,9 @@
 package net.digiturtle.server.manager;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -48,43 +52,45 @@ public class ManagerServer {
 	
 	private static MatchLobby[] lobbies;
 	
-	private static MatchLobby findMatchLobbyFromIp(String ip, int port) {
+	private static int findMatchLobbyFromIp(String ip, int port) {
 		for (int i = 0; i < lobbies.length; i++) {
 			MatchLobby lobby = lobbies[i];
 			if (lobby.getIP().equals(ip) && lobby.getPort() == port) {
-				return lobby;
+				return i;
 			}
 		}
 		System.out.println("Lobby " + ip + ":" + port + " not found");
-		return null;
+		return -1;
 	}
 	
-	public static void main (String[] args) throws SQLException, InterruptedException {
+	public static void main (String[] args) throws SQLException, InterruptedException, IOException {
+		int managerPort = 4720;
 		// ABCD is the test product key
 		ctx = new DataContext("test1.db");
 	//	ctx.setupTables();
 		
 		lobbies = new MatchLobby[] {
-			new MatchLobby("127.0.0.1", 4560, 2, 1),
-			
-			new MatchLobby("", -1, 2, 2).to(Lobby.LobbyStatus.Resetting),//Testing for other statuses
+			new MatchLobby("127.0.0.1", 4560, 2, 1).to(Lobby.LobbyStatus.Resetting),
+			new MatchLobby("127.0.0.1", 4580, 2, 2).to(Lobby.LobbyStatus.Resetting),
 		};
-		
-		// TODO spin up match servers
-		
-		TcpServer server = new TcpServer(4720);
+
+		try {
+			System.setOut(new PrintStream(new FileOutputStream("log.out.txt", true)));
+			System.setErr(new PrintStream(new FileOutputStream("log.err.txt", true)));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+	
+		TcpServer server = new TcpServer(managerPort);
 		server.listen((event, ip) -> {
 			try {
 				if (event instanceof MatchStatusEvent) {
 					MatchStatusEvent matchStatus = (MatchStatusEvent) event;
-					MatchLobby lobby = findMatchLobbyFromIp(matchStatus.ip, matchStatus.port);
+					int lobbyIndex = findMatchLobbyFromIp(matchStatus.ip, matchStatus.port);
+					MatchLobby lobby = lobbies[lobbyIndex];
 					lobby.setStatus(matchStatus.status);
 					if (matchStatus.status.equals(Lobby.LobbyStatus.Resetting)) {
 						lobby.clear();
-						// TODO
-						// Stop the Match server JAR
-						// Start the Match server JAR
-						// Status = In_Lobby
 					}
 				}
 				if (event instanceof UserJoinEvent) {
@@ -193,7 +199,7 @@ public class ManagerServer {
 					server.send(response, ip);
 				}
 			} catch (SQLException ex) {
-				
+				ex.printStackTrace();
 			}
 		});
 		server.connect();

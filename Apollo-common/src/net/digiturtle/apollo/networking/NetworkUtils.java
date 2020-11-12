@@ -42,6 +42,7 @@ public class NetworkUtils {
 		String input = buf.toString(CharsetUtil.UTF_8);
 		ArrayList<Object> objects = new ArrayList<>();
 		while (input.length() > 0) {
+			System.out.println(input);
 			String pkt = input.substring(0, input.indexOf('^'));
 			String typeName = input.substring(0, input.indexOf('|')), json = input.substring(input.indexOf('|') + 1, input.indexOf('^'));
 			try {

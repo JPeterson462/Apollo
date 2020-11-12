@@ -20,12 +20,19 @@ public class FiberPool {
 	}
 	
 	public synchronized void scheduleTask (int msInterval, Runnable runnable) {
+		if (fibers[index] != null) {
+			fibers[index].dispose();
+		}
 		fibers[index] = new ThreadFiber();
 		Fiber fiber = fibers[index];
 		index++;
 		fiber.start();
 		Disposable task = fiber.scheduleAtFixedRate(runnable, 0, msInterval, TimeUnit.MILLISECONDS);
 		tasks.add(task);
+	}
+	
+	public void stopTask (int index) {
+		fibers[index].dispose();
 	}
 	
 	public synchronized void scheduleTask (Runnable runnable) {

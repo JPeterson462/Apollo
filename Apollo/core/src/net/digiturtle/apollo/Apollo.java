@@ -1,5 +1,8 @@
 package net.digiturtle.apollo;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.UUID;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -44,6 +47,12 @@ public class Apollo extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
+		try {
+			System.setOut(new PrintStream(new FileOutputStream("log_" + Apollo.productKey + ".out.txt", true)));
+			System.setErr(new PrintStream(new FileOutputStream("log_" + Apollo.productKey + ".err.txt", true)));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 		Sounds.create();
 		matchPool = new FiberPool(1);
 		managerClient = new TcpClient("localhost", 4720);

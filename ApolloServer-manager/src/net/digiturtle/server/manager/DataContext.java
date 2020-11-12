@@ -86,7 +86,6 @@ public class DataContext {
 			stmt.executeUpdate();
 			user = getUser(productKey);
 			stmt.close();
-			c.commit();
 		}
 		return user;
 	}
@@ -99,7 +98,6 @@ public class DataContext {
 		stmt.setString(1, user.getProductKey());
 		boolean result = stmt.executeUpdate() > 0;
 		stmt.close();
-		c.commit();
 		return result;
 	}
 

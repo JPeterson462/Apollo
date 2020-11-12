@@ -1,0 +1,38 @@
+Match Server: 127.0.0.1:4560
+Manager Server: 127.0.0.1:4720
+2 teams, each with 1 player(s)
+Setting up Match Server...
+net.digiturtle.apollo.match.event.MatchConnectEvent|{"uniqueIdentifier":"edf3972d-e710-406e-a8c0-0d1eef49884a","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.MatchConnectEvent@19d0641c
+MatchManager onEvent: net.digiturtle.apollo.match.event.MatchConnectEvent@19d0641c
+MatchManager onPlayerConnect: net.digiturtle.apollo.match.Player@14e71630 {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630} net.digiturtle.apollo.match.Match@7b66e72e
+PlayerConnect: edf3972d-e710-406e-a8c0-0d1eef49884a for {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630}
+net.digiturtle.apollo.match.event.MatchConnectEvent|{"uniqueIdentifier":"b9d72fd9-493a-4f68-aeca-b129972c67ac","remote":false}^
+[NEW PACKET]
+MatchServer server.listen: net.digiturtle.apollo.match.event.MatchConnectEvent@5dcfe031
+MatchManager onEvent: net.digiturtle.apollo.match.event.MatchConnectEvent@5dcfe031
+MatchManager onPlayerConnect: net.digiturtle.apollo.match.Player@489ea4a6 {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630, b9d72fd9-493a-4f68-aeca-b129972c67ac=net.digiturtle.apollo.match.Player@489ea4a6} net.digiturtle.apollo.match.Match@7b66e72e
+PlayerConnect: b9d72fd9-493a-4f68-aeca-b129972c67ac for {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630, b9d72fd9-493a-4f68-aeca-b129972c67ac=net.digiturtle.apollo.match.Player@489ea4a6}
+net.digiturtle.apollo.match.event.BatchArsenalQuery$Response|{"arsenals":{"edf3972d-e710-406e-a8c0-0d1eef49884a":{"statuses":{"SPEED":{"level":1,"remaining":1,"regenerates":true,"powerup":"SPEED"},"RESILIENCE":{"level":1,"remaining":1,"regenerates":true,"powerup":"RESILIENCE"},"EXPLOSIVES":{"level":1,"remaining":3,"regenerates":false,"powerup":"EXPLOSIVES"},"DAMAGE":{"level":1,"remaining":1,"regenerates":true,"powerup":"DAMAGE"}}},"b9d72fd9-493a-4f68-aeca-b129972c67ac":{"statuses":{"SPEED":{"level":1,"remaining":1,"regenerates":true,"powerup":"SPEED"},"RESILIENCE":{"level":1,"remaining":1,"regenerates":true,"powerup":"RESILIENCE"},"EXPLOSIVES":{"level":1,"remaining":3,"regenerates":false,"powerup":"EXPLOSIVES"},"DAMAGE":{"level":1,"remaining":1,"regenerates":true,"powerup":"DAMAGE"}}}}}^
+Incoming: net.digiturtle.apollo.match.event.BatchArsenalQuery$Response@74b18c50
+Broadcasting net.digiturtle.apollo.match.event.MatchStartEvent@31b8df35
+(net.digiturtle.apollo.match.Match@7b66e72e) Match onEvent: net.digiturtle.apollo.match.event.MatchStartEvent@31b8df35
+(16) MatchSimulator onEvent: net.digiturtle.apollo.match.event.MatchStartEvent@31b8df35
+net.digiturtle.apollo.match.Match@7b66e72e {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630, b9d72fd9-493a-4f68-aeca-b129972c67ac=net.digiturtle.apollo.match.Player@489ea4a6}
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1497503481}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":1497503481}^
+(net.digiturtle.apollo.match.Match@7b66e72e) Match onEvent: net.digiturtle.apollo.match.event.MatchOverEvent@4f9a2c3d
+(18) MatchSimulator onEvent: net.digiturtle.apollo.match.event.MatchOverEvent@4f9a2c3d
+net.digiturtle.apollo.match.Match@7b66e72e {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630, b9d72fd9-493a-4f68-aeca-b129972c67ac=net.digiturtle.apollo.match.Player@489ea4a6}
+MatchManager onEvent: net.digiturtle.apollo.match.event.MatchOverEvent@72dd6dc8
+Broadcasting net.digiturtle.apollo.match.event.MatchOverEvent@72dd6dc8
+Sending MatchOverEvent to clients (false) net.digiturtle.apollo.match.Match@7b66e72e
+[net.digiturtle.apollo.match.Player@14e71630, net.digiturtle.apollo.match.Player@489ea4a6] [0, 0, 0] {edf3972d-e710-406e-a8c0-0d1eef49884a=net.digiturtle.apollo.match.Player@14e71630, b9d72fd9-493a-4f68-aeca-b129972c67ac=net.digiturtle.apollo.match.Player@489ea4a6}
+[Lnet.digiturtle.apollo.match.Team;@964dad8 << TEAMS
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-509464087}^
+========================= MATCH =========================
+Setting up Match Server...
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":-509464087}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":758554}^
+net.digiturtle.apollo.networking.AckPacket|{"messageHash":758554}^
